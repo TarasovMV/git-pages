@@ -9,6 +9,22 @@ from .meta import parse_page_meta
 TODAY = date.today().isoformat()
 
 
+class GitError(RuntimeError):
+    """git недоступен или завершился с ошибкой."""
+
+
+def _run_git(args: list[str]) -> str:
+    try:
+        result = subprocess.run(args, capture_output=True, text=True, encoding="utf-8")
+    except OSError as e:
+        raise GitError(f"git недоступен: {e}") from e
+    if result.returncode != 0:
+        detail = result.stderr.strip().splitlines()
+        first = detail[0] if detail else f"код выхода {result.returncode}"
+        raise GitError(f"git error: {first}")
+    return result.stdout
+
+
 @dataclass
 class PageEntry:
     key: str            # например "shagal-electricity/panel"
@@ -36,12 +52,10 @@ def _key_of(pages_dir: Path, html_file: Path) -> tuple[str | None, str]:
 def _git_dates(repo_root: Path, rel_path: str) -> tuple[str, str]:
     """(updated, created) из git log; без коммитов — TODAY."""
     # Флаги обязательны до "--": после "--" git трактует их как pathspec'ы.
-    updated_cmd = ["git", "-C", str(repo_root), "log", "-1", "--format=%cs", "--", rel_path]
-    created_cmd = ["git", "-C", str(repo_root), "log", "--diff-filter=A", "--format=%cs", "--", rel_path]
-    updated = subprocess.run(updated_cmd, capture_output=True, text=True, encoding="utf-8")
-    created = subprocess.run(created_cmd, capture_output=True, text=True, encoding="utf-8")
-    up = updated.stdout.strip() or TODAY
-    added = [line for line in created.stdout.strip().splitlines() if line]
+    updated = _run_git(["git", "-C", str(repo_root), "log", "-1", "--format=%cs", "--", rel_path])
+    created = _run_git(["git", "-C", str(repo_root), "log", "--diff-filter=A", "--format=%cs", "--", rel_path])
+    up = updated.strip() or TODAY
+    added = [line for line in created.strip().splitlines() if line]
     return up, (added[-1] if added else TODAY)
 
 

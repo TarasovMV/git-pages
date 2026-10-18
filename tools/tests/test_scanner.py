@@ -4,8 +4,9 @@ import subprocess
 import tempfile
 import unittest
 from pathlib import Path
+from unittest import mock
 
-from pageslib.scanner import TODAY, scan_pages
+from pageslib.scanner import GitError, TODAY, scan_pages
 
 DATE = "2026-01-05"
 STAMP = {
@@ -31,6 +32,8 @@ class ScanPagesTests(unittest.TestCase):
         git(self.tmp, "init", "-b", "main")
         git(self.tmp, "config", "user.name", "t")
         git(self.tmp, "config", "user.email", "t@example.com")
+        # Пустой корневой коммит: git log в репо без коммитов падает с кодом 128.
+        git(self.tmp, "commit", "--allow-empty", "-m", "init")
 
     def write(self, rel: str, text: str = "<html></html>") -> Path:
         p = self.pages / rel
@@ -93,6 +96,19 @@ class ScanPagesTests(unittest.TestCase):
         shutil.rmtree(self.pages)
         with self.assertRaises(FileNotFoundError):
             scan_pages(self.tmp)
+
+    def test_git_oserror_raises_giterror(self):
+        self.write("a/index.html")
+        with mock.patch("pageslib.scanner.subprocess.run", side_effect=OSError("no git")):
+            with self.assertRaises(GitError):
+                scan_pages(self.tmp)
+
+    def test_git_failure_raises_giterror(self):
+        self.write("a/index.html")
+        result = subprocess.CompletedProcess(args=[], returncode=128, stdout="", stderr="fatal: not a git repository")
+        with mock.patch("pageslib.scanner.subprocess.run", return_value=result):
+            with self.assertRaises(GitError):
+                scan_pages(self.tmp)
 
 
 if __name__ == "__main__":

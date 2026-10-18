@@ -7,7 +7,7 @@ from pathlib import Path
 sys.path.insert(0, str(Path(__file__).resolve().parent))
 
 from pageslib.gallery import render_index
-from pageslib.scanner import scan_pages
+from pageslib.scanner import GitError, scan_pages
 
 
 def main(argv: list[str] | None = None) -> int:
@@ -21,8 +21,8 @@ def main(argv: list[str] | None = None) -> int:
     except FileNotFoundError as e:
         print(f"ошибка: {e}", file=sys.stderr)
         return 1
-    except OSError:
-        print("ошибка: git недоступен", file=sys.stderr)
+    except GitError as e:
+        print(f"ошибка: {e}", file=sys.stderr)
         return 2
     if args.list:
         for e in sorted(entries, key=lambda e: e.key):
