@@ -37,6 +37,10 @@ class ParsePageMetaTests(unittest.TestCase):
         )
         self.assertEqual(m.title, "Первый")
 
+    def test_multiline_value_takes_first_line(self):
+        m = parse_page_meta("<!-- page-meta\ntitle: Первая строка\nпродолжение\n-->")
+        self.assertEqual(m.title, "Первая строка")
+
 
 if __name__ == "__main__":
     unittest.main()

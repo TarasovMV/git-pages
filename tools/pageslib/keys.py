@@ -15,7 +15,7 @@ def validate_key(key: str) -> list[str]:
     if len(segments) > MAX_DEPTH:
         errors.append(f"больше {MAX_DEPTH} сегментов")
     for seg in segments:
-        if not SEGMENT_RE.match(seg):
+        if not SEGMENT_RE.fullmatch(seg):
             errors.append(f"невалидный сегмент {seg!r}: нужно [a-z0-9][a-z0-9-]*")
     return errors
 

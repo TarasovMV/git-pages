@@ -15,7 +15,8 @@ class GitError(RuntimeError):
 
 def _run_git(args: list[str]) -> str:
     try:
-        result = subprocess.run(args, capture_output=True, text=True, encoding="utf-8")
+        result = subprocess.run(args, capture_output=True, text=True,
+                                encoding="utf-8", errors="replace")
     except OSError as e:
         raise GitError(f"git недоступен: {e}") from e
     if result.returncode != 0:

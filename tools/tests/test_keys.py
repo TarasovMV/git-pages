@@ -21,6 +21,7 @@ class ValidateKeyTests(unittest.TestCase):
             "a//b": "пустой сегмент",
             "a/b/c/d/e": "глубина больше 4",
             "цвет": "кириллица",
+            "a\n": "завершающий перевод строки",
         }
         for key, why in cases.items():
             with self.subTest(key=key):

@@ -33,3 +33,9 @@
 
 Операции add / update / delete / list / open выполняет агент ZCode через
 пользовательский скилл `git-pages`. История каждой страницы — в git.
+
+## Тесты
+
+    cd tools && python -m unittest discover -v
+
+30 тестов. Коды выхода `rebuild_index.py`: 0 — ок; 1 — нет `pages/`; 2 — git недоступен или git error.

@@ -50,10 +50,10 @@ __CARDS__
 """
 
 CARD = """    <div class="card">
-      <a href="__HREF__">__TITLE__</a>
-      <div class="key">__KEY__</div>
-      <div class="desc">__DESC__</div>
-      <div class="date">обновлена: __UPDATED__</div>
+      <a href="{href}">{title}</a>
+      <div class="key">{key}</div>
+      <div class="desc">{desc}</div>
+      <div class="date">обновлена: {updated}</div>
     </div>"""
 
 EMPTY = """    <p class="empty">Пока нет ни одной страницы.</p>"""
@@ -70,12 +70,13 @@ def sort_entries(entries: list[PageEntry]) -> list[PageEntry]:
 
 
 def _card(entry: PageEntry) -> str:
-    return (CARD
-            .replace("__HREF__", escape(page_href(entry)))
-            .replace("__TITLE__", escape(entry.title or entry.key))
-            .replace("__KEY__", escape(entry.key))
-            .replace("__DESC__", escape(entry.description) or "—")
-            .replace("__UPDATED__", escape(entry.updated)))
+    return CARD.format_map({
+        "href": escape(page_href(entry)),
+        "title": escape(entry.title or entry.key),
+        "key": escape(entry.key),
+        "desc": escape(entry.description) or "—",
+        "updated": escape(entry.updated),
+    })
 
 
 def render_index(entries: list[PageEntry]) -> str:
