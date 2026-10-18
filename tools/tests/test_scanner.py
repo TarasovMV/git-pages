@@ -58,6 +58,19 @@ class ScanPagesTests(unittest.TestCase):
         self.assertEqual(entries["shagal"].url_path(), "/pages/shagal/")
         self.assertEqual(entries["shagal/panel"].url_path(), "/pages/shagal/panel")
 
+    def test_multi_commit_dates(self):
+        self.write("log/index.html")
+        self.commit()  # 2026-01-05 (STAMP)
+        self.write("log/index.html", "<html>v2</html>")
+        git(self.tmp, "add", "-A")
+        git(self.tmp, "commit", "-m", "c2", env={
+            "GIT_AUTHOR_DATE": "2026-02-10T12:00:00",
+            "GIT_COMMITTER_DATE": "2026-02-10T12:00:00",
+        })
+        entries = {e.key: e for e in scan_pages(self.tmp)}
+        self.assertEqual(entries["log"].updated, "2026-02-10")
+        self.assertEqual(entries["log"].created, "2026-01-05")
+
     def test_uncommitted_page_gets_today(self):
         self.write("new-page/index.html")
         entries = {e.key: e for e in scan_pages(self.tmp)}

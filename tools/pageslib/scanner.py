@@ -35,9 +35,11 @@ def _key_of(pages_dir: Path, html_file: Path) -> tuple[str | None, str]:
 
 def _git_dates(repo_root: Path, rel_path: str) -> tuple[str, str]:
     """(updated, created) из git log; без коммитов — TODAY."""
-    base = ["git", "-C", str(repo_root), "log", "--format=%cs", "--", rel_path]
-    updated = subprocess.run(base + ["-1"], capture_output=True, text=True, encoding="utf-8")
-    created = subprocess.run(base + ["--diff-filter=A"], capture_output=True, text=True, encoding="utf-8")
+    # Флаги обязательны до "--": после "--" git трактует их как pathspec'ы.
+    updated_cmd = ["git", "-C", str(repo_root), "log", "-1", "--format=%cs", "--", rel_path]
+    created_cmd = ["git", "-C", str(repo_root), "log", "--diff-filter=A", "--format=%cs", "--", rel_path]
+    updated = subprocess.run(updated_cmd, capture_output=True, text=True, encoding="utf-8")
+    created = subprocess.run(created_cmd, capture_output=True, text=True, encoding="utf-8")
     up = updated.stdout.strip() or TODAY
     added = [line for line in created.stdout.strip().splitlines() if line]
     return up, (added[-1] if added else TODAY)
