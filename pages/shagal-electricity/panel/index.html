@@ -1,0 +1,1612 @@
+<!DOCTYPE html>
+<!-- page-meta
+title: Схема электрического щита — умный дом
+description: Полная документация щита: 54 модуля на 3 рейках, 18 групп, 10 Zigbee-реле освещения.
+-->
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Схема электрического щита — умный дом: полная документация</title>
+<style>
+  :root{--ink:#1c2733;--muted:#5b6b7b;--line:#dfe6ee;--bg:#f4f7fa;--card:#fff;
+        --l1:#b8860b;--l2:#1c7a3d;--l3:#c22f2f;--difc:#2b7cd3;--zbc:#c07f10}
+  *{box-sizing:border-box}
+  body{margin:0;font-family:"Segoe UI",Roboto,Arial,sans-serif;color:var(--ink);background:var(--bg);line-height:1.5}
+  header.page{background:linear-gradient(135deg,#3a2c4f,#7a5aa8);color:#fff;padding:24px 20px 20px}
+  header.page .wrap{max-width:1500px;margin:0 auto}
+  header.page h1{margin:0 0 5px;font-size:23px}
+  header.page p{margin:0;opacity:.85;font-size:13.5px}
+  main{max-width:1500px;margin:0 auto;padding:22px 20px 60px}
+  section.block{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:22px 26px;margin:0 0 28px}
+  h2{margin:0 0 14px;font-size:19px;color:#33254a}
+  h3{margin:20px 0 8px;font-size:15.5px;color:#33254a}
+  p.lead{margin:0 0 12px;color:var(--muted);font-size:13.5px}
+  .cards{display:grid;grid-template-columns:repeat(auto-fit,minmax(210px,1fr));gap:12px;margin:6px 0 8px}
+  .card{border:1px solid var(--line);border-radius:10px;padding:12px 14px;background:#fbfdff}
+  .card .k{font-size:11px;color:var(--muted);text-transform:uppercase;letter-spacing:.4px}
+  .card .v{font-size:19px;font-weight:700;margin-top:2px}
+  .card .s{font-size:12px;color:var(--muted);margin-top:2px}
+  table{display:block;width:100%;overflow-x:auto;border-collapse:collapse;font-size:13px;margin:10px 0 4px}
+  th{background:#efeaf7;text-align:left;padding:7px 9px;border:1px solid var(--line);font-weight:600;font-size:12px;white-space:nowrap}
+  td{padding:6px 9px;border:1px solid var(--line);vertical-align:top}
+  tbody tr:nth-child(even){background:#fbf9fd}
+  code{background:#eef2f6;border:1px solid #e0e7ef;border-radius:4px;padding:1px 5px;font-family:Consolas,Menlo,monospace;font-size:12px;white-space:nowrap}
+  .badge{display:inline-block;border-radius:20px;padding:1px 9px;font-size:11px;font-weight:700;white-space:nowrap}
+  .l1{background:#fff6dc;color:var(--l1)}.l2{background:#e6f7ec;color:var(--l2)}.l3{background:#fdecec;color:var(--l3)}
+  .p3{background:#eeebfb;color:#5b3fc4}
+  .zb{display:inline-block;background:#fdf3e0;color:#9c6708;border-radius:4px;padding:1px 6px;font-size:10.5px;font-weight:700}
+  .rk{display:inline-block;background:#33254a;color:#fff;border-radius:6px;padding:1px 8px;font-size:11.5px;font-weight:700;margin-right:6px}
+  .uq{background:#ffedd5;color:#c2410c;border-radius:4px;padding:0 5px;font-weight:600}
+  .dif{display:inline-block;background:#e3f0fd;color:#0b5394;border-radius:4px;padding:1px 6px;font-size:10.5px;font-weight:700}
+  .wire{font-family:Consolas,Menlo,monospace;font-size:11.5px;font-weight:700;padding:1px 6px;border-radius:3px}
+  .wL1{background:#f3e4d3;color:#7a4f1d}.wL2{background:#e2e2e2;color:#141414}.wL3{background:#ececec;color:#5f5f5f}
+  .wN{background:#dbe6f7;color:#0d47a1}.wPE{background:#e0efdc;color:#3d8b37}
+  .svgwrap{overflow-x:auto;border:1px solid var(--line);border-radius:10px;background:#fff;padding:10px 6px}
+  .legend{display:flex;flex-wrap:wrap;gap:12px;font-size:12.5px;margin:10px 2px 0;align-items:center}
+  ul.notes,ol.notes{margin:8px 0;padding-left:20px}
+  ul.notes li,ol.notes li{margin:5px 0;font-size:13.5px}
+  .small{font-size:12.5px;color:var(--muted)}
+  .warn{border:1px solid #f0c070;background:#fff4e5;color:#6b4000;border-radius:10px;padding:12px 16px;margin:14px 0;font-size:13.5px}
+  @media print{body{background:#fff} section.block{break-inside:avoid}}
+</style>
+</head>
+<body>
+
+<header class="page">
+  <div class="wrap">
+    <h1>Схема электрического щита — умный дом</h1>
+    <p>18 групп защиты + 10 Zigbee-реле освещения · компоновка, состав групп, спецификация, принципиальная и монтажная схемы, сборка</p>
+  </div>
+</header>
+
+<main>
+
+<section class="block">
+  <h2>1. Общие параметры и источники</h2>
+  <div class="cards">
+    <div class="card"><div class="k">Ввод</div><div class="v">3ф 25 А + N + PE</div><div class="s">после вводного дифавтомата застройщика; кабель от этажного щита 5×10 Cu</div></div>
+    <div class="card"><div class="k">Аппаратов защиты</div><div class="v">18 + 3 клеммы</div><div class="s">27 модулей защиты + 3 фазные клеммы</div></div>
+    <div class="card"><div class="k">Zigbee-реле</div><div class="v">10 шт.</div><div class="s">DIN, 1 модуль каждое, отдельная рейка 3 (список — <code>rele.md</code>)</div></div>
+    <div class="card"><div class="k">Корпус</div><div class="v">54 мод.</div><div class="s">3 рейки × 18; занято 40, резерв 14</div></div>
+    <div class="card"><div class="k">Габариты (ориентир)</div><div class="v">≈ 42×58 см</div><div class="s">встраиваемый на 3 рейки: ниша ≈ 585×415×130 мм; точные — по паспорту модели</div></div>
+  </div>
+  <p class="small">Освещение — <b>без физических выключателей</b>: все светильники коммутируются Zigbee-реле в щите,
+  линии света — прямые от реле к светильникам (шлейф между блоками точечных — соединения в клеммах светильников).
+  Точки и баланс фаз — <code>index.html</code>; состав групп — раздел 3 ниже.
+  Цвета жил по ГОСТ: <span class="wire wL1">L1 коричневый</span> <span class="wire wL2">L2 чёрный</span>
+  <span class="wire wL3">L3 серый</span> <span class="wire wN">N синий</span> <span class="wire wPE">PE жёлто-зелёный</span>.</p>
+  <div class="warn"><b>Без реле (утверждённое решение):</b> бра <code>СП-03, 04, КГ-06</code>, подсветка зеркал
+  <code>СП-05, СУМ-01, СУГ-01</code>, подсветка шкафов <code>ГД-01, 02, СУМ-07, ПР-05, СГ-01</code>, LED-подсветка штор
+  <code>СП-11, СГ-04, КГ-02</code>, гирлянды <code>СП-12, СГ-05, КГ-03</code> и домофон <code>ПР-01</code> —
+  реле не нужны: точки постоянно под напряжением на группах декора 13–15, управление локальное
+  (датчики, умные лампы, батарейные пульты). Резерв рейки 3 (8 модулей) остаётся про запас на расширение.</div>
+</section>
+
+<section class="block">
+  <h2>2. Раскладка модулей по позициям DIN-реек</h2>
+  <p class="lead">Рейка 3 выделена под Zigbee-реле и удалена от силовой части. Аппараты одной фазы стоят рядом — гребёнки без пропусков.</p>
+
+  <h3>DIN-рейка 1 — фазные клеммы и силовые (позиции 1–18, занято 16)</h3>
+  <table>
+    <thead><tr><th>Поз.</th><th>Аппарат</th><th>Группа</th><th>Фаза питания</th></tr></thead>
+    <tbody>
+      <tr><td>1–3</td><td>Проходные фазные клеммы 25 А: L1 · L2 · L3</td><td>—</td><td>приход 5×10 с этажного щита</td></tr>
+      <tr><td>4–6</td><td>Автомат 3P C16 — варочная панель</td><td>гр. 1</td><td><span class="badge p3">3ф</span> перемычками с клемм</td></tr>
+      <tr><td>7–10</td><td>Дифавтомат 4P C20/30 мА — водонагреватель</td><td>гр. 2</td><td><span class="badge p3">3ф</span> + N с N-шины</td></tr>
+      <tr><td>11</td><td>Автомат C16 — духовка</td><td>гр. 3</td><td><span class="badge l1">L1</span> гребёнка «L1-1»</td></tr>
+      <tr><td>12</td><td>Автомат C16 — кондиционеры (все блоки)</td><td>гр. 6</td><td><span class="badge l1">L1</span> гребёнка «L1-1»</td></tr>
+      <tr><td>13–14</td><td>Дифавтомат 1P+N C16/30 мА — тёплые полы</td><td>гр. 7</td><td><span class="badge l1">L1</span> гребёнка + N с шины</td></tr>
+      <tr><td>15</td><td>Автомат B10 — декор и приводы кухни</td><td>гр. 15</td><td><span class="badge l1">L1</span> гребёнка «L1-1»</td></tr>
+      <tr><td>16</td><td>Автомат B10 — свет центр+право (питание реле Р5–Р10)</td><td>гр. 18</td><td><span class="badge l1">L1</span> гребёнка «L1-1»</td></tr>
+      <tr><td>17–18</td><td>Резерв</td><td>—</td><td>—</td></tr>
+    </tbody>
+  </table>
+
+  <h3>DIN-рейка 2 — розеточные группы, декор (позиции 1–18, занято 14)</h3>
+  <table>
+    <thead><tr><th>Поз.</th><th>Аппарат</th><th>Группа</th><th>Фаза питания</th></tr></thead>
+    <tbody>
+      <tr><td>1–2</td><td>Дифавтомат 1P+N C16/30 мА — кухня: все розетки</td><td>гр. 8</td><td><span class="badge l2">L2</span> гребёнка «L2-2»</td></tr>
+      <tr><td>3–4</td><td>Дифавтомат 1P+N C16/30 мА — прихожая+санузлы</td><td>гр. 12</td><td><span class="badge l2">L2</span> гребёнка «L2-2»</td></tr>
+      <tr><td>5</td><td>Автомат B10 — декор и приводы мастер-зоны</td><td>гр. 13</td><td><span class="badge l2">L2</span> гребёнка «L2-2»</td></tr>
+      <tr><td>6</td><td>Автомат B16 — дежурная линия сети (роутер + мини-ПК)</td><td>гр. 16</td><td><span class="badge l2">L2</span> гребёнка «L2-2»</td></tr>
+      <tr><td>7</td><td>Автомат B10 — свет левое крыло (питание реле Р1–Р4)</td><td>гр. 17</td><td><span class="badge l2">L2</span> гребёнка «L2-2»</td></tr>
+      <tr><td>8</td><td>Автомат C16 — медиа-зона ТВ</td><td>гр. 9</td><td><span class="badge l3">L3</span> гребёнка «L3-2»</td></tr>
+      <tr><td>9</td><td>Автомат C16 — мастер: розетки</td><td>гр. 10</td><td><span class="badge l3">L3</span> гребёнка «L3-2»</td></tr>
+      <tr><td>10</td><td>Автомат C16 — гостевая: розетки</td><td>гр. 11</td><td><span class="badge l3">L3</span> гребёнка «L3-2»</td></tr>
+      <tr><td>11</td><td>Автомат B10 — декор центр+право, домофон</td><td>гр. 14</td><td><span class="badge l3">L3</span> гребёнка «L3-2»</td></tr>
+      <tr><td>12</td><td>Автомат B16 — холодильник (отдельный по ТЗ)</td><td>гр. 4</td><td><span class="badge l3">L3</span> гребёнка «L3-2»</td></tr>
+      <tr><td>13–14</td><td>Дифавтомат 1P+N C20/30 мА — стирка+сушка</td><td>гр. 5</td><td><span class="badge l3">L3</span> гребёнка «L3-2»</td></tr>
+      <tr><td>15–18</td><td>Резерв</td><td>—</td><td>—</td></tr>
+    </tbody>
+  </table>
+
+  <h3>DIN-рейка 3 — Zigbee-реле освещения (позиции 1–18, занято 10)</h3>
+  <table>
+    <thead><tr><th>Поз.</th><th>Реле (1 модуль, 16 А)</th><th>Светильники</th><th>Питание (верх реле)</th><th>Линия (низ реле)</th></tr></thead>
+    <tbody>
+      <tr><td>1</td><td><span class="zb">Р1</span> Свет мастер-спальни — лента</td><td><code>СП-18</code> (БП 24 В на потолке)</td><td rowspan="4">гребёнка «СВЕТ-L2» ← гр. 17 <span class="badge l2">L2</span></td><td>3×1,5 прямая</td></tr>
+      <tr><td>2</td><td><span class="zb">Р2</span> Свет мастер-спальни — точечный</td><td><code>СП-19</code></td><td>3×1,5 прямая</td></tr>
+      <tr><td>3</td><td><span class="zb">Р3</span> Гардеробная (1 реле на 2 точки)</td><td><code>ГД-03, 04</code></td><td>3×1,5 + шлейф</td></tr>
+      <tr><td>4</td><td><span class="zb">Р4</span> Мастер санузел (1 реле на 3 точки)</td><td><code>СУМ-09…11</code></td><td>3×1,5 + шлейф</td></tr>
+      <tr><td>5</td><td><span class="zb">Р5</span> Прихожая — трековый шинопровод</td><td><code>ПР-11</code></td><td rowspan="6">гребёнка «СВЕТ-L1» ← гр. 18 <span class="badge l1">L1</span></td><td>3×1,5 прямая</td></tr>
+      <tr><td>6</td><td><span class="zb">Р6</span> Гостевой санузел (1 реле на 2 точки)</td><td><code>СУГ-10, 11</code></td><td>3×1,5 + шлейф</td></tr>
+      <tr><td>7</td><td><span class="zb">Р7</span> Гостевая спальня — люстра</td><td><code>СГ-13</code></td><td>3×1,5 прямая</td></tr>
+      <tr><td>8</td><td><span class="zb">Р8</span> Гостиная — люстра гостиной зоны</td><td><code>КГ-27</code></td><td>3×1,5 прямая</td></tr>
+      <tr><td>9</td><td><span class="zb">Р9</span> Кухня — люстра над островом</td><td><code>КГ-28</code></td><td>3×1,5 прямая</td></tr>
+      <tr><td>10</td><td><span class="zb">Р10</span> Кухня — точечные (1 реле на 3 блока)</td><td><code>КГ-29…31</code></td><td>3×1,5 + шлейф</td></tr>
+      <tr><td>11–18</td><td>Резерв: БП 5 В Zigbee-шлюза (питание от гр. 16), дополнительные реле</td><td>—</td><td>—</td><td>—</td></tr>
+    </tbody>
+  </table>
+  <p class="small">Zigbee-координатор (шлюз) установить в щите рядом с реле — короткая устойчивая сеть; питание 5 В
+  от сетевого адаптера с дежурной линии гр. 16 (роутер + мини-ПК там же). Реле коммутируют только фазу;
+  N и PE световых линий — с шин напрямую.</p>
+</section>
+
+<section class="block">
+  <h2>3. Состав групп — однолинейная таблица</h2>
+  <table>
+    <thead><tr><th>№</th><th>Группа</th><th>Аппарат</th><th>Фаза</th><th class="num">I ном., А</th><th class="num">P расч., кВт</th><th>Кабель</th><th>Трасса</th><th>Точки</th></tr></thead>
+    <tbody>
+      <tr><td>В</td><td>Вводной дифавтомат (существующий)</td><td>4P C25 диф</td><td><span class="badge p3">3ф</span></td><td class="num">25/ф</td><td class="num">17,25 макс</td><td>5×10…5×16</td><td>От стояка застройщика</td><td>—</td></tr>
+      <tr><td>1</td><td>Варочная панель</td><td>3P C16</td><td><span class="badge p3">3ф</span></td><td class="num">16/ф</td><td class="num">7,0</td><td>5×4</td><td>Прямая</td><td><code>КГ-22</code></td></tr>
+      <tr><td>2</td><td>Проточный водонагреватель</td><td>4P C20 <span class="dif">30 мА</span></td><td><span class="badge p3">3ф</span></td><td class="num">20/ф</td><td class="num">11,0</td><td>5×4</td><td>Прямая</td><td><code>СУГ-04</code></td></tr>
+      <tr><td>3</td><td>Духовой шкаф</td><td>C16</td><td><span class="badge l1">L1</span></td><td class="num">16</td><td class="num">2,0</td><td>3×2,5</td><td>Прямая</td><td><code>КГ-23</code></td></tr>
+      <tr><td>4</td><td><b>Холодильник (отдельный по ТЗ)</b></td><td>B16</td><td><span class="badge l3">L3</span></td><td class="num">16</td><td class="num">0,2</td><td>3×2,5</td><td>Прямая</td><td><code>КГ-18</code></td></tr>
+      <tr><td>5</td><td>Стиральная + сушильная машины</td><td>C20 <span class="dif">30 мА</span></td><td><span class="badge l3">L3</span></td><td class="num">20</td><td class="num">4,3 (18,7 А при обеих)</td><td>3×4</td><td>Прямая до первой розетки, вторая — шлейф в подрозетнике</td><td><code>СУГ-02, 03</code></td></tr>
+      <tr><td>6</td><td>Кондиционеры: наружный + 3 внутренних блока</td><td>C16</td><td><span class="badge l1">L1</span></td><td class="num">16</td><td class="num">2,7</td><td>3×4 / 3×2,5</td><td>Наружный — прямая; <span class="uq">внутренние шлейфом РК-1 → РК-5 → РК-7 ⚠ под вопросом — возможны отдельные линии</span></td><td><code>СГ-07; СП-15, СГ-08, КГ-11</code></td></tr>
+      <tr><td>7</td><td>Тёплые полы: все (4 термостата)</td><td>C16 <span class="dif">30 мА</span></td><td><span class="badge l1">L1</span></td><td class="num">16</td><td class="num">2,6</td><td>3×2,5</td><td><span class="uq">Прямая до первого термостата, далее шлейфом ⚠ под вопросом — возможны отдельные линии</span></td><td><code>КГ-07, ПР-02, СУМ-02, СУГ-07</code></td></tr>
+      <tr><td>8</td><td>Кухня: все розетки</td><td>C16 <span class="dif">30 мА</span></td><td><span class="badge l2">L2</span></td><td class="num">16</td><td class="num">4,0</td><td>3×2,5</td><td>РК-6, РК-7</td><td><code>КГ-08…10, 12, 19…21, 24, 25</code></td></tr>
+      <tr><td>9</td><td>Гостиная: медиа-зона ТВ</td><td>C16</td><td><span class="badge l3">L3</span></td><td class="num">16</td><td class="num">1,0</td><td>3×2,5</td><td>РК-7</td><td><code>КГ-13…17</code></td></tr>
+      <tr><td>10</td><td>Мастер-спальня: розетки + проектор + экран</td><td>C16</td><td><span class="badge l3">L3</span></td><td class="num">16</td><td class="num">1,5</td><td>3×2,5</td><td>РК-1</td><td><code>СП-02, 06…09, 13, 14, 16, 17</code></td></tr>
+      <tr><td>11</td><td>Гостевая спальня: розетки</td><td>C16</td><td><span class="badge l3">L3</span></td><td class="num">16</td><td class="num">1,2</td><td>3×2,5</td><td>РК-5</td><td><code>СГ-02, 06, 09…12</code></td></tr>
+      <tr><td>12</td><td>Прихожая + санузлы: все розетки</td><td>C16 <span class="dif">30 мА</span></td><td><span class="badge l2">L2</span></td><td class="num">16</td><td class="num">1,4</td><td>3×2,5</td><td>РК-3; РК-2 → РК-4</td><td><code>ПР-03, 06…10; СУМ-03…06; СУГ-05, 06, 08, 09</code></td></tr>
+      <tr><td>13</td><td>Декор и приводы мастер-зоны</td><td>B10</td><td><span class="badge l2">L2</span></td><td class="num">10</td><td class="num">0,35</td><td>3×1,5</td><td>РК-1, РК-2</td><td><code>СП-01, 03…05, 10…12; ГД-01, 02; СУМ-01, 07, 08</code></td></tr>
+      <tr><td>14</td><td>Декор и приводы центр+право, домофон</td><td>B10</td><td><span class="badge l3">L3</span></td><td class="num">10</td><td class="num">0,17</td><td>3×1,5</td><td>РК-3 → РК-4 → РК-5</td><td><code>ПР-01, 05; СУГ-01; СГ-01, 03…05</code></td></tr>
+      <tr><td>15</td><td>Декор и приводы кухни</td><td>B10</td><td><span class="badge l1">L1</span></td><td class="num">10</td><td class="num">0,35</td><td>3×1,5</td><td>РК-6, РК-7</td><td><code>КГ-01…06, 26</code></td></tr>
+      <tr><td>16</td><td><b>Дежурная линия сети: роутер + мини-ПК</b></td><td>B16</td><td><span class="badge l2">L2</span></td><td class="num">16</td><td class="num">0,13</td><td>3×2,5</td><td>РК-3</td><td><code>ПР-04, 12</code></td></tr>
+      <tr><td>17</td><td><b>Свет левое крыло — питание реле Р1–Р4</b></td><td>B10</td><td><span class="badge l2">L2</span></td><td class="num">10</td><td class="num">0,34</td><td>2,5 мм²</td><td>гребёнка «СВЕТ-L2» → реле Р1–Р4</td><td><code>через Р1…Р4: СП-18, 19; ГД-03, 04; СУМ-09…11</code></td></tr>
+      <tr><td>18</td><td><b>Свет центр+право — питание реле Р5–Р10</b></td><td>B10</td><td><span class="badge l1">L1</span></td><td class="num">10</td><td class="num">0,59</td><td>2,5 мм²</td><td>гребёнка «СВЕТ-L1» → реле Р5–Р10</td><td><code>через Р5…Р10: ПР-11; СУГ-10, 11; СГ-13; КГ-27…31</code></td></tr>
+      <tr><td>Р1–Р10</td><td><b>Zigbee-реле освещения (DIN, 16 А, по 1 модулю)</b></td><td>—</td><td>см. гр. 17/18</td><td class="num">16</td><td class="num">0,93 сумм.</td><td>3×1,5</td><td>рейка 3; прямые линии к светильникам, шлейфы блоков</td><td><code>Р1 СП-18; Р2 СП-19; Р3 ГД-03,04; Р4 СУМ-09…11; Р5 ПР-11; Р6 СУГ-10,11; Р7 СГ-13; Р8 КГ-27; Р9 КГ-28; Р10 КГ-29…31</code></td></tr>
+    </tbody>
+  </table>
+</section>
+
+<section class="block">
+  <h2>4. Спецификация аппаратов (для закупки)</h2>
+  <table>
+    <thead><tr><th>Аппарат</th><th>Исполнение</th><th class="num">Кол-во</th><th class="num">Модулей</th><th>Группы</th></tr></thead>
+    <tbody>
+      <tr><td>Автомат 3P C16</td><td>3 модуля</td><td class="num">1</td><td class="num">3</td><td>1</td></tr>
+      <tr><td>Дифавтомат 4P C20 / 30 мА</td><td>4 модуля</td><td class="num">1</td><td class="num">4</td><td>2</td></tr>
+      <tr><td>Автомат 1P C16</td><td>1 модуль</td><td class="num">5</td><td class="num">5</td><td>3, 6, 9, 10, 11</td></tr>
+      <tr><td>Автомат 1P B16</td><td>1 модуль</td><td class="num">2</td><td class="num">2</td><td>4 (холодильник), 16 (сеть: роутер + мини-ПК)</td></tr>
+      <tr><td>Дифавтомат 1P+N C20 / 30 мА</td><td>2 модуля</td><td class="num">1</td><td class="num">2</td><td>5 (стирка+сушка)</td></tr>
+      <tr><td>Дифавтомат 1P+N C16 / 30 мА</td><td>2 модуля</td><td class="num">3</td><td class="num">6</td><td>7, 8, 12</td></tr>
+      <tr><td>Автомат 1P B10</td><td>1 модуль</td><td class="num">5</td><td class="num">5</td><td>13, 14, 15 (декор), 17, 18 (питание реле света)</td></tr>
+      <tr><td>Zigbee-реле освещения DIN 16 А</td><td>1 модуль</td><td class="num">10</td><td class="num">10</td><td>Р1–Р10 (рейка 3, список — <code>rele.md</code>)</td></tr>
+      <tr><td>Проходные фазные клеммы 25 А (или мини-кросс 3ф)</td><td>3 модуля</td><td class="num">3</td><td class="num">3</td><td>распределение фаз (см. разделы 5–7 ниже)</td></tr>
+      <tr class="total"><td colspan="2">Итого: 18 аппаратов защиты + 10 реле + 3 клеммы</td><td class="num">31</td><td class="num">40</td><td></td></tr>
+    </tbody>
+  </table>
+  <p class="small">Плюс вводной дифавтомат застройщика 4P 25 А (4 модуля, существует). Корпус 54 модуля (3×18):
+  занято 40 (27 модулей защиты + 10 реле + 3 фазные клеммы) + резерв 14 модулей.</p>
+</section>
+
+<section class="block">
+  <h2>5. Схема соединений</h2>
+  <p class="lead">Верх колонки — питание аппарата; низ — кабель линии. У реле Р1–Р10 фаза приходит с гребёнок
+  «СВЕТ-L2»/«СВЕТ-L1» (после гр. 17/гр. 18), вниз уходит на светильник; N и PE — транзитом с шин. Схему листать по горизонтали.</p>
+  <div class="svgwrap">
+<svg viewBox="0 0 2460 640" xmlns="http://www.w3.org/2000/svg" style="width:100%;height:auto;min-width:2260px" role="img" aria-label="Схема соединений щита">
+<rect x="0" y="0" width="2460" height="640" fill="#ffffff"/>
+<line x1="104" y1="28" x2="2438" y2="28" stroke="#3d8b37" stroke-width="6"/>
+<text x="70" y="33" font-size="13" font-weight="700" fill="#3d8b37">PE</text>
+<line x1="104" y1="58" x2="2438" y2="58" stroke="#0d47a1" stroke-width="6"/>
+<text x="70" y="63" font-size="13" font-weight="700" fill="#0d47a1">N</text>
+<line x1="104" y1="88" x2="2438" y2="88" stroke="#7a4f1d" stroke-width="6"/>
+<text x="70" y="93" font-size="13" font-weight="700" fill="#7a4f1d">L1</text>
+<line x1="104" y1="118" x2="2438" y2="118" stroke="#141414" stroke-width="6"/>
+<text x="70" y="123" font-size="13" font-weight="700" fill="#141414">L2</text>
+<line x1="104" y1="148" x2="2438" y2="148" stroke="#7d7d7d" stroke-width="6"/>
+<text x="70" y="153" font-size="13" font-weight="700" fill="#7d7d7d">L3</text>
+<text x="6" y="24" font-size="9.5" fill="#5b6b7b">PE — с этажного</text>
+<text x="6" y="36" font-size="9.5" fill="#5b6b7b">щита, не разры-</text>
+<text x="6" y="48" font-size="9.5" fill="#5b6b7b">вается</text>
+<text x="6" y="88" font-size="9.5" fill="#5b6b7b">L1 L2 L3 N —</text>
+<text x="6" y="100" font-size="9.5" fill="#5b6b7b">после вводного</text>
+<text x="6" y="112" font-size="9.5" fill="#5b6b7b">дифа 25 А</text>
+<text x="6" y="124" font-size="9.5" fill="#5b6b7b">(застройщика)</text>
+<line x1="773" y1="14" x2="773" y2="592" stroke="#9db2c5" stroke-width="1.5" stroke-dasharray="7 5"/>
+<line x1="1691" y1="14" x2="1691" y2="592" stroke="#9db2c5" stroke-width="1.5" stroke-dasharray="7 5"/>
+<text x="438" y="176" font-size="12" font-weight="700" fill="#5b6b7b" text-anchor="middle">· DIN-рейка 1 — защита ·</text>
+<text x="1232" y="176" font-size="12" font-weight="700" fill="#5b6b7b" text-anchor="middle">· DIN-рейка 2 — защита ·</text>
+<text x="2064" y="176" font-size="12" font-weight="700" fill="#5b6b7b" text-anchor="middle">· DIN-рейка 3 — Zigbee-реле ·</text>
+<line x1="132" y1="88" x2="132" y2="218" stroke="#7a4f1d" stroke-width="2.2"/>
+<circle cx="132" cy="88" r="3.4" fill="#7a4f1d"/>
+<line x1="160" y1="118" x2="160" y2="218" stroke="#141414" stroke-width="2.2"/>
+<circle cx="160" cy="118" r="3.4" fill="#141414"/>
+<line x1="188" y1="148" x2="188" y2="218" stroke="#7d7d7d" stroke-width="2.2"/>
+<circle cx="188" cy="148" r="3.4" fill="#7d7d7d"/>
+<line x1="200" y1="58" x2="200" y2="528" stroke="#0d47a1" stroke-width="2"/>
+<circle cx="200" cy="58" r="3.2" fill="#0d47a1"/>
+<text x="200" y="522" font-size="8" fill="#0d47a1" text-anchor="middle">N</text>
+<line x1="209" y1="28" x2="209" y2="528" stroke="#3d8b37" stroke-width="2"/>
+<circle cx="209" cy="28" r="3.2" fill="#3d8b37"/>
+<text x="209" y="522" font-size="8" fill="#3d8b37" text-anchor="middle">PE</text>
+<line x1="132" y1="336" x2="132" y2="528" stroke="#7a4f1d" stroke-width="2.2"/>
+<line x1="160" y1="336" x2="160" y2="528" stroke="#141414" stroke-width="2.2"/>
+<line x1="188" y1="336" x2="188" y2="528" stroke="#7d7d7d" stroke-width="2.2"/>
+<circle cx="132" cy="218" r="3.2" fill="#fff" stroke="#7a4f1d" stroke-width="1.6"/>
+<circle cx="132" cy="336" r="3.2" fill="#fff" stroke="#7a4f1d" stroke-width="1.6"/>
+<circle cx="160" cy="218" r="3.2" fill="#fff" stroke="#141414" stroke-width="1.6"/>
+<circle cx="160" cy="336" r="3.2" fill="#fff" stroke="#141414" stroke-width="1.6"/>
+<circle cx="188" cy="218" r="3.2" fill="#fff" stroke="#7d7d7d" stroke-width="1.6"/>
+<circle cx="188" cy="336" r="3.2" fill="#fff" stroke="#7d7d7d" stroke-width="1.6"/>
+<rect x="106" y="218" width="108" height="118" rx="7" fill="#ffffff" stroke="#b9c6d2" stroke-width="1"/>
+<rect x="110" y="222" width="100" height="6" rx="2" fill="url(#g3f)"/>
+<text x="160" y="245" font-size="13.5" font-weight="800" fill="#12314f" text-anchor="middle">гр. 1</text>
+<text x="160" y="260" font-size="10" font-weight="700" fill="#12314f" text-anchor="middle">3P C16</text>
+<text x="160" y="276" font-size="9.3" fill="#33475a" text-anchor="middle">Варочная</text>
+<text x="160" y="288" font-size="9.3" fill="#33475a" text-anchor="middle">панель</text>
+<rect x="143" y="313" width="34" height="15" rx="8" fill="#eeebfb"/>
+<text x="160" y="325" font-size="10" font-weight="800" fill="#5b3fc4" text-anchor="middle">3F</text>
+<rect x="106" y="528" width="108" height="58" rx="6" fill="#f2f6fa" stroke="#b9c6d2"/>
+<text x="160" y="545" font-size="11" font-weight="700" fill="#12314f" text-anchor="middle">5×4</text>
+<text x="160" y="560" font-size="8.3" fill="#5b6b7b" text-anchor="middle">КГ-22 · варочная</text>
+<text x="160" y="571" font-size="8.3" fill="#5b6b7b" text-anchor="middle">(прямая линия)</text>
+<line x1="252" y1="88" x2="252" y2="218" stroke="#7a4f1d" stroke-width="2.2"/>
+<circle cx="252" cy="88" r="3.4" fill="#7a4f1d"/>
+<line x1="278" y1="118" x2="278" y2="218" stroke="#141414" stroke-width="2.2"/>
+<circle cx="278" cy="118" r="3.4" fill="#141414"/>
+<line x1="304" y1="148" x2="304" y2="218" stroke="#7d7d7d" stroke-width="2.2"/>
+<circle cx="304" cy="148" r="3.4" fill="#7d7d7d"/>
+<line x1="332" y1="58" x2="332" y2="218" stroke="#0d47a1" stroke-width="2.2"/>
+<circle cx="332" cy="58" r="3.4" fill="#0d47a1"/>
+<line x1="351" y1="28" x2="351" y2="528" stroke="#3d8b37" stroke-width="2"/>
+<circle cx="351" cy="28" r="3.2" fill="#3d8b37"/>
+<text x="351" y="522" font-size="8" fill="#3d8b37" text-anchor="middle">PE</text>
+<line x1="252" y1="336" x2="252" y2="528" stroke="#7a4f1d" stroke-width="2.2"/>
+<line x1="278" y1="336" x2="278" y2="528" stroke="#141414" stroke-width="2.2"/>
+<line x1="304" y1="336" x2="304" y2="528" stroke="#7d7d7d" stroke-width="2.2"/>
+<line x1="332" y1="336" x2="332" y2="528" stroke="#0d47a1" stroke-width="2.2"/>
+<circle cx="252" cy="218" r="3.2" fill="#fff" stroke="#7a4f1d" stroke-width="1.6"/>
+<circle cx="252" cy="336" r="3.2" fill="#fff" stroke="#7a4f1d" stroke-width="1.6"/>
+<circle cx="278" cy="218" r="3.2" fill="#fff" stroke="#141414" stroke-width="1.6"/>
+<circle cx="278" cy="336" r="3.2" fill="#fff" stroke="#141414" stroke-width="1.6"/>
+<circle cx="304" cy="218" r="3.2" fill="#fff" stroke="#7d7d7d" stroke-width="1.6"/>
+<circle cx="304" cy="336" r="3.2" fill="#fff" stroke="#7d7d7d" stroke-width="1.6"/>
+<circle cx="332" cy="218" r="3.2" fill="#fff" stroke="#0d47a1" stroke-width="1.6"/>
+<circle cx="332" cy="336" r="3.2" fill="#fff" stroke="#0d47a1" stroke-width="1.6"/>
+<rect x="228" y="218" width="128" height="118" rx="7" fill="#ffffff" stroke="#2b7cd3" stroke-width="2"/>
+<rect x="232" y="222" width="120" height="6" rx="2" fill="url(#g3f)"/>
+<text x="292" y="245" font-size="13.5" font-weight="800" fill="#12314f" text-anchor="middle">гр. 2</text>
+<text x="292" y="260" font-size="10" font-weight="700" fill="#12314f" text-anchor="middle">4P C20 диф 30мА</text>
+<text x="292" y="276" font-size="9.3" fill="#33475a" text-anchor="middle">Проточный</text>
+<text x="292" y="288" font-size="9.3" fill="#33475a" text-anchor="middle">водонагреватель</text>
+<rect x="269" y="314" width="46" height="14" rx="3" fill="#e3f0fd"/>
+<text x="292" y="325" font-size="9" font-weight="800" fill="#0b5394" text-anchor="middle">30 мА</text>
+<rect x="228" y="528" width="128" height="58" rx="6" fill="#f2f6fa" stroke="#b9c6d2"/>
+<text x="292" y="545" font-size="11" font-weight="700" fill="#12314f" text-anchor="middle">5×4</text>
+<text x="292" y="560" font-size="8.3" fill="#5b6b7b" text-anchor="middle">СУГ-04 · водонагрев.</text>
+<text x="292" y="571" font-size="8.3" fill="#5b6b7b" text-anchor="middle">(прямая линия)</text>
+<line x1="402" y1="88" x2="402" y2="218" stroke="#7a4f1d" stroke-width="2.2"/>
+<circle cx="402" cy="88" r="3.4" fill="#7a4f1d"/>
+<line x1="420" y1="58" x2="420" y2="528" stroke="#0d47a1" stroke-width="2"/>
+<circle cx="420" cy="58" r="3.2" fill="#0d47a1"/>
+<text x="420" y="522" font-size="8" fill="#0d47a1" text-anchor="middle">N</text>
+<line x1="429" y1="28" x2="429" y2="528" stroke="#3d8b37" stroke-width="2"/>
+<circle cx="429" cy="28" r="3.2" fill="#3d8b37"/>
+<text x="429" y="522" font-size="8" fill="#3d8b37" text-anchor="middle">PE</text>
+<line x1="402" y1="336" x2="402" y2="528" stroke="#7a4f1d" stroke-width="2.2"/>
+<circle cx="402" cy="218" r="3.2" fill="#fff" stroke="#7a4f1d" stroke-width="1.6"/>
+<circle cx="402" cy="336" r="3.2" fill="#fff" stroke="#7a4f1d" stroke-width="1.6"/>
+<rect x="370" y="218" width="64" height="118" rx="7" fill="#ffffff" stroke="#b9c6d2" stroke-width="1"/>
+<rect x="374" y="222" width="56" height="6" rx="2" fill="#7a4f1d"/>
+<text x="402" y="245" font-size="13.5" font-weight="800" fill="#12314f" text-anchor="middle">гр. 3</text>
+<text x="402" y="260" font-size="10" font-weight="700" fill="#12314f" text-anchor="middle">C16</text>
+<text x="402" y="276" font-size="9.3" fill="#33475a" text-anchor="middle">Духовка</text>
+<rect x="385" y="313" width="34" height="15" rx="8" fill="#fff3d6"/>
+<text x="402" y="325" font-size="10" font-weight="800" fill="#8a5a2b" text-anchor="middle">L1</text>
+<rect x="370" y="528" width="64" height="58" rx="6" fill="#f2f6fa" stroke="#b9c6d2"/>
+<text x="402" y="545" font-size="11" font-weight="700" fill="#12314f" text-anchor="middle">3×2,5</text>
+<text x="402" y="560" font-size="8.3" fill="#5b6b7b" text-anchor="middle">КГ-23 · духовка</text>
+<text x="402" y="571" font-size="8.3" fill="#5b6b7b" text-anchor="middle">(прямая линия)</text>
+<line x1="480" y1="88" x2="480" y2="218" stroke="#7a4f1d" stroke-width="2.2"/>
+<circle cx="480" cy="88" r="3.4" fill="#7a4f1d"/>
+<line x1="498" y1="58" x2="498" y2="528" stroke="#0d47a1" stroke-width="2"/>
+<circle cx="498" cy="58" r="3.2" fill="#0d47a1"/>
+<text x="498" y="522" font-size="8" fill="#0d47a1" text-anchor="middle">N</text>
+<line x1="507" y1="28" x2="507" y2="528" stroke="#3d8b37" stroke-width="2"/>
+<circle cx="507" cy="28" r="3.2" fill="#3d8b37"/>
+<text x="507" y="522" font-size="8" fill="#3d8b37" text-anchor="middle">PE</text>
+<line x1="480" y1="336" x2="480" y2="528" stroke="#7a4f1d" stroke-width="2.2"/>
+<circle cx="480" cy="218" r="3.2" fill="#fff" stroke="#7a4f1d" stroke-width="1.6"/>
+<circle cx="480" cy="336" r="3.2" fill="#fff" stroke="#7a4f1d" stroke-width="1.6"/>
+<rect x="448" y="218" width="64" height="118" rx="7" fill="#ffffff" stroke="#b9c6d2" stroke-width="1"/>
+<rect x="452" y="222" width="56" height="6" rx="2" fill="#7a4f1d"/>
+<text x="480" y="245" font-size="13.5" font-weight="800" fill="#12314f" text-anchor="middle">гр. 6</text>
+<text x="480" y="260" font-size="10" font-weight="700" fill="#12314f" text-anchor="middle">C16</text>
+<text x="480" y="276" font-size="9.3" fill="#33475a" text-anchor="middle">Кондиционеры</text>
+<text x="480" y="288" font-size="9.3" fill="#33475a" text-anchor="middle">(все блоки)</text>
+<rect x="463" y="313" width="34" height="15" rx="8" fill="#fff3d6"/>
+<text x="480" y="325" font-size="10" font-weight="800" fill="#8a5a2b" text-anchor="middle">L1</text>
+<rect x="448" y="528" width="64" height="58" rx="6" fill="#f2f6fa" stroke="#b9c6d2"/>
+<text x="480" y="545" font-size="11" font-weight="700" fill="#12314f" text-anchor="middle">3×4/2,5</text>
+<text x="480" y="560" font-size="8.3" fill="#c2660c" text-anchor="middle">СГ-07 прямой +</text>
+<text x="480" y="571" font-size="8.3" fill="#c2660c" text-anchor="middle">РК-1→РК-5→РК-7 ⚠?</text>
+<line x1="548" y1="88" x2="548" y2="218" stroke="#7a4f1d" stroke-width="2.2"/>
+<circle cx="548" cy="88" r="3.4" fill="#7a4f1d"/>
+<line x1="584" y1="58" x2="584" y2="218" stroke="#0d47a1" stroke-width="2.2"/>
+<circle cx="584" cy="58" r="3.4" fill="#0d47a1"/>
+<line x1="605" y1="28" x2="605" y2="528" stroke="#3d8b37" stroke-width="2"/>
+<circle cx="605" cy="28" r="3.2" fill="#3d8b37"/>
+<text x="605" y="522" font-size="8" fill="#3d8b37" text-anchor="middle">PE</text>
+<line x1="548" y1="336" x2="548" y2="528" stroke="#7a4f1d" stroke-width="2.2"/>
+<line x1="584" y1="336" x2="584" y2="528" stroke="#0d47a1" stroke-width="2.2"/>
+<circle cx="548" cy="218" r="3.2" fill="#fff" stroke="#7a4f1d" stroke-width="1.6"/>
+<circle cx="548" cy="336" r="3.2" fill="#fff" stroke="#7a4f1d" stroke-width="1.6"/>
+<circle cx="584" cy="218" r="3.2" fill="#fff" stroke="#0d47a1" stroke-width="1.6"/>
+<circle cx="584" cy="336" r="3.2" fill="#fff" stroke="#0d47a1" stroke-width="1.6"/>
+<rect x="526" y="218" width="84" height="118" rx="7" fill="#ffffff" stroke="#2b7cd3" stroke-width="2"/>
+<rect x="530" y="222" width="76" height="6" rx="2" fill="#7a4f1d"/>
+<text x="568" y="245" font-size="13.5" font-weight="800" fill="#12314f" text-anchor="middle">гр. 7</text>
+<text x="568" y="260" font-size="10" font-weight="700" fill="#12314f" text-anchor="middle">C16 диф 30мА</text>
+<text x="568" y="276" font-size="9.3" fill="#33475a" text-anchor="middle">Тёплые полы</text>
+<text x="568" y="288" font-size="9.3" fill="#33475a" text-anchor="middle">(4 термостата)</text>
+<rect x="545" y="314" width="46" height="14" rx="3" fill="#e3f0fd"/>
+<text x="568" y="325" font-size="9" font-weight="800" fill="#0b5394" text-anchor="middle">30 мА</text>
+<rect x="526" y="528" width="84" height="58" rx="6" fill="#f2f6fa" stroke="#b9c6d2"/>
+<text x="568" y="545" font-size="11" font-weight="700" fill="#12314f" text-anchor="middle">3×2,5</text>
+<text x="568" y="560" font-size="8.3" fill="#c2660c" text-anchor="middle">термостаты ТП,</text>
+<text x="568" y="571" font-size="8.3" fill="#c2660c" text-anchor="middle">шлейф между ними ⚠?</text>
+<line x1="656" y1="88" x2="656" y2="218" stroke="#7a4f1d" stroke-width="2.2"/>
+<circle cx="656" cy="88" r="3.4" fill="#7a4f1d"/>
+<line x1="674" y1="58" x2="674" y2="528" stroke="#0d47a1" stroke-width="2"/>
+<circle cx="674" cy="58" r="3.2" fill="#0d47a1"/>
+<text x="674" y="522" font-size="8" fill="#0d47a1" text-anchor="middle">N</text>
+<line x1="683" y1="28" x2="683" y2="528" stroke="#3d8b37" stroke-width="2"/>
+<circle cx="683" cy="28" r="3.2" fill="#3d8b37"/>
+<text x="683" y="522" font-size="8" fill="#3d8b37" text-anchor="middle">PE</text>
+<line x1="656" y1="336" x2="656" y2="528" stroke="#7a4f1d" stroke-width="2.2"/>
+<circle cx="656" cy="218" r="3.2" fill="#fff" stroke="#7a4f1d" stroke-width="1.6"/>
+<circle cx="656" cy="336" r="3.2" fill="#fff" stroke="#7a4f1d" stroke-width="1.6"/>
+<rect x="624" y="218" width="64" height="118" rx="7" fill="#ffffff" stroke="#b9c6d2" stroke-width="1"/>
+<rect x="628" y="222" width="56" height="6" rx="2" fill="#7a4f1d"/>
+<text x="656" y="245" font-size="13.5" font-weight="800" fill="#12314f" text-anchor="middle">гр. 15</text>
+<text x="656" y="260" font-size="10" font-weight="700" fill="#12314f" text-anchor="middle">B10</text>
+<text x="656" y="276" font-size="9.3" fill="#33475a" text-anchor="middle">Декор кухня:</text>
+<text x="656" y="288" font-size="9.3" fill="#33475a" text-anchor="middle">приводы, LED</text>
+<rect x="639" y="313" width="34" height="15" rx="8" fill="#fff3d6"/>
+<text x="656" y="325" font-size="10" font-weight="800" fill="#8a5a2b" text-anchor="middle">L1</text>
+<rect x="624" y="528" width="64" height="58" rx="6" fill="#f2f6fa" stroke="#b9c6d2"/>
+<text x="656" y="545" font-size="11" font-weight="700" fill="#12314f" text-anchor="middle">3×1,5</text>
+<text x="656" y="560" font-size="8.3" fill="#5b6b7b" text-anchor="middle">РК-6, РК-7</text>
+<text x="656" y="571" font-size="8.3" fill="#5b6b7b" text-anchor="middle">(КГ-01…06, 26)</text>
+<line x1="734" y1="88" x2="734" y2="218" stroke="#7a4f1d" stroke-width="2.2"/>
+<circle cx="734" cy="88" r="3.4" fill="#7a4f1d"/>
+<line x1="752" y1="58" x2="752" y2="528" stroke="#0d47a1" stroke-width="2"/>
+<circle cx="752" cy="58" r="3.2" fill="#0d47a1"/>
+<text x="752" y="522" font-size="8" fill="#0d47a1" text-anchor="middle">N</text>
+<line x1="761" y1="28" x2="761" y2="528" stroke="#3d8b37" stroke-width="2"/>
+<circle cx="761" cy="28" r="3.2" fill="#3d8b37"/>
+<text x="761" y="522" font-size="8" fill="#3d8b37" text-anchor="middle">PE</text>
+<line x1="734" y1="336" x2="734" y2="528" stroke="#7a4f1d" stroke-width="2.2"/>
+<circle cx="734" cy="218" r="3.2" fill="#fff" stroke="#7a4f1d" stroke-width="1.6"/>
+<circle cx="734" cy="336" r="3.2" fill="#fff" stroke="#7a4f1d" stroke-width="1.6"/>
+<rect x="702" y="218" width="64" height="118" rx="7" fill="#ffffff" stroke="#b9c6d2" stroke-width="1"/>
+<rect x="706" y="222" width="56" height="6" rx="2" fill="#7a4f1d"/>
+<text x="734" y="245" font-size="13.5" font-weight="800" fill="#12314f" text-anchor="middle">гр. 18</text>
+<text x="734" y="260" font-size="10" font-weight="700" fill="#12314f" text-anchor="middle">B10</text>
+<text x="734" y="276" font-size="9.3" fill="#33475a" text-anchor="middle">Свет центр</text>
+<text x="734" y="288" font-size="9.3" fill="#33475a" text-anchor="middle">+ право → реле</text>
+<rect x="717" y="313" width="34" height="15" rx="8" fill="#fff3d6"/>
+<text x="734" y="325" font-size="10" font-weight="800" fill="#8a5a2b" text-anchor="middle">L1</text>
+<rect x="702" y="528" width="64" height="58" rx="6" fill="#f2f6fa" stroke="#b9c6d2"/>
+<text x="734" y="545" font-size="11" font-weight="700" fill="#12314f" text-anchor="middle">2,5 мм²</text>
+<text x="734" y="560" font-size="8.3" fill="#5b6b7b" text-anchor="middle">гребёнка «СВЕТ-L1»</text>
+<text x="734" y="571" font-size="8.3" fill="#5b6b7b" text-anchor="middle">→ Р5…Р10 (рейка 3)</text>
+<line x1="802" y1="118" x2="802" y2="218" stroke="#141414" stroke-width="2.2"/>
+<circle cx="802" cy="118" r="3.4" fill="#141414"/>
+<line x1="838" y1="58" x2="838" y2="218" stroke="#0d47a1" stroke-width="2.2"/>
+<circle cx="838" cy="58" r="3.4" fill="#0d47a1"/>
+<line x1="859" y1="28" x2="859" y2="528" stroke="#3d8b37" stroke-width="2"/>
+<circle cx="859" cy="28" r="3.2" fill="#3d8b37"/>
+<text x="859" y="522" font-size="8" fill="#3d8b37" text-anchor="middle">PE</text>
+<line x1="802" y1="336" x2="802" y2="528" stroke="#141414" stroke-width="2.2"/>
+<line x1="838" y1="336" x2="838" y2="528" stroke="#0d47a1" stroke-width="2.2"/>
+<circle cx="802" cy="218" r="3.2" fill="#fff" stroke="#141414" stroke-width="1.6"/>
+<circle cx="802" cy="336" r="3.2" fill="#fff" stroke="#141414" stroke-width="1.6"/>
+<circle cx="838" cy="218" r="3.2" fill="#fff" stroke="#0d47a1" stroke-width="1.6"/>
+<circle cx="838" cy="336" r="3.2" fill="#fff" stroke="#0d47a1" stroke-width="1.6"/>
+<rect x="780" y="218" width="84" height="118" rx="7" fill="#ffffff" stroke="#2b7cd3" stroke-width="2"/>
+<rect x="784" y="222" width="76" height="6" rx="2" fill="#141414"/>
+<text x="822" y="245" font-size="13.5" font-weight="800" fill="#12314f" text-anchor="middle">гр. 8</text>
+<text x="822" y="260" font-size="10" font-weight="700" fill="#12314f" text-anchor="middle">C16 диф 30мА</text>
+<text x="822" y="276" font-size="9.3" fill="#33475a" text-anchor="middle">Кухня: все</text>
+<text x="822" y="288" font-size="9.3" fill="#33475a" text-anchor="middle">розетки</text>
+<rect x="799" y="314" width="46" height="14" rx="3" fill="#e3f0fd"/>
+<text x="822" y="325" font-size="9" font-weight="800" fill="#0b5394" text-anchor="middle">30 мА</text>
+<rect x="780" y="528" width="84" height="58" rx="6" fill="#f2f6fa" stroke="#b9c6d2"/>
+<text x="822" y="545" font-size="11" font-weight="700" fill="#12314f" text-anchor="middle">3×2,5</text>
+<text x="822" y="560" font-size="8.3" fill="#5b6b7b" text-anchor="middle">РК-6, РК-7</text>
+<text x="822" y="571" font-size="8.3" fill="#5b6b7b" text-anchor="middle">(кухня/гостиная)</text>
+<line x1="900" y1="118" x2="900" y2="218" stroke="#141414" stroke-width="2.2"/>
+<circle cx="900" cy="118" r="3.4" fill="#141414"/>
+<line x1="936" y1="58" x2="936" y2="218" stroke="#0d47a1" stroke-width="2.2"/>
+<circle cx="936" cy="58" r="3.4" fill="#0d47a1"/>
+<line x1="957" y1="28" x2="957" y2="528" stroke="#3d8b37" stroke-width="2"/>
+<circle cx="957" cy="28" r="3.2" fill="#3d8b37"/>
+<text x="957" y="522" font-size="8" fill="#3d8b37" text-anchor="middle">PE</text>
+<line x1="900" y1="336" x2="900" y2="528" stroke="#141414" stroke-width="2.2"/>
+<line x1="936" y1="336" x2="936" y2="528" stroke="#0d47a1" stroke-width="2.2"/>
+<circle cx="900" cy="218" r="3.2" fill="#fff" stroke="#141414" stroke-width="1.6"/>
+<circle cx="900" cy="336" r="3.2" fill="#fff" stroke="#141414" stroke-width="1.6"/>
+<circle cx="936" cy="218" r="3.2" fill="#fff" stroke="#0d47a1" stroke-width="1.6"/>
+<circle cx="936" cy="336" r="3.2" fill="#fff" stroke="#0d47a1" stroke-width="1.6"/>
+<rect x="878" y="218" width="84" height="118" rx="7" fill="#ffffff" stroke="#2b7cd3" stroke-width="2"/>
+<rect x="882" y="222" width="76" height="6" rx="2" fill="#141414"/>
+<text x="920" y="245" font-size="13.5" font-weight="800" fill="#12314f" text-anchor="middle">гр. 12</text>
+<text x="920" y="260" font-size="10" font-weight="700" fill="#12314f" text-anchor="middle">C16 диф 30мА</text>
+<text x="920" y="276" font-size="9.3" fill="#33475a" text-anchor="middle">Прихожая +</text>
+<text x="920" y="288" font-size="9.3" fill="#33475a" text-anchor="middle">санузлы: розетки</text>
+<rect x="897" y="314" width="46" height="14" rx="3" fill="#e3f0fd"/>
+<text x="920" y="325" font-size="9" font-weight="800" fill="#0b5394" text-anchor="middle">30 мА</text>
+<rect x="878" y="528" width="84" height="58" rx="6" fill="#f2f6fa" stroke="#b9c6d2"/>
+<text x="920" y="545" font-size="11" font-weight="700" fill="#12314f" text-anchor="middle">3×2,5</text>
+<text x="920" y="560" font-size="8.3" fill="#5b6b7b" text-anchor="middle">РК-3; РК-2 → РК-4</text>
+<line x1="1008" y1="118" x2="1008" y2="218" stroke="#141414" stroke-width="2.2"/>
+<circle cx="1008" cy="118" r="3.4" fill="#141414"/>
+<line x1="1026" y1="58" x2="1026" y2="528" stroke="#0d47a1" stroke-width="2"/>
+<circle cx="1026" cy="58" r="3.2" fill="#0d47a1"/>
+<text x="1026" y="522" font-size="8" fill="#0d47a1" text-anchor="middle">N</text>
+<line x1="1035" y1="28" x2="1035" y2="528" stroke="#3d8b37" stroke-width="2"/>
+<circle cx="1035" cy="28" r="3.2" fill="#3d8b37"/>
+<text x="1035" y="522" font-size="8" fill="#3d8b37" text-anchor="middle">PE</text>
+<line x1="1008" y1="336" x2="1008" y2="528" stroke="#141414" stroke-width="2.2"/>
+<circle cx="1008" cy="218" r="3.2" fill="#fff" stroke="#141414" stroke-width="1.6"/>
+<circle cx="1008" cy="336" r="3.2" fill="#fff" stroke="#141414" stroke-width="1.6"/>
+<rect x="976" y="218" width="64" height="118" rx="7" fill="#ffffff" stroke="#b9c6d2" stroke-width="1"/>
+<rect x="980" y="222" width="56" height="6" rx="2" fill="#141414"/>
+<text x="1008" y="245" font-size="13.5" font-weight="800" fill="#12314f" text-anchor="middle">гр. 13</text>
+<text x="1008" y="260" font-size="10" font-weight="700" fill="#12314f" text-anchor="middle">B10</text>
+<text x="1008" y="276" font-size="9.3" fill="#33475a" text-anchor="middle">Декор мастер-</text>
+<text x="1008" y="288" font-size="9.3" fill="#33475a" text-anchor="middle">зоны, приводы</text>
+<rect x="991" y="313" width="34" height="15" rx="8" fill="#e2f5e8"/>
+<text x="1008" y="325" font-size="10" font-weight="800" fill="#1c7a3d" text-anchor="middle">L2</text>
+<rect x="976" y="528" width="64" height="58" rx="6" fill="#f2f6fa" stroke="#b9c6d2"/>
+<text x="1008" y="545" font-size="11" font-weight="700" fill="#12314f" text-anchor="middle">3×1,5</text>
+<text x="1008" y="560" font-size="8.3" fill="#5b6b7b" text-anchor="middle">РК-1, РК-2</text>
+<text x="1008" y="571" font-size="8.3" fill="#5b6b7b" text-anchor="middle">(см. таблицу гр.)</text>
+<line x1="1086" y1="118" x2="1086" y2="218" stroke="#141414" stroke-width="2.2"/>
+<circle cx="1086" cy="118" r="3.4" fill="#141414"/>
+<line x1="1104" y1="58" x2="1104" y2="528" stroke="#0d47a1" stroke-width="2"/>
+<circle cx="1104" cy="58" r="3.2" fill="#0d47a1"/>
+<text x="1104" y="522" font-size="8" fill="#0d47a1" text-anchor="middle">N</text>
+<line x1="1113" y1="28" x2="1113" y2="528" stroke="#3d8b37" stroke-width="2"/>
+<circle cx="1113" cy="28" r="3.2" fill="#3d8b37"/>
+<text x="1113" y="522" font-size="8" fill="#3d8b37" text-anchor="middle">PE</text>
+<line x1="1086" y1="336" x2="1086" y2="528" stroke="#141414" stroke-width="2.2"/>
+<circle cx="1086" cy="218" r="3.2" fill="#fff" stroke="#141414" stroke-width="1.6"/>
+<circle cx="1086" cy="336" r="3.2" fill="#fff" stroke="#141414" stroke-width="1.6"/>
+<rect x="1054" y="218" width="64" height="118" rx="7" fill="#ffffff" stroke="#b9c6d2" stroke-width="1"/>
+<rect x="1058" y="222" width="56" height="6" rx="2" fill="#141414"/>
+<text x="1086" y="245" font-size="13.5" font-weight="800" fill="#12314f" text-anchor="middle">гр. 16</text>
+<text x="1086" y="260" font-size="10" font-weight="700" fill="#12314f" text-anchor="middle">B16</text>
+<text x="1086" y="276" font-size="9.3" fill="#33475a" text-anchor="middle">Сеть: роутер</text>
+<text x="1086" y="288" font-size="9.3" fill="#33475a" text-anchor="middle">+ мини-ПК</text>
+<rect x="1069" y="313" width="34" height="15" rx="8" fill="#e2f5e8"/>
+<text x="1086" y="325" font-size="10" font-weight="800" fill="#1c7a3d" text-anchor="middle">L2</text>
+<rect x="1054" y="528" width="64" height="58" rx="6" fill="#f2f6fa" stroke="#b9c6d2"/>
+<text x="1086" y="545" font-size="11" font-weight="700" fill="#12314f" text-anchor="middle">3×2,5</text>
+<text x="1086" y="560" font-size="8.3" fill="#5b6b7b" text-anchor="middle">РК-3 · ПР-04, ПР-12</text>
+<text x="1086" y="571" font-size="8.3" fill="#5b6b7b" text-anchor="middle">дежурная линия</text>
+<line x1="1164" y1="118" x2="1164" y2="218" stroke="#141414" stroke-width="2.2"/>
+<circle cx="1164" cy="118" r="3.4" fill="#141414"/>
+<line x1="1182" y1="58" x2="1182" y2="528" stroke="#0d47a1" stroke-width="2"/>
+<circle cx="1182" cy="58" r="3.2" fill="#0d47a1"/>
+<text x="1182" y="522" font-size="8" fill="#0d47a1" text-anchor="middle">N</text>
+<line x1="1191" y1="28" x2="1191" y2="528" stroke="#3d8b37" stroke-width="2"/>
+<circle cx="1191" cy="28" r="3.2" fill="#3d8b37"/>
+<text x="1191" y="522" font-size="8" fill="#3d8b37" text-anchor="middle">PE</text>
+<line x1="1164" y1="336" x2="1164" y2="528" stroke="#141414" stroke-width="2.2"/>
+<circle cx="1164" cy="218" r="3.2" fill="#fff" stroke="#141414" stroke-width="1.6"/>
+<circle cx="1164" cy="336" r="3.2" fill="#fff" stroke="#141414" stroke-width="1.6"/>
+<rect x="1132" y="218" width="64" height="118" rx="7" fill="#ffffff" stroke="#b9c6d2" stroke-width="1"/>
+<rect x="1136" y="222" width="56" height="6" rx="2" fill="#141414"/>
+<text x="1164" y="245" font-size="13.5" font-weight="800" fill="#12314f" text-anchor="middle">гр. 17</text>
+<text x="1164" y="260" font-size="10" font-weight="700" fill="#12314f" text-anchor="middle">B10</text>
+<text x="1164" y="276" font-size="9.3" fill="#33475a" text-anchor="middle">Свет левое</text>
+<text x="1164" y="288" font-size="9.3" fill="#33475a" text-anchor="middle">крыло → реле</text>
+<rect x="1147" y="313" width="34" height="15" rx="8" fill="#e2f5e8"/>
+<text x="1164" y="325" font-size="10" font-weight="800" fill="#1c7a3d" text-anchor="middle">L2</text>
+<rect x="1132" y="528" width="64" height="58" rx="6" fill="#f2f6fa" stroke="#b9c6d2"/>
+<text x="1164" y="545" font-size="11" font-weight="700" fill="#12314f" text-anchor="middle">2,5 мм²</text>
+<text x="1164" y="560" font-size="8.3" fill="#5b6b7b" text-anchor="middle">гребёнка «СВЕТ-L2»</text>
+<text x="1164" y="571" font-size="8.3" fill="#5b6b7b" text-anchor="middle">→ Р1…Р4 (рейка 3)</text>
+<line x1="1242" y1="148" x2="1242" y2="218" stroke="#7d7d7d" stroke-width="2.2"/>
+<circle cx="1242" cy="148" r="3.4" fill="#7d7d7d"/>
+<line x1="1260" y1="58" x2="1260" y2="528" stroke="#0d47a1" stroke-width="2"/>
+<circle cx="1260" cy="58" r="3.2" fill="#0d47a1"/>
+<text x="1260" y="522" font-size="8" fill="#0d47a1" text-anchor="middle">N</text>
+<line x1="1269" y1="28" x2="1269" y2="528" stroke="#3d8b37" stroke-width="2"/>
+<circle cx="1269" cy="28" r="3.2" fill="#3d8b37"/>
+<text x="1269" y="522" font-size="8" fill="#3d8b37" text-anchor="middle">PE</text>
+<line x1="1242" y1="336" x2="1242" y2="528" stroke="#7d7d7d" stroke-width="2.2"/>
+<circle cx="1242" cy="218" r="3.2" fill="#fff" stroke="#7d7d7d" stroke-width="1.6"/>
+<circle cx="1242" cy="336" r="3.2" fill="#fff" stroke="#7d7d7d" stroke-width="1.6"/>
+<rect x="1210" y="218" width="64" height="118" rx="7" fill="#ffffff" stroke="#b9c6d2" stroke-width="1"/>
+<rect x="1214" y="222" width="56" height="6" rx="2" fill="#7d7d7d"/>
+<text x="1242" y="245" font-size="13.5" font-weight="800" fill="#12314f" text-anchor="middle">гр. 9</text>
+<text x="1242" y="260" font-size="10" font-weight="700" fill="#12314f" text-anchor="middle">C16</text>
+<text x="1242" y="276" font-size="9.3" fill="#33475a" text-anchor="middle">Медиа-зона</text>
+<text x="1242" y="288" font-size="9.3" fill="#33475a" text-anchor="middle">ТВ</text>
+<rect x="1225" y="313" width="34" height="15" rx="8" fill="#fdeaea"/>
+<text x="1242" y="325" font-size="10" font-weight="800" fill="#c22f2f" text-anchor="middle">L3</text>
+<rect x="1210" y="528" width="64" height="58" rx="6" fill="#f2f6fa" stroke="#b9c6d2"/>
+<text x="1242" y="545" font-size="11" font-weight="700" fill="#12314f" text-anchor="middle">3×2,5</text>
+<text x="1242" y="560" font-size="8.3" fill="#5b6b7b" text-anchor="middle">РК-7</text>
+<line x1="1320" y1="148" x2="1320" y2="218" stroke="#7d7d7d" stroke-width="2.2"/>
+<circle cx="1320" cy="148" r="3.4" fill="#7d7d7d"/>
+<line x1="1338" y1="58" x2="1338" y2="528" stroke="#0d47a1" stroke-width="2"/>
+<circle cx="1338" cy="58" r="3.2" fill="#0d47a1"/>
+<text x="1338" y="522" font-size="8" fill="#0d47a1" text-anchor="middle">N</text>
+<line x1="1347" y1="28" x2="1347" y2="528" stroke="#3d8b37" stroke-width="2"/>
+<circle cx="1347" cy="28" r="3.2" fill="#3d8b37"/>
+<text x="1347" y="522" font-size="8" fill="#3d8b37" text-anchor="middle">PE</text>
+<line x1="1320" y1="336" x2="1320" y2="528" stroke="#7d7d7d" stroke-width="2.2"/>
+<circle cx="1320" cy="218" r="3.2" fill="#fff" stroke="#7d7d7d" stroke-width="1.6"/>
+<circle cx="1320" cy="336" r="3.2" fill="#fff" stroke="#7d7d7d" stroke-width="1.6"/>
+<rect x="1288" y="218" width="64" height="118" rx="7" fill="#ffffff" stroke="#b9c6d2" stroke-width="1"/>
+<rect x="1292" y="222" width="56" height="6" rx="2" fill="#7d7d7d"/>
+<text x="1320" y="245" font-size="13.5" font-weight="800" fill="#12314f" text-anchor="middle">гр. 10</text>
+<text x="1320" y="260" font-size="10" font-weight="700" fill="#12314f" text-anchor="middle">C16</text>
+<text x="1320" y="276" font-size="9.3" fill="#33475a" text-anchor="middle">Мастер:</text>
+<text x="1320" y="288" font-size="9.3" fill="#33475a" text-anchor="middle">розетки</text>
+<rect x="1303" y="313" width="34" height="15" rx="8" fill="#fdeaea"/>
+<text x="1320" y="325" font-size="10" font-weight="800" fill="#c22f2f" text-anchor="middle">L3</text>
+<rect x="1288" y="528" width="64" height="58" rx="6" fill="#f2f6fa" stroke="#b9c6d2"/>
+<text x="1320" y="545" font-size="11" font-weight="700" fill="#12314f" text-anchor="middle">3×2,5</text>
+<text x="1320" y="560" font-size="8.3" fill="#5b6b7b" text-anchor="middle">РК-1</text>
+<line x1="1398" y1="148" x2="1398" y2="218" stroke="#7d7d7d" stroke-width="2.2"/>
+<circle cx="1398" cy="148" r="3.4" fill="#7d7d7d"/>
+<line x1="1416" y1="58" x2="1416" y2="528" stroke="#0d47a1" stroke-width="2"/>
+<circle cx="1416" cy="58" r="3.2" fill="#0d47a1"/>
+<text x="1416" y="522" font-size="8" fill="#0d47a1" text-anchor="middle">N</text>
+<line x1="1425" y1="28" x2="1425" y2="528" stroke="#3d8b37" stroke-width="2"/>
+<circle cx="1425" cy="28" r="3.2" fill="#3d8b37"/>
+<text x="1425" y="522" font-size="8" fill="#3d8b37" text-anchor="middle">PE</text>
+<line x1="1398" y1="336" x2="1398" y2="528" stroke="#7d7d7d" stroke-width="2.2"/>
+<circle cx="1398" cy="218" r="3.2" fill="#fff" stroke="#7d7d7d" stroke-width="1.6"/>
+<circle cx="1398" cy="336" r="3.2" fill="#fff" stroke="#7d7d7d" stroke-width="1.6"/>
+<rect x="1366" y="218" width="64" height="118" rx="7" fill="#ffffff" stroke="#b9c6d2" stroke-width="1"/>
+<rect x="1370" y="222" width="56" height="6" rx="2" fill="#7d7d7d"/>
+<text x="1398" y="245" font-size="13.5" font-weight="800" fill="#12314f" text-anchor="middle">гр. 11</text>
+<text x="1398" y="260" font-size="10" font-weight="700" fill="#12314f" text-anchor="middle">C16</text>
+<text x="1398" y="276" font-size="9.3" fill="#33475a" text-anchor="middle">Гостевая:</text>
+<text x="1398" y="288" font-size="9.3" fill="#33475a" text-anchor="middle">розетки</text>
+<rect x="1381" y="313" width="34" height="15" rx="8" fill="#fdeaea"/>
+<text x="1398" y="325" font-size="10" font-weight="800" fill="#c22f2f" text-anchor="middle">L3</text>
+<rect x="1366" y="528" width="64" height="58" rx="6" fill="#f2f6fa" stroke="#b9c6d2"/>
+<text x="1398" y="545" font-size="11" font-weight="700" fill="#12314f" text-anchor="middle">3×2,5</text>
+<text x="1398" y="560" font-size="8.3" fill="#5b6b7b" text-anchor="middle">РК-5</text>
+<line x1="1476" y1="148" x2="1476" y2="218" stroke="#7d7d7d" stroke-width="2.2"/>
+<circle cx="1476" cy="148" r="3.4" fill="#7d7d7d"/>
+<line x1="1494" y1="58" x2="1494" y2="528" stroke="#0d47a1" stroke-width="2"/>
+<circle cx="1494" cy="58" r="3.2" fill="#0d47a1"/>
+<text x="1494" y="522" font-size="8" fill="#0d47a1" text-anchor="middle">N</text>
+<line x1="1503" y1="28" x2="1503" y2="528" stroke="#3d8b37" stroke-width="2"/>
+<circle cx="1503" cy="28" r="3.2" fill="#3d8b37"/>
+<text x="1503" y="522" font-size="8" fill="#3d8b37" text-anchor="middle">PE</text>
+<line x1="1476" y1="336" x2="1476" y2="528" stroke="#7d7d7d" stroke-width="2.2"/>
+<circle cx="1476" cy="218" r="3.2" fill="#fff" stroke="#7d7d7d" stroke-width="1.6"/>
+<circle cx="1476" cy="336" r="3.2" fill="#fff" stroke="#7d7d7d" stroke-width="1.6"/>
+<rect x="1444" y="218" width="64" height="118" rx="7" fill="#ffffff" stroke="#b9c6d2" stroke-width="1"/>
+<rect x="1448" y="222" width="56" height="6" rx="2" fill="#7d7d7d"/>
+<text x="1476" y="245" font-size="13.5" font-weight="800" fill="#12314f" text-anchor="middle">гр. 14</text>
+<text x="1476" y="260" font-size="10" font-weight="700" fill="#12314f" text-anchor="middle">B10</text>
+<text x="1476" y="276" font-size="9.3" fill="#33475a" text-anchor="middle">Декор центр</text>
+<text x="1476" y="288" font-size="9.3" fill="#33475a" text-anchor="middle">+ право, домофон</text>
+<rect x="1459" y="313" width="34" height="15" rx="8" fill="#fdeaea"/>
+<text x="1476" y="325" font-size="10" font-weight="800" fill="#c22f2f" text-anchor="middle">L3</text>
+<rect x="1444" y="528" width="64" height="58" rx="6" fill="#f2f6fa" stroke="#b9c6d2"/>
+<text x="1476" y="545" font-size="11" font-weight="700" fill="#12314f" text-anchor="middle">3×1,5</text>
+<text x="1476" y="560" font-size="8.3" fill="#5b6b7b" text-anchor="middle">РК-3 → РК-4 → РК-5</text>
+<line x1="1554" y1="148" x2="1554" y2="218" stroke="#7d7d7d" stroke-width="2.2"/>
+<circle cx="1554" cy="148" r="3.4" fill="#7d7d7d"/>
+<line x1="1572" y1="58" x2="1572" y2="528" stroke="#0d47a1" stroke-width="2"/>
+<circle cx="1572" cy="58" r="3.2" fill="#0d47a1"/>
+<text x="1572" y="522" font-size="8" fill="#0d47a1" text-anchor="middle">N</text>
+<line x1="1581" y1="28" x2="1581" y2="528" stroke="#3d8b37" stroke-width="2"/>
+<circle cx="1581" cy="28" r="3.2" fill="#3d8b37"/>
+<text x="1581" y="522" font-size="8" fill="#3d8b37" text-anchor="middle">PE</text>
+<line x1="1554" y1="336" x2="1554" y2="528" stroke="#7d7d7d" stroke-width="2.2"/>
+<circle cx="1554" cy="218" r="3.2" fill="#fff" stroke="#7d7d7d" stroke-width="1.6"/>
+<circle cx="1554" cy="336" r="3.2" fill="#fff" stroke="#7d7d7d" stroke-width="1.6"/>
+<rect x="1522" y="218" width="64" height="118" rx="7" fill="#ffffff" stroke="#b9c6d2" stroke-width="1"/>
+<rect x="1526" y="222" width="56" height="6" rx="2" fill="#7d7d7d"/>
+<text x="1554" y="245" font-size="13.5" font-weight="800" fill="#12314f" text-anchor="middle">гр. 4</text>
+<text x="1554" y="260" font-size="10" font-weight="700" fill="#12314f" text-anchor="middle">B16</text>
+<text x="1554" y="276" font-size="9.3" fill="#33475a" text-anchor="middle">Холодильник</text>
+<rect x="1537" y="313" width="34" height="15" rx="8" fill="#fdeaea"/>
+<text x="1554" y="325" font-size="10" font-weight="800" fill="#c22f2f" text-anchor="middle">L3</text>
+<rect x="1522" y="528" width="64" height="58" rx="6" fill="#f2f6fa" stroke="#b9c6d2"/>
+<text x="1554" y="545" font-size="11" font-weight="700" fill="#12314f" text-anchor="middle">3×2,5</text>
+<text x="1554" y="560" font-size="8.3" fill="#5b6b7b" text-anchor="middle">КГ-18 · холодильник</text>
+<text x="1554" y="571" font-size="8.3" fill="#5b6b7b" text-anchor="middle">(прямая линия)</text>
+<line x1="1622" y1="148" x2="1622" y2="218" stroke="#7d7d7d" stroke-width="2.2"/>
+<circle cx="1622" cy="148" r="3.4" fill="#7d7d7d"/>
+<line x1="1658" y1="58" x2="1658" y2="218" stroke="#0d47a1" stroke-width="2.2"/>
+<circle cx="1658" cy="58" r="3.4" fill="#0d47a1"/>
+<line x1="1679" y1="28" x2="1679" y2="528" stroke="#3d8b37" stroke-width="2"/>
+<circle cx="1679" cy="28" r="3.2" fill="#3d8b37"/>
+<text x="1679" y="522" font-size="8" fill="#3d8b37" text-anchor="middle">PE</text>
+<line x1="1622" y1="336" x2="1622" y2="528" stroke="#7d7d7d" stroke-width="2.2"/>
+<line x1="1658" y1="336" x2="1658" y2="528" stroke="#0d47a1" stroke-width="2.2"/>
+<circle cx="1622" cy="218" r="3.2" fill="#fff" stroke="#7d7d7d" stroke-width="1.6"/>
+<circle cx="1622" cy="336" r="3.2" fill="#fff" stroke="#7d7d7d" stroke-width="1.6"/>
+<circle cx="1658" cy="218" r="3.2" fill="#fff" stroke="#0d47a1" stroke-width="1.6"/>
+<circle cx="1658" cy="336" r="3.2" fill="#fff" stroke="#0d47a1" stroke-width="1.6"/>
+<rect x="1600" y="218" width="84" height="118" rx="7" fill="#ffffff" stroke="#2b7cd3" stroke-width="2"/>
+<rect x="1604" y="222" width="76" height="6" rx="2" fill="#7d7d7d"/>
+<text x="1642" y="245" font-size="13.5" font-weight="800" fill="#12314f" text-anchor="middle">гр. 5</text>
+<text x="1642" y="260" font-size="10" font-weight="700" fill="#12314f" text-anchor="middle">C20 диф 30мА</text>
+<text x="1642" y="276" font-size="9.3" fill="#33475a" text-anchor="middle">Стиральная +</text>
+<text x="1642" y="288" font-size="9.3" fill="#33475a" text-anchor="middle">сушильная</text>
+<rect x="1619" y="314" width="46" height="14" rx="3" fill="#e3f0fd"/>
+<text x="1642" y="325" font-size="9" font-weight="800" fill="#0b5394" text-anchor="middle">30 мА</text>
+<rect x="1600" y="528" width="84" height="58" rx="6" fill="#f2f6fa" stroke="#b9c6d2"/>
+<text x="1642" y="545" font-size="11" font-weight="700" fill="#12314f" text-anchor="middle">3×4</text>
+<text x="1642" y="560" font-size="8.3" fill="#5b6b7b" text-anchor="middle">СУГ-02, 03 · колонна</text>
+<text x="1642" y="571" font-size="8.3" fill="#5b6b7b" text-anchor="middle">(прямая, 2-я шлейф)</text>
+<line x1="1730" y1="118" x2="1730" y2="218" stroke="#141414" stroke-width="2.2"/>
+<circle cx="1730" cy="118" r="3.4" fill="#141414"/>
+<line x1="1744" y1="58" x2="1744" y2="528" stroke="#0d47a1" stroke-width="2"/>
+<circle cx="1744" cy="58" r="3.2" fill="#0d47a1"/>
+<text x="1744" y="522" font-size="8" fill="#0d47a1" text-anchor="middle">N</text>
+<line x1="1753" y1="28" x2="1753" y2="528" stroke="#3d8b37" stroke-width="2"/>
+<circle cx="1753" cy="28" r="3.2" fill="#3d8b37"/>
+<text x="1753" y="522" font-size="8" fill="#3d8b37" text-anchor="middle">PE</text>
+<line x1="1730" y1="336" x2="1730" y2="528" stroke="#141414" stroke-width="2.2"/>
+<circle cx="1730" cy="218" r="3.2" fill="#fff" stroke="#141414" stroke-width="1.6"/>
+<circle cx="1730" cy="336" r="3.2" fill="#fff" stroke="#141414" stroke-width="1.6"/>
+<rect x="1698" y="218" width="60" height="118" rx="7" fill="#ffffff" stroke="#c07f10" stroke-width="2"/>
+<rect x="1702" y="222" width="52" height="6" rx="2" fill="#141414"/>
+<text x="1728" y="245" font-size="13.5" font-weight="800" fill="#12314f" text-anchor="middle">Р1</text>
+<text x="1728" y="260" font-size="10" font-weight="700" fill="#12314f" text-anchor="middle">ZB 16А</text>
+<text x="1728" y="276" font-size="9.3" fill="#33475a" text-anchor="middle">Лента мастер</text>
+<text x="1728" y="288" font-size="9.3" fill="#33475a" text-anchor="middle">(СП-18)</text>
+<rect x="1708" y="314" width="40" height="14" rx="3" fill="#fdf3e0"/>
+<text x="1728" y="325" font-size="9" font-weight="800" fill="#9c6708" text-anchor="middle">Zigbee</text>
+<rect x="1698" y="528" width="60" height="58" rx="6" fill="#f2f6fa" stroke="#b9c6d2"/>
+<text x="1728" y="545" font-size="11" font-weight="700" fill="#12314f" text-anchor="middle">3×1,5</text>
+<text x="1728" y="560" font-size="8.3" fill="#5b6b7b" text-anchor="middle">прямая к БП ленты</text>
+<line x1="1804" y1="118" x2="1804" y2="218" stroke="#141414" stroke-width="2.2"/>
+<circle cx="1804" cy="118" r="3.4" fill="#141414"/>
+<line x1="1818" y1="58" x2="1818" y2="528" stroke="#0d47a1" stroke-width="2"/>
+<circle cx="1818" cy="58" r="3.2" fill="#0d47a1"/>
+<text x="1818" y="522" font-size="8" fill="#0d47a1" text-anchor="middle">N</text>
+<line x1="1827" y1="28" x2="1827" y2="528" stroke="#3d8b37" stroke-width="2"/>
+<circle cx="1827" cy="28" r="3.2" fill="#3d8b37"/>
+<text x="1827" y="522" font-size="8" fill="#3d8b37" text-anchor="middle">PE</text>
+<line x1="1804" y1="336" x2="1804" y2="528" stroke="#141414" stroke-width="2.2"/>
+<circle cx="1804" cy="218" r="3.2" fill="#fff" stroke="#141414" stroke-width="1.6"/>
+<circle cx="1804" cy="336" r="3.2" fill="#fff" stroke="#141414" stroke-width="1.6"/>
+<rect x="1772" y="218" width="60" height="118" rx="7" fill="#ffffff" stroke="#c07f10" stroke-width="2"/>
+<rect x="1776" y="222" width="52" height="6" rx="2" fill="#141414"/>
+<text x="1802" y="245" font-size="13.5" font-weight="800" fill="#12314f" text-anchor="middle">Р2</text>
+<text x="1802" y="260" font-size="10" font-weight="700" fill="#12314f" text-anchor="middle">ZB 16А</text>
+<text x="1802" y="276" font-size="9.3" fill="#33475a" text-anchor="middle">Точечный</text>
+<text x="1802" y="288" font-size="9.3" fill="#33475a" text-anchor="middle">мастер (СП-19)</text>
+<rect x="1782" y="314" width="40" height="14" rx="3" fill="#fdf3e0"/>
+<text x="1802" y="325" font-size="9" font-weight="800" fill="#9c6708" text-anchor="middle">Zigbee</text>
+<rect x="1772" y="528" width="60" height="58" rx="6" fill="#f2f6fa" stroke="#b9c6d2"/>
+<text x="1802" y="545" font-size="11" font-weight="700" fill="#12314f" text-anchor="middle">3×1,5</text>
+<text x="1802" y="560" font-size="8.3" fill="#5b6b7b" text-anchor="middle">прямая линия</text>
+<line x1="1878" y1="118" x2="1878" y2="218" stroke="#141414" stroke-width="2.2"/>
+<circle cx="1878" cy="118" r="3.4" fill="#141414"/>
+<line x1="1892" y1="58" x2="1892" y2="528" stroke="#0d47a1" stroke-width="2"/>
+<circle cx="1892" cy="58" r="3.2" fill="#0d47a1"/>
+<text x="1892" y="522" font-size="8" fill="#0d47a1" text-anchor="middle">N</text>
+<line x1="1901" y1="28" x2="1901" y2="528" stroke="#3d8b37" stroke-width="2"/>
+<circle cx="1901" cy="28" r="3.2" fill="#3d8b37"/>
+<text x="1901" y="522" font-size="8" fill="#3d8b37" text-anchor="middle">PE</text>
+<line x1="1878" y1="336" x2="1878" y2="528" stroke="#141414" stroke-width="2.2"/>
+<circle cx="1878" cy="218" r="3.2" fill="#fff" stroke="#141414" stroke-width="1.6"/>
+<circle cx="1878" cy="336" r="3.2" fill="#fff" stroke="#141414" stroke-width="1.6"/>
+<rect x="1846" y="218" width="60" height="118" rx="7" fill="#ffffff" stroke="#c07f10" stroke-width="2"/>
+<rect x="1850" y="222" width="52" height="6" rx="2" fill="#141414"/>
+<text x="1876" y="245" font-size="13.5" font-weight="800" fill="#12314f" text-anchor="middle">Р3</text>
+<text x="1876" y="260" font-size="10" font-weight="700" fill="#12314f" text-anchor="middle">ZB 16А</text>
+<text x="1876" y="276" font-size="9.3" fill="#33475a" text-anchor="middle">Гардеробная</text>
+<text x="1876" y="288" font-size="9.3" fill="#33475a" text-anchor="middle">(ГД-03, 04)</text>
+<rect x="1856" y="314" width="40" height="14" rx="3" fill="#fdf3e0"/>
+<text x="1876" y="325" font-size="9" font-weight="800" fill="#9c6708" text-anchor="middle">Zigbee</text>
+<rect x="1846" y="528" width="60" height="58" rx="6" fill="#f2f6fa" stroke="#b9c6d2"/>
+<text x="1876" y="545" font-size="11" font-weight="700" fill="#12314f" text-anchor="middle">3×1,5</text>
+<text x="1876" y="560" font-size="8.3" fill="#5b6b7b" text-anchor="middle">прямая + шлейф</text>
+<text x="1876" y="571" font-size="8.3" fill="#5b6b7b" text-anchor="middle">между блоками</text>
+<line x1="1952" y1="118" x2="1952" y2="218" stroke="#141414" stroke-width="2.2"/>
+<circle cx="1952" cy="118" r="3.4" fill="#141414"/>
+<line x1="1966" y1="58" x2="1966" y2="528" stroke="#0d47a1" stroke-width="2"/>
+<circle cx="1966" cy="58" r="3.2" fill="#0d47a1"/>
+<text x="1966" y="522" font-size="8" fill="#0d47a1" text-anchor="middle">N</text>
+<line x1="1975" y1="28" x2="1975" y2="528" stroke="#3d8b37" stroke-width="2"/>
+<circle cx="1975" cy="28" r="3.2" fill="#3d8b37"/>
+<text x="1975" y="522" font-size="8" fill="#3d8b37" text-anchor="middle">PE</text>
+<line x1="1952" y1="336" x2="1952" y2="528" stroke="#141414" stroke-width="2.2"/>
+<circle cx="1952" cy="218" r="3.2" fill="#fff" stroke="#141414" stroke-width="1.6"/>
+<circle cx="1952" cy="336" r="3.2" fill="#fff" stroke="#141414" stroke-width="1.6"/>
+<rect x="1920" y="218" width="60" height="118" rx="7" fill="#ffffff" stroke="#c07f10" stroke-width="2"/>
+<rect x="1924" y="222" width="52" height="6" rx="2" fill="#141414"/>
+<text x="1950" y="245" font-size="13.5" font-weight="800" fill="#12314f" text-anchor="middle">Р4</text>
+<text x="1950" y="260" font-size="10" font-weight="700" fill="#12314f" text-anchor="middle">ZB 16А</text>
+<text x="1950" y="276" font-size="9.3" fill="#33475a" text-anchor="middle">С/у мастер</text>
+<text x="1950" y="288" font-size="9.3" fill="#33475a" text-anchor="middle">(СУМ-09…11)</text>
+<rect x="1930" y="314" width="40" height="14" rx="3" fill="#fdf3e0"/>
+<text x="1950" y="325" font-size="9" font-weight="800" fill="#9c6708" text-anchor="middle">Zigbee</text>
+<rect x="1920" y="528" width="60" height="58" rx="6" fill="#f2f6fa" stroke="#b9c6d2"/>
+<text x="1950" y="545" font-size="11" font-weight="700" fill="#12314f" text-anchor="middle">3×1,5</text>
+<text x="1950" y="560" font-size="8.3" fill="#5b6b7b" text-anchor="middle">прямая + шлейф</text>
+<text x="1950" y="571" font-size="8.3" fill="#5b6b7b" text-anchor="middle">между блоками</text>
+<line x1="2026" y1="88" x2="2026" y2="218" stroke="#7a4f1d" stroke-width="2.2"/>
+<circle cx="2026" cy="88" r="3.4" fill="#7a4f1d"/>
+<line x1="2040" y1="58" x2="2040" y2="528" stroke="#0d47a1" stroke-width="2"/>
+<circle cx="2040" cy="58" r="3.2" fill="#0d47a1"/>
+<text x="2040" y="522" font-size="8" fill="#0d47a1" text-anchor="middle">N</text>
+<line x1="2049" y1="28" x2="2049" y2="528" stroke="#3d8b37" stroke-width="2"/>
+<circle cx="2049" cy="28" r="3.2" fill="#3d8b37"/>
+<text x="2049" y="522" font-size="8" fill="#3d8b37" text-anchor="middle">PE</text>
+<line x1="2026" y1="336" x2="2026" y2="528" stroke="#7a4f1d" stroke-width="2.2"/>
+<circle cx="2026" cy="218" r="3.2" fill="#fff" stroke="#7a4f1d" stroke-width="1.6"/>
+<circle cx="2026" cy="336" r="3.2" fill="#fff" stroke="#7a4f1d" stroke-width="1.6"/>
+<rect x="1994" y="218" width="60" height="118" rx="7" fill="#ffffff" stroke="#c07f10" stroke-width="2"/>
+<rect x="1998" y="222" width="52" height="6" rx="2" fill="#7a4f1d"/>
+<text x="2024" y="245" font-size="13.5" font-weight="800" fill="#12314f" text-anchor="middle">Р5</text>
+<text x="2024" y="260" font-size="10" font-weight="700" fill="#12314f" text-anchor="middle">ZB 16А</text>
+<text x="2024" y="276" font-size="9.3" fill="#33475a" text-anchor="middle">Трек прихожая</text>
+<text x="2024" y="288" font-size="9.3" fill="#33475a" text-anchor="middle">(ПР-11)</text>
+<rect x="2004" y="314" width="40" height="14" rx="3" fill="#fdf3e0"/>
+<text x="2024" y="325" font-size="9" font-weight="800" fill="#9c6708" text-anchor="middle">Zigbee</text>
+<rect x="1994" y="528" width="60" height="58" rx="6" fill="#f2f6fa" stroke="#b9c6d2"/>
+<text x="2024" y="545" font-size="11" font-weight="700" fill="#12314f" text-anchor="middle">3×1,5</text>
+<text x="2024" y="560" font-size="8.3" fill="#5b6b7b" text-anchor="middle">прямая линия</text>
+<line x1="2100" y1="88" x2="2100" y2="218" stroke="#7a4f1d" stroke-width="2.2"/>
+<circle cx="2100" cy="88" r="3.4" fill="#7a4f1d"/>
+<line x1="2114" y1="58" x2="2114" y2="528" stroke="#0d47a1" stroke-width="2"/>
+<circle cx="2114" cy="58" r="3.2" fill="#0d47a1"/>
+<text x="2114" y="522" font-size="8" fill="#0d47a1" text-anchor="middle">N</text>
+<line x1="2123" y1="28" x2="2123" y2="528" stroke="#3d8b37" stroke-width="2"/>
+<circle cx="2123" cy="28" r="3.2" fill="#3d8b37"/>
+<text x="2123" y="522" font-size="8" fill="#3d8b37" text-anchor="middle">PE</text>
+<line x1="2100" y1="336" x2="2100" y2="528" stroke="#7a4f1d" stroke-width="2.2"/>
+<circle cx="2100" cy="218" r="3.2" fill="#fff" stroke="#7a4f1d" stroke-width="1.6"/>
+<circle cx="2100" cy="336" r="3.2" fill="#fff" stroke="#7a4f1d" stroke-width="1.6"/>
+<rect x="2068" y="218" width="60" height="118" rx="7" fill="#ffffff" stroke="#c07f10" stroke-width="2"/>
+<rect x="2072" y="222" width="52" height="6" rx="2" fill="#7a4f1d"/>
+<text x="2098" y="245" font-size="13.5" font-weight="800" fill="#12314f" text-anchor="middle">Р6</text>
+<text x="2098" y="260" font-size="10" font-weight="700" fill="#12314f" text-anchor="middle">ZB 16А</text>
+<text x="2098" y="276" font-size="9.3" fill="#33475a" text-anchor="middle">С/у гостевой</text>
+<text x="2098" y="288" font-size="9.3" fill="#33475a" text-anchor="middle">(СУГ-10, 11)</text>
+<rect x="2078" y="314" width="40" height="14" rx="3" fill="#fdf3e0"/>
+<text x="2098" y="325" font-size="9" font-weight="800" fill="#9c6708" text-anchor="middle">Zigbee</text>
+<rect x="2068" y="528" width="60" height="58" rx="6" fill="#f2f6fa" stroke="#b9c6d2"/>
+<text x="2098" y="545" font-size="11" font-weight="700" fill="#12314f" text-anchor="middle">3×1,5</text>
+<text x="2098" y="560" font-size="8.3" fill="#5b6b7b" text-anchor="middle">прямая + шлейф</text>
+<text x="2098" y="571" font-size="8.3" fill="#5b6b7b" text-anchor="middle">между блоками</text>
+<line x1="2174" y1="88" x2="2174" y2="218" stroke="#7a4f1d" stroke-width="2.2"/>
+<circle cx="2174" cy="88" r="3.4" fill="#7a4f1d"/>
+<line x1="2188" y1="58" x2="2188" y2="528" stroke="#0d47a1" stroke-width="2"/>
+<circle cx="2188" cy="58" r="3.2" fill="#0d47a1"/>
+<text x="2188" y="522" font-size="8" fill="#0d47a1" text-anchor="middle">N</text>
+<line x1="2197" y1="28" x2="2197" y2="528" stroke="#3d8b37" stroke-width="2"/>
+<circle cx="2197" cy="28" r="3.2" fill="#3d8b37"/>
+<text x="2197" y="522" font-size="8" fill="#3d8b37" text-anchor="middle">PE</text>
+<line x1="2174" y1="336" x2="2174" y2="528" stroke="#7a4f1d" stroke-width="2.2"/>
+<circle cx="2174" cy="218" r="3.2" fill="#fff" stroke="#7a4f1d" stroke-width="1.6"/>
+<circle cx="2174" cy="336" r="3.2" fill="#fff" stroke="#7a4f1d" stroke-width="1.6"/>
+<rect x="2142" y="218" width="60" height="118" rx="7" fill="#ffffff" stroke="#c07f10" stroke-width="2"/>
+<rect x="2146" y="222" width="52" height="6" rx="2" fill="#7a4f1d"/>
+<text x="2172" y="245" font-size="13.5" font-weight="800" fill="#12314f" text-anchor="middle">Р7</text>
+<text x="2172" y="260" font-size="10" font-weight="700" fill="#12314f" text-anchor="middle">ZB 16А</text>
+<text x="2172" y="276" font-size="9.3" fill="#33475a" text-anchor="middle">Люстра гост.</text>
+<text x="2172" y="288" font-size="9.3" fill="#33475a" text-anchor="middle">(СГ-13)</text>
+<rect x="2152" y="314" width="40" height="14" rx="3" fill="#fdf3e0"/>
+<text x="2172" y="325" font-size="9" font-weight="800" fill="#9c6708" text-anchor="middle">Zigbee</text>
+<rect x="2142" y="528" width="60" height="58" rx="6" fill="#f2f6fa" stroke="#b9c6d2"/>
+<text x="2172" y="545" font-size="11" font-weight="700" fill="#12314f" text-anchor="middle">3×1,5</text>
+<text x="2172" y="560" font-size="8.3" fill="#5b6b7b" text-anchor="middle">прямая линия</text>
+<line x1="2248" y1="88" x2="2248" y2="218" stroke="#7a4f1d" stroke-width="2.2"/>
+<circle cx="2248" cy="88" r="3.4" fill="#7a4f1d"/>
+<line x1="2262" y1="58" x2="2262" y2="528" stroke="#0d47a1" stroke-width="2"/>
+<circle cx="2262" cy="58" r="3.2" fill="#0d47a1"/>
+<text x="2262" y="522" font-size="8" fill="#0d47a1" text-anchor="middle">N</text>
+<line x1="2271" y1="28" x2="2271" y2="528" stroke="#3d8b37" stroke-width="2"/>
+<circle cx="2271" cy="28" r="3.2" fill="#3d8b37"/>
+<text x="2271" y="522" font-size="8" fill="#3d8b37" text-anchor="middle">PE</text>
+<line x1="2248" y1="336" x2="2248" y2="528" stroke="#7a4f1d" stroke-width="2.2"/>
+<circle cx="2248" cy="218" r="3.2" fill="#fff" stroke="#7a4f1d" stroke-width="1.6"/>
+<circle cx="2248" cy="336" r="3.2" fill="#fff" stroke="#7a4f1d" stroke-width="1.6"/>
+<rect x="2216" y="218" width="60" height="118" rx="7" fill="#ffffff" stroke="#c07f10" stroke-width="2"/>
+<rect x="2220" y="222" width="52" height="6" rx="2" fill="#7a4f1d"/>
+<text x="2246" y="245" font-size="13.5" font-weight="800" fill="#12314f" text-anchor="middle">Р8</text>
+<text x="2246" y="260" font-size="10" font-weight="700" fill="#12314f" text-anchor="middle">ZB 16А</text>
+<text x="2246" y="276" font-size="9.3" fill="#33475a" text-anchor="middle">Люстра гости-</text>
+<text x="2246" y="288" font-size="9.3" fill="#33475a" text-anchor="middle">ная (КГ-27)</text>
+<rect x="2226" y="314" width="40" height="14" rx="3" fill="#fdf3e0"/>
+<text x="2246" y="325" font-size="9" font-weight="800" fill="#9c6708" text-anchor="middle">Zigbee</text>
+<rect x="2216" y="528" width="60" height="58" rx="6" fill="#f2f6fa" stroke="#b9c6d2"/>
+<text x="2246" y="545" font-size="11" font-weight="700" fill="#12314f" text-anchor="middle">3×1,5</text>
+<text x="2246" y="560" font-size="8.3" fill="#5b6b7b" text-anchor="middle">прямая линия</text>
+<line x1="2322" y1="88" x2="2322" y2="218" stroke="#7a4f1d" stroke-width="2.2"/>
+<circle cx="2322" cy="88" r="3.4" fill="#7a4f1d"/>
+<line x1="2336" y1="58" x2="2336" y2="528" stroke="#0d47a1" stroke-width="2"/>
+<circle cx="2336" cy="58" r="3.2" fill="#0d47a1"/>
+<text x="2336" y="522" font-size="8" fill="#0d47a1" text-anchor="middle">N</text>
+<line x1="2345" y1="28" x2="2345" y2="528" stroke="#3d8b37" stroke-width="2"/>
+<circle cx="2345" cy="28" r="3.2" fill="#3d8b37"/>
+<text x="2345" y="522" font-size="8" fill="#3d8b37" text-anchor="middle">PE</text>
+<line x1="2322" y1="336" x2="2322" y2="528" stroke="#7a4f1d" stroke-width="2.2"/>
+<circle cx="2322" cy="218" r="3.2" fill="#fff" stroke="#7a4f1d" stroke-width="1.6"/>
+<circle cx="2322" cy="336" r="3.2" fill="#fff" stroke="#7a4f1d" stroke-width="1.6"/>
+<rect x="2290" y="218" width="60" height="118" rx="7" fill="#ffffff" stroke="#c07f10" stroke-width="2"/>
+<rect x="2294" y="222" width="52" height="6" rx="2" fill="#7a4f1d"/>
+<text x="2320" y="245" font-size="13.5" font-weight="800" fill="#12314f" text-anchor="middle">Р9</text>
+<text x="2320" y="260" font-size="10" font-weight="700" fill="#12314f" text-anchor="middle">ZB 16А</text>
+<text x="2320" y="276" font-size="9.3" fill="#33475a" text-anchor="middle">Люстра остров</text>
+<text x="2320" y="288" font-size="9.3" fill="#33475a" text-anchor="middle">(КГ-28)</text>
+<rect x="2300" y="314" width="40" height="14" rx="3" fill="#fdf3e0"/>
+<text x="2320" y="325" font-size="9" font-weight="800" fill="#9c6708" text-anchor="middle">Zigbee</text>
+<rect x="2290" y="528" width="60" height="58" rx="6" fill="#f2f6fa" stroke="#b9c6d2"/>
+<text x="2320" y="545" font-size="11" font-weight="700" fill="#12314f" text-anchor="middle">3×1,5</text>
+<text x="2320" y="560" font-size="8.3" fill="#5b6b7b" text-anchor="middle">прямая линия</text>
+<line x1="2396" y1="88" x2="2396" y2="218" stroke="#7a4f1d" stroke-width="2.2"/>
+<circle cx="2396" cy="88" r="3.4" fill="#7a4f1d"/>
+<line x1="2410" y1="58" x2="2410" y2="528" stroke="#0d47a1" stroke-width="2"/>
+<circle cx="2410" cy="58" r="3.2" fill="#0d47a1"/>
+<text x="2410" y="522" font-size="8" fill="#0d47a1" text-anchor="middle">N</text>
+<line x1="2419" y1="28" x2="2419" y2="528" stroke="#3d8b37" stroke-width="2"/>
+<circle cx="2419" cy="28" r="3.2" fill="#3d8b37"/>
+<text x="2419" y="522" font-size="8" fill="#3d8b37" text-anchor="middle">PE</text>
+<line x1="2396" y1="336" x2="2396" y2="528" stroke="#7a4f1d" stroke-width="2.2"/>
+<circle cx="2396" cy="218" r="3.2" fill="#fff" stroke="#7a4f1d" stroke-width="1.6"/>
+<circle cx="2396" cy="336" r="3.2" fill="#fff" stroke="#7a4f1d" stroke-width="1.6"/>
+<rect x="2364" y="218" width="60" height="118" rx="7" fill="#ffffff" stroke="#c07f10" stroke-width="2"/>
+<rect x="2368" y="222" width="52" height="6" rx="2" fill="#7a4f1d"/>
+<text x="2394" y="245" font-size="13.5" font-weight="800" fill="#12314f" text-anchor="middle">Р10</text>
+<text x="2394" y="260" font-size="10" font-weight="700" fill="#12314f" text-anchor="middle">ZB 16А</text>
+<text x="2394" y="276" font-size="9.3" fill="#33475a" text-anchor="middle">Точечные кухня</text>
+<text x="2394" y="288" font-size="9.3" fill="#33475a" text-anchor="middle">(КГ-29…31)</text>
+<rect x="2374" y="314" width="40" height="14" rx="3" fill="#fdf3e0"/>
+<text x="2394" y="325" font-size="9" font-weight="800" fill="#9c6708" text-anchor="middle">Zigbee</text>
+<rect x="2364" y="528" width="60" height="58" rx="6" fill="#f2f6fa" stroke="#b9c6d2"/>
+<text x="2394" y="545" font-size="11" font-weight="700" fill="#12314f" text-anchor="middle">3×1,5</text>
+<text x="2394" y="560" font-size="8.3" fill="#5b6b7b" text-anchor="middle">прямая + шлейф</text>
+<text x="2394" y="571" font-size="8.3" fill="#5b6b7b" text-anchor="middle">между блоками</text>
+<defs><linearGradient id="g3f" x1="0" y1="0" x2="1" y2="0"><stop offset="0%" stop-color="#7a4f1d"/><stop offset="33.3%" stop-color="#7a4f1d"/><stop offset="66.6%" stop-color="#141414"/><stop offset="100%" stop-color="#7d7d7d"/></linearGradient></defs>
+<text x="104" y="608" font-size="9.5" fill="#8ea2b5">Пересечение линии с шиной без точки = соединения нет. Точки — места подключения. Транзитные N и PE (правый край колонок) идут на кабель линии напрямую, минуя аппарат. Питание реле Р1–Р4 — после гр. 17 (гребёнка «СВЕТ-L2»), Р5–Р10 — после гр. 18 (гребёнка «СВЕТ-L1»).</text>
+</svg>
+  </div>
+  <div class="legend">
+    <span class="wire wL1">L1</span><span class="wire wL2">L2</span><span class="wire wL3">L3</span>
+    <span class="wire wN">N</span><span class="wire wPE">PE</span>
+    <span class="dif">30 мА</span>— дифавтомат · <span class="zb">Zigbee</span>— реле освещения
+  </div>
+
+  <h3>5.1. Реалистичный вид спереди (масштаб 1:1, мм)</h3>
+  <p class="lead">Три DIN-рейки TH35 (35 мм) за модулями, шаг 118 мм, модуль 17,5×85 мм. Рейка 3 — Zigbee-реле
+  (тёплая рамка, метка «Zigbee 16А», кнопка сопряжения и индикатор). Жёлтые полоски над верхними винтами рейки 3 —
+  гребёнки «СВЕТ-L2» и «СВЕТ-L1». Цветные полосы слева на шильдиках — метки фаз.</p>
+  <div class="svgwrap">
+<svg viewBox="0 0 400 446" xmlns="http://www.w3.org/2000/svg" style="width:100%;height:auto;min-width:1100px" role="img" aria-label="Реалистичный вид щита">
+<rect x="2" y="2" width="396" height="442" rx="6" fill="#fbfbf9" stroke="#c9ccc7" stroke-width="1.6"/>
+<rect x="8" y="8" width="384" height="430" rx="3" fill="#f1f2ef" stroke="#d8dad5" stroke-width="0.8"/>
+<rect x="30.5" y="45.0" width="339.0" height="35.0" fill="#c9cfd5" stroke="#a2adb6" stroke-width="0.5"/>
+<rect x="30.5" y="45.6" width="339.0" height="6" fill="#d8dde2"/>
+<rect x="30.5" y="73.4" width="339.0" height="6" fill="#d8dde2"/>
+<rect x="30.5" y="60.5" width="339.0" height="4" fill="#8d98a1"/>
+<circle cx="35.5" cy="62.5" r="1.4" fill="#7d888f"/>
+<circle cx="200.0" cy="62.5" r="1.4" fill="#7d888f"/>
+<circle cx="364.5" cy="62.5" r="1.4" fill="#7d888f"/>
+<rect x="30.5" y="163.0" width="339.0" height="35.0" fill="#c9cfd5" stroke="#a2adb6" stroke-width="0.5"/>
+<rect x="30.5" y="163.6" width="339.0" height="6" fill="#d8dde2"/>
+<rect x="30.5" y="191.4" width="339.0" height="6" fill="#d8dde2"/>
+<rect x="30.5" y="178.5" width="339.0" height="4" fill="#8d98a1"/>
+<circle cx="35.5" cy="180.5" r="1.4" fill="#7d888f"/>
+<circle cx="200.0" cy="180.5" r="1.4" fill="#7d888f"/>
+<circle cx="364.5" cy="180.5" r="1.4" fill="#7d888f"/>
+<rect x="30.5" y="281.0" width="339.0" height="35.0" fill="#c9cfd5" stroke="#a2adb6" stroke-width="0.5"/>
+<rect x="30.5" y="281.6" width="339.0" height="6" fill="#d8dde2"/>
+<rect x="30.5" y="309.4" width="339.0" height="6" fill="#d8dde2"/>
+<rect x="30.5" y="296.5" width="339.0" height="4" fill="#8d98a1"/>
+<circle cx="35.5" cy="298.5" r="1.4" fill="#7d888f"/>
+<circle cx="200.0" cy="298.5" r="1.4" fill="#7d888f"/>
+<circle cx="364.5" cy="298.5" r="1.4" fill="#7d888f"/>
+<rect x="42.5" y="25.0" width="16.5" height="85.0" rx="1.5" fill="#fbf8f1" stroke="#c3c7c9" stroke-width="0.5"/>
+<rect x="43.5" y="26.5" width="14.5" height="20" fill="#ffffff" stroke="#e2e4e5" stroke-width="0.4"/>
+<text x="50.8" y="33.5" font-size="3.1" fill="#42566b" text-anchor="middle" font-weight="400">L1</text>
+<text x="50.8" y="41.5" font-size="3.0" fill="#8395a8" text-anchor="middle" font-weight="600">клемма</text>
+<rect x="44.1" y="27.5" width="2.6" height="18" fill="#b8860b"/>
+<rect x="48.2" y="50.5" width="5" height="5" rx="1" fill="#c9cdcf" stroke="#8f969b" stroke-width="0.4"/>
+<line x1="49.0" y1="53.0" x2="52.5" y2="53.0" stroke="#6a7075" stroke-width="0.5"/>
+<rect x="48.2" y="98.5" width="5" height="5" rx="1" fill="#c9cdcf" stroke="#8f969b" stroke-width="0.4"/>
+<line x1="49.0" y1="101.0" x2="52.5" y2="101.0" stroke="#6a7075" stroke-width="0.5"/>
+<text x="50.8" y="75.0" font-size="5.0" fill="#b8860b" text-anchor="middle" font-weight="800">L1</text>
+<text x="50.8" y="83.0" font-size="2.9" fill="#6a7687" text-anchor="middle" font-weight="400">вход</text>
+<rect x="60.0" y="25.0" width="16.5" height="85.0" rx="1.5" fill="#fbf8f1" stroke="#c3c7c9" stroke-width="0.5"/>
+<rect x="61.0" y="26.5" width="14.5" height="20" fill="#ffffff" stroke="#e2e4e5" stroke-width="0.4"/>
+<text x="68.2" y="33.5" font-size="3.1" fill="#42566b" text-anchor="middle" font-weight="400">L2</text>
+<text x="68.2" y="41.5" font-size="3.0" fill="#8395a8" text-anchor="middle" font-weight="600">клемма</text>
+<rect x="61.6" y="27.5" width="2.6" height="18" fill="#1c7a3d"/>
+<rect x="65.8" y="50.5" width="5" height="5" rx="1" fill="#c9cdcf" stroke="#8f969b" stroke-width="0.4"/>
+<line x1="66.5" y1="53.0" x2="70.0" y2="53.0" stroke="#6a7075" stroke-width="0.5"/>
+<rect x="65.8" y="98.5" width="5" height="5" rx="1" fill="#c9cdcf" stroke="#8f969b" stroke-width="0.4"/>
+<line x1="66.5" y1="101.0" x2="70.0" y2="101.0" stroke="#6a7075" stroke-width="0.5"/>
+<text x="68.2" y="75.0" font-size="5.0" fill="#1c7a3d" text-anchor="middle" font-weight="800">L2</text>
+<text x="68.2" y="83.0" font-size="2.9" fill="#6a7687" text-anchor="middle" font-weight="400">вход</text>
+<rect x="77.5" y="25.0" width="16.5" height="85.0" rx="1.5" fill="#fbf8f1" stroke="#c3c7c9" stroke-width="0.5"/>
+<rect x="78.5" y="26.5" width="14.5" height="20" fill="#ffffff" stroke="#e2e4e5" stroke-width="0.4"/>
+<text x="85.8" y="33.5" font-size="3.1" fill="#42566b" text-anchor="middle" font-weight="400">L3</text>
+<text x="85.8" y="41.5" font-size="3.0" fill="#8395a8" text-anchor="middle" font-weight="600">клемма</text>
+<rect x="79.1" y="27.5" width="2.6" height="18" fill="#c22f2f"/>
+<rect x="83.2" y="50.5" width="5" height="5" rx="1" fill="#c9cdcf" stroke="#8f969b" stroke-width="0.4"/>
+<line x1="84.0" y1="53.0" x2="87.5" y2="53.0" stroke="#6a7075" stroke-width="0.5"/>
+<rect x="83.2" y="98.5" width="5" height="5" rx="1" fill="#c9cdcf" stroke="#8f969b" stroke-width="0.4"/>
+<line x1="84.0" y1="101.0" x2="87.5" y2="101.0" stroke="#6a7075" stroke-width="0.5"/>
+<text x="85.8" y="75.0" font-size="5.0" fill="#c22f2f" text-anchor="middle" font-weight="800">L3</text>
+<text x="85.8" y="83.0" font-size="2.9" fill="#6a7687" text-anchor="middle" font-weight="400">вход</text>
+<rect x="95.0" y="25.0" width="51.5" height="85.0" rx="1.5" fill="#fbf8f1" stroke="#c3c7c9" stroke-width="0.5"/>
+<rect x="96.0" y="26.5" width="49.5" height="20" fill="#ffffff" stroke="#e2e4e5" stroke-width="0.4"/>
+<text x="120.8" y="33.5" font-size="3.1" fill="#42566b" text-anchor="middle" font-weight="400">Варочная</text>
+<text x="120.8" y="41.5" font-size="3.0" fill="#8395a8" text-anchor="middle" font-weight="600">гр.1</text>
+<rect x="96.6" y="27.5" width="2.6" height="18" fill="#5b3fc4"/>
+<rect x="101.1" y="48.5" width="5" height="5" rx="1" fill="#c9cdcf" stroke="#8f969b" stroke-width="0.4"/>
+<line x1="101.9" y1="51.0" x2="105.3" y2="51.0" stroke="#6a7075" stroke-width="0.5"/>
+<rect x="101.1" y="100.5" width="5" height="5" rx="1" fill="#c9cdcf" stroke="#8f969b" stroke-width="0.4"/>
+<line x1="101.9" y1="103.0" x2="105.3" y2="103.0" stroke="#6a7075" stroke-width="0.5"/>
+<rect x="100.1" y="60.0" width="7" height="17" rx="1.5" fill="#26292c" stroke="#111" stroke-width="0.4"/>
+<rect x="101.1" y="63.0" width="5" height="6" rx="1" fill="#fff" opacity="0.9"/>
+<rect x="118.2" y="48.5" width="5" height="5" rx="1" fill="#c9cdcf" stroke="#8f969b" stroke-width="0.4"/>
+<line x1="119.0" y1="51.0" x2="122.5" y2="51.0" stroke="#6a7075" stroke-width="0.5"/>
+<rect x="118.2" y="100.5" width="5" height="5" rx="1" fill="#c9cdcf" stroke="#8f969b" stroke-width="0.4"/>
+<line x1="119.0" y1="103.0" x2="122.5" y2="103.0" stroke="#6a7075" stroke-width="0.5"/>
+<rect x="117.2" y="60.0" width="7" height="17" rx="1.5" fill="#26292c" stroke="#111" stroke-width="0.4"/>
+<rect x="118.2" y="63.0" width="5" height="6" rx="1" fill="#fff" opacity="0.9"/>
+<rect x="135.4" y="48.5" width="5" height="5" rx="1" fill="#c9cdcf" stroke="#8f969b" stroke-width="0.4"/>
+<line x1="136.2" y1="51.0" x2="139.6" y2="51.0" stroke="#6a7075" stroke-width="0.5"/>
+<rect x="135.4" y="100.5" width="5" height="5" rx="1" fill="#c9cdcf" stroke="#8f969b" stroke-width="0.4"/>
+<line x1="136.2" y1="103.0" x2="139.6" y2="103.0" stroke="#6a7075" stroke-width="0.5"/>
+<rect x="134.4" y="60.0" width="7" height="17" rx="1.5" fill="#26292c" stroke="#111" stroke-width="0.4"/>
+<rect x="135.4" y="63.0" width="5" height="6" rx="1" fill="#fff" opacity="0.9"/>
+<text x="120.8" y="91.0" font-size="5.2" fill="#12314f" text-anchor="middle" font-weight="800">C16</text>
+<rect x="147.5" y="25.0" width="69.0" height="85.0" rx="1.5" fill="#fbf8f1" stroke="#c3c7c9" stroke-width="0.5"/>
+<rect x="148.5" y="26.5" width="67.0" height="20" fill="#ffffff" stroke="#e2e4e5" stroke-width="0.4"/>
+<text x="182.0" y="33.5" font-size="3.1" fill="#42566b" text-anchor="middle" font-weight="400">Водонагрев.</text>
+<text x="182.0" y="41.5" font-size="3.0" fill="#8395a8" text-anchor="middle" font-weight="600">гр.2</text>
+<rect x="149.1" y="27.5" width="2.6" height="18" fill="#5b3fc4"/>
+<rect x="153.6" y="48.5" width="5" height="5" rx="1" fill="#c9cdcf" stroke="#8f969b" stroke-width="0.4"/>
+<line x1="154.4" y1="51.0" x2="157.8" y2="51.0" stroke="#6a7075" stroke-width="0.5"/>
+<rect x="153.6" y="100.5" width="5" height="5" rx="1" fill="#c9cdcf" stroke="#8f969b" stroke-width="0.4"/>
+<line x1="154.4" y1="103.0" x2="157.8" y2="103.0" stroke="#6a7075" stroke-width="0.5"/>
+<text x="156.1" y="70.0" font-size="2.9" fill="#0d47a1" text-anchor="middle" font-weight="700">N</text>
+<rect x="170.9" y="48.5" width="5" height="5" rx="1" fill="#c9cdcf" stroke="#8f969b" stroke-width="0.4"/>
+<line x1="171.7" y1="51.0" x2="175.1" y2="51.0" stroke="#6a7075" stroke-width="0.5"/>
+<rect x="170.9" y="100.5" width="5" height="5" rx="1" fill="#c9cdcf" stroke="#8f969b" stroke-width="0.4"/>
+<line x1="171.7" y1="103.0" x2="175.1" y2="103.0" stroke="#6a7075" stroke-width="0.5"/>
+<rect x="169.9" y="60.0" width="7" height="17" rx="1.5" fill="#26292c" stroke="#111" stroke-width="0.4"/>
+<rect x="170.9" y="63.0" width="5" height="6" rx="1" fill="#fff" opacity="0.9"/>
+<rect x="188.1" y="48.5" width="5" height="5" rx="1" fill="#c9cdcf" stroke="#8f969b" stroke-width="0.4"/>
+<line x1="188.9" y1="51.0" x2="192.3" y2="51.0" stroke="#6a7075" stroke-width="0.5"/>
+<rect x="188.1" y="100.5" width="5" height="5" rx="1" fill="#c9cdcf" stroke="#8f969b" stroke-width="0.4"/>
+<line x1="188.9" y1="103.0" x2="192.3" y2="103.0" stroke="#6a7075" stroke-width="0.5"/>
+<rect x="187.1" y="60.0" width="7" height="17" rx="1.5" fill="#26292c" stroke="#111" stroke-width="0.4"/>
+<rect x="188.1" y="63.0" width="5" height="6" rx="1" fill="#fff" opacity="0.9"/>
+<rect x="205.4" y="48.5" width="5" height="5" rx="1" fill="#c9cdcf" stroke="#8f969b" stroke-width="0.4"/>
+<line x1="206.2" y1="51.0" x2="209.6" y2="51.0" stroke="#6a7075" stroke-width="0.5"/>
+<rect x="205.4" y="100.5" width="5" height="5" rx="1" fill="#c9cdcf" stroke="#8f969b" stroke-width="0.4"/>
+<line x1="206.2" y1="103.0" x2="209.6" y2="103.0" stroke="#6a7075" stroke-width="0.5"/>
+<rect x="204.4" y="60.0" width="7" height="17" rx="1.5" fill="#26292c" stroke="#111" stroke-width="0.4"/>
+<rect x="205.4" y="63.0" width="5" height="6" rx="1" fill="#fff" opacity="0.9"/>
+<text x="182.0" y="91.0" font-size="5.2" fill="#12314f" text-anchor="middle" font-weight="800">C20</text>
+<rect x="187.5" y="81.5" width="4.6" height="4.6" rx="1" fill="#e8e8e6" stroke="#8f969b" stroke-width="0.4"/>
+<text x="189.8" y="85.1" font-size="3.0" fill="#333" text-anchor="middle" font-weight="800">T</text>
+<rect x="149.5" y="94.0" width="65.0" height="6" rx="1.5" fill="#e3f0fd"/>
+<text x="182.0" y="98.7" font-size="2.9" fill="#0b5394" text-anchor="middle" font-weight="700">30 мА</text>
+<rect x="217.5" y="25.0" width="16.5" height="85.0" rx="1.5" fill="#fbf8f1" stroke="#c3c7c9" stroke-width="0.5"/>
+<rect x="218.5" y="26.5" width="14.5" height="20" fill="#ffffff" stroke="#e2e4e5" stroke-width="0.4"/>
+<text x="225.8" y="33.5" font-size="3.1" fill="#42566b" text-anchor="middle" font-weight="400">Духовка</text>
+<text x="225.8" y="41.5" font-size="3.0" fill="#8395a8" text-anchor="middle" font-weight="600">гр.3</text>
+<rect x="219.1" y="27.5" width="2.6" height="18" fill="#b8860b"/>
+<rect x="223.2" y="48.5" width="5" height="5" rx="1" fill="#c9cdcf" stroke="#8f969b" stroke-width="0.4"/>
+<line x1="224.1" y1="51.0" x2="227.4" y2="51.0" stroke="#6a7075" stroke-width="0.5"/>
+<rect x="223.2" y="100.5" width="5" height="5" rx="1" fill="#c9cdcf" stroke="#8f969b" stroke-width="0.4"/>
+<line x1="224.1" y1="103.0" x2="227.4" y2="103.0" stroke="#6a7075" stroke-width="0.5"/>
+<rect x="222.2" y="60.0" width="7" height="17" rx="1.5" fill="#26292c" stroke="#111" stroke-width="0.4"/>
+<rect x="223.2" y="63.0" width="5" height="6" rx="1" fill="#fff" opacity="0.9"/>
+<text x="225.8" y="91.0" font-size="5.2" fill="#12314f" text-anchor="middle" font-weight="800">C16</text>
+<rect x="235.0" y="25.0" width="16.5" height="85.0" rx="1.5" fill="#fbf8f1" stroke="#c3c7c9" stroke-width="0.5"/>
+<rect x="236.0" y="26.5" width="14.5" height="20" fill="#ffffff" stroke="#e2e4e5" stroke-width="0.4"/>
+<text x="243.2" y="33.5" font-size="3.1" fill="#42566b" text-anchor="middle" font-weight="400">КК все</text>
+<text x="243.2" y="41.5" font-size="3.0" fill="#8395a8" text-anchor="middle" font-weight="600">гр.6</text>
+<rect x="236.6" y="27.5" width="2.6" height="18" fill="#b8860b"/>
+<rect x="240.8" y="48.5" width="5" height="5" rx="1" fill="#c9cdcf" stroke="#8f969b" stroke-width="0.4"/>
+<line x1="241.6" y1="51.0" x2="244.9" y2="51.0" stroke="#6a7075" stroke-width="0.5"/>
+<rect x="240.8" y="100.5" width="5" height="5" rx="1" fill="#c9cdcf" stroke="#8f969b" stroke-width="0.4"/>
+<line x1="241.6" y1="103.0" x2="244.9" y2="103.0" stroke="#6a7075" stroke-width="0.5"/>
+<rect x="239.8" y="60.0" width="7" height="17" rx="1.5" fill="#26292c" stroke="#111" stroke-width="0.4"/>
+<rect x="240.8" y="63.0" width="5" height="6" rx="1" fill="#fff" opacity="0.9"/>
+<text x="243.2" y="91.0" font-size="5.2" fill="#12314f" text-anchor="middle" font-weight="800">C16</text>
+<rect x="252.5" y="25.0" width="34.0" height="85.0" rx="1.5" fill="#fbf8f1" stroke="#c3c7c9" stroke-width="0.5"/>
+<rect x="253.5" y="26.5" width="32.0" height="20" fill="#ffffff" stroke="#e2e4e5" stroke-width="0.4"/>
+<text x="269.5" y="33.5" font-size="3.1" fill="#42566b" text-anchor="middle" font-weight="400">ТП все</text>
+<text x="269.5" y="41.5" font-size="3.0" fill="#8395a8" text-anchor="middle" font-weight="600">гр.7</text>
+<rect x="254.1" y="27.5" width="2.6" height="18" fill="#b8860b"/>
+<rect x="258.5" y="48.5" width="5" height="5" rx="1" fill="#c9cdcf" stroke="#8f969b" stroke-width="0.4"/>
+<line x1="259.3" y1="51.0" x2="262.7" y2="51.0" stroke="#6a7075" stroke-width="0.5"/>
+<rect x="258.5" y="100.5" width="5" height="5" rx="1" fill="#c9cdcf" stroke="#8f969b" stroke-width="0.4"/>
+<line x1="259.3" y1="103.0" x2="262.7" y2="103.0" stroke="#6a7075" stroke-width="0.5"/>
+<text x="261.0" y="70.0" font-size="2.9" fill="#0d47a1" text-anchor="middle" font-weight="700">N</text>
+<rect x="275.5" y="48.5" width="5" height="5" rx="1" fill="#c9cdcf" stroke="#8f969b" stroke-width="0.4"/>
+<line x1="276.3" y1="51.0" x2="279.7" y2="51.0" stroke="#6a7075" stroke-width="0.5"/>
+<rect x="275.5" y="100.5" width="5" height="5" rx="1" fill="#c9cdcf" stroke="#8f969b" stroke-width="0.4"/>
+<line x1="276.3" y1="103.0" x2="279.7" y2="103.0" stroke="#6a7075" stroke-width="0.5"/>
+<rect x="274.5" y="60.0" width="7" height="17" rx="1.5" fill="#26292c" stroke="#111" stroke-width="0.4"/>
+<rect x="275.5" y="63.0" width="5" height="6" rx="1" fill="#fff" opacity="0.9"/>
+<text x="269.5" y="91.0" font-size="5.2" fill="#12314f" text-anchor="middle" font-weight="800">C16</text>
+<rect x="275.0" y="81.5" width="4.6" height="4.6" rx="1" fill="#e8e8e6" stroke="#8f969b" stroke-width="0.4"/>
+<text x="277.3" y="85.1" font-size="3.0" fill="#333" text-anchor="middle" font-weight="800">T</text>
+<rect x="254.5" y="94.0" width="30.0" height="6" rx="1.5" fill="#e3f0fd"/>
+<text x="269.5" y="98.7" font-size="2.9" fill="#0b5394" text-anchor="middle" font-weight="700">30 мА</text>
+<rect x="287.5" y="25.0" width="16.5" height="85.0" rx="1.5" fill="#fbf8f1" stroke="#c3c7c9" stroke-width="0.5"/>
+<rect x="288.5" y="26.5" width="14.5" height="20" fill="#ffffff" stroke="#e2e4e5" stroke-width="0.4"/>
+<text x="295.8" y="33.5" font-size="3.1" fill="#42566b" text-anchor="middle" font-weight="400">Декор кух.</text>
+<text x="295.8" y="41.5" font-size="3.0" fill="#8395a8" text-anchor="middle" font-weight="600">гр.15</text>
+<rect x="289.1" y="27.5" width="2.6" height="18" fill="#b8860b"/>
+<rect x="293.2" y="48.5" width="5" height="5" rx="1" fill="#c9cdcf" stroke="#8f969b" stroke-width="0.4"/>
+<line x1="294.1" y1="51.0" x2="297.4" y2="51.0" stroke="#6a7075" stroke-width="0.5"/>
+<rect x="293.2" y="100.5" width="5" height="5" rx="1" fill="#c9cdcf" stroke="#8f969b" stroke-width="0.4"/>
+<line x1="294.1" y1="103.0" x2="297.4" y2="103.0" stroke="#6a7075" stroke-width="0.5"/>
+<rect x="292.2" y="60.0" width="7" height="17" rx="1.5" fill="#26292c" stroke="#111" stroke-width="0.4"/>
+<rect x="293.2" y="63.0" width="5" height="6" rx="1" fill="#fff" opacity="0.9"/>
+<text x="295.8" y="91.0" font-size="5.2" fill="#12314f" text-anchor="middle" font-weight="800">B10</text>
+<rect x="305.0" y="25.0" width="16.5" height="85.0" rx="1.5" fill="#fbf8f1" stroke="#c3c7c9" stroke-width="0.5"/>
+<rect x="306.0" y="26.5" width="14.5" height="20" fill="#ffffff" stroke="#e2e4e5" stroke-width="0.4"/>
+<text x="313.2" y="33.5" font-size="3.1" fill="#42566b" text-anchor="middle" font-weight="400">Свет→Р5+</text>
+<text x="313.2" y="41.5" font-size="3.0" fill="#8395a8" text-anchor="middle" font-weight="600">гр.18</text>
+<rect x="306.6" y="27.5" width="2.6" height="18" fill="#b8860b"/>
+<rect x="310.8" y="48.5" width="5" height="5" rx="1" fill="#c9cdcf" stroke="#8f969b" stroke-width="0.4"/>
+<line x1="311.6" y1="51.0" x2="314.9" y2="51.0" stroke="#6a7075" stroke-width="0.5"/>
+<rect x="310.8" y="100.5" width="5" height="5" rx="1" fill="#c9cdcf" stroke="#8f969b" stroke-width="0.4"/>
+<line x1="311.6" y1="103.0" x2="314.9" y2="103.0" stroke="#6a7075" stroke-width="0.5"/>
+<rect x="309.8" y="60.0" width="7" height="17" rx="1.5" fill="#26292c" stroke="#111" stroke-width="0.4"/>
+<rect x="310.8" y="63.0" width="5" height="6" rx="1" fill="#fff" opacity="0.9"/>
+<text x="313.2" y="91.0" font-size="5.2" fill="#12314f" text-anchor="middle" font-weight="800">B10</text>
+<rect x="322.5" y="25.0" width="16.5" height="85.0" rx="1.5" fill="none" stroke="#b6c0c9" stroke-width="0.45" stroke-dasharray="3 2"/>
+<rect x="340.0" y="25.0" width="16.5" height="85.0" rx="1.5" fill="none" stroke="#b6c0c9" stroke-width="0.45" stroke-dasharray="3 2"/>
+<text x="339.5" y="37.0" font-size="3.1" fill="#9aa8b6" text-anchor="middle" font-weight="400">резерв 2 мод.</text>
+<rect x="42.5" y="143.0" width="34.0" height="85.0" rx="1.5" fill="#fbf8f1" stroke="#c3c7c9" stroke-width="0.5"/>
+<rect x="43.5" y="144.5" width="32.0" height="20" fill="#ffffff" stroke="#e2e4e5" stroke-width="0.4"/>
+<text x="59.5" y="151.5" font-size="3.1" fill="#42566b" text-anchor="middle" font-weight="400">Кухня роз</text>
+<text x="59.5" y="159.5" font-size="3.0" fill="#8395a8" text-anchor="middle" font-weight="600">гр.8</text>
+<rect x="44.1" y="145.5" width="2.6" height="18" fill="#1c7a3d"/>
+<rect x="48.5" y="166.5" width="5" height="5" rx="1" fill="#c9cdcf" stroke="#8f969b" stroke-width="0.4"/>
+<line x1="49.3" y1="169.0" x2="52.7" y2="169.0" stroke="#6a7075" stroke-width="0.5"/>
+<rect x="48.5" y="218.5" width="5" height="5" rx="1" fill="#c9cdcf" stroke="#8f969b" stroke-width="0.4"/>
+<line x1="49.3" y1="221.0" x2="52.7" y2="221.0" stroke="#6a7075" stroke-width="0.5"/>
+<text x="51.0" y="188.0" font-size="2.9" fill="#0d47a1" text-anchor="middle" font-weight="700">N</text>
+<rect x="65.5" y="166.5" width="5" height="5" rx="1" fill="#c9cdcf" stroke="#8f969b" stroke-width="0.4"/>
+<line x1="66.3" y1="169.0" x2="69.7" y2="169.0" stroke="#6a7075" stroke-width="0.5"/>
+<rect x="65.5" y="218.5" width="5" height="5" rx="1" fill="#c9cdcf" stroke="#8f969b" stroke-width="0.4"/>
+<line x1="66.3" y1="221.0" x2="69.7" y2="221.0" stroke="#6a7075" stroke-width="0.5"/>
+<rect x="64.5" y="178.0" width="7" height="17" rx="1.5" fill="#26292c" stroke="#111" stroke-width="0.4"/>
+<rect x="65.5" y="181.0" width="5" height="6" rx="1" fill="#fff" opacity="0.9"/>
+<text x="59.5" y="209.0" font-size="5.2" fill="#12314f" text-anchor="middle" font-weight="800">C16</text>
+<rect x="65.0" y="199.5" width="4.6" height="4.6" rx="1" fill="#e8e8e6" stroke="#8f969b" stroke-width="0.4"/>
+<text x="67.3" y="203.1" font-size="3.0" fill="#333" text-anchor="middle" font-weight="800">T</text>
+<rect x="44.5" y="212.0" width="30.0" height="6" rx="1.5" fill="#e3f0fd"/>
+<text x="59.5" y="216.7" font-size="2.9" fill="#0b5394" text-anchor="middle" font-weight="700">30 мА</text>
+<rect x="77.5" y="143.0" width="34.0" height="85.0" rx="1.5" fill="#fbf8f1" stroke="#c3c7c9" stroke-width="0.5"/>
+<rect x="78.5" y="144.5" width="32.0" height="20" fill="#ffffff" stroke="#e2e4e5" stroke-width="0.4"/>
+<text x="94.5" y="151.5" font-size="3.1" fill="#42566b" text-anchor="middle" font-weight="400">Прих+сан</text>
+<text x="94.5" y="159.5" font-size="3.0" fill="#8395a8" text-anchor="middle" font-weight="600">гр.12</text>
+<rect x="79.1" y="145.5" width="2.6" height="18" fill="#1c7a3d"/>
+<rect x="83.5" y="166.5" width="5" height="5" rx="1" fill="#c9cdcf" stroke="#8f969b" stroke-width="0.4"/>
+<line x1="84.3" y1="169.0" x2="87.7" y2="169.0" stroke="#6a7075" stroke-width="0.5"/>
+<rect x="83.5" y="218.5" width="5" height="5" rx="1" fill="#c9cdcf" stroke="#8f969b" stroke-width="0.4"/>
+<line x1="84.3" y1="221.0" x2="87.7" y2="221.0" stroke="#6a7075" stroke-width="0.5"/>
+<text x="86.0" y="188.0" font-size="2.9" fill="#0d47a1" text-anchor="middle" font-weight="700">N</text>
+<rect x="100.5" y="166.5" width="5" height="5" rx="1" fill="#c9cdcf" stroke="#8f969b" stroke-width="0.4"/>
+<line x1="101.3" y1="169.0" x2="104.7" y2="169.0" stroke="#6a7075" stroke-width="0.5"/>
+<rect x="100.5" y="218.5" width="5" height="5" rx="1" fill="#c9cdcf" stroke="#8f969b" stroke-width="0.4"/>
+<line x1="101.3" y1="221.0" x2="104.7" y2="221.0" stroke="#6a7075" stroke-width="0.5"/>
+<rect x="99.5" y="178.0" width="7" height="17" rx="1.5" fill="#26292c" stroke="#111" stroke-width="0.4"/>
+<rect x="100.5" y="181.0" width="5" height="6" rx="1" fill="#fff" opacity="0.9"/>
+<text x="94.5" y="209.0" font-size="5.2" fill="#12314f" text-anchor="middle" font-weight="800">C16</text>
+<rect x="100.0" y="199.5" width="4.6" height="4.6" rx="1" fill="#e8e8e6" stroke="#8f969b" stroke-width="0.4"/>
+<text x="102.3" y="203.1" font-size="3.0" fill="#333" text-anchor="middle" font-weight="800">T</text>
+<rect x="79.5" y="212.0" width="30.0" height="6" rx="1.5" fill="#e3f0fd"/>
+<text x="94.5" y="216.7" font-size="2.9" fill="#0b5394" text-anchor="middle" font-weight="700">30 мА</text>
+<rect x="112.5" y="143.0" width="16.5" height="85.0" rx="1.5" fill="#fbf8f1" stroke="#c3c7c9" stroke-width="0.5"/>
+<rect x="113.5" y="144.5" width="14.5" height="20" fill="#ffffff" stroke="#e2e4e5" stroke-width="0.4"/>
+<text x="120.8" y="151.5" font-size="3.1" fill="#42566b" text-anchor="middle" font-weight="400">Декор маст</text>
+<text x="120.8" y="159.5" font-size="3.0" fill="#8395a8" text-anchor="middle" font-weight="600">гр.13</text>
+<rect x="114.1" y="145.5" width="2.6" height="18" fill="#1c7a3d"/>
+<rect x="118.2" y="166.5" width="5" height="5" rx="1" fill="#c9cdcf" stroke="#8f969b" stroke-width="0.4"/>
+<line x1="119.0" y1="169.0" x2="122.5" y2="169.0" stroke="#6a7075" stroke-width="0.5"/>
+<rect x="118.2" y="218.5" width="5" height="5" rx="1" fill="#c9cdcf" stroke="#8f969b" stroke-width="0.4"/>
+<line x1="119.0" y1="221.0" x2="122.5" y2="221.0" stroke="#6a7075" stroke-width="0.5"/>
+<rect x="117.2" y="178.0" width="7" height="17" rx="1.5" fill="#26292c" stroke="#111" stroke-width="0.4"/>
+<rect x="118.2" y="181.0" width="5" height="6" rx="1" fill="#fff" opacity="0.9"/>
+<text x="120.8" y="209.0" font-size="5.2" fill="#12314f" text-anchor="middle" font-weight="800">B10</text>
+<rect x="130.0" y="143.0" width="16.5" height="85.0" rx="1.5" fill="#fbf8f1" stroke="#c3c7c9" stroke-width="0.5"/>
+<rect x="131.0" y="144.5" width="14.5" height="20" fill="#ffffff" stroke="#e2e4e5" stroke-width="0.4"/>
+<text x="138.2" y="151.5" font-size="3.1" fill="#42566b" text-anchor="middle" font-weight="400">Сеть ПК</text>
+<text x="138.2" y="159.5" font-size="3.0" fill="#8395a8" text-anchor="middle" font-weight="600">гр.16</text>
+<rect x="131.6" y="145.5" width="2.6" height="18" fill="#1c7a3d"/>
+<rect x="135.8" y="166.5" width="5" height="5" rx="1" fill="#c9cdcf" stroke="#8f969b" stroke-width="0.4"/>
+<line x1="136.6" y1="169.0" x2="139.9" y2="169.0" stroke="#6a7075" stroke-width="0.5"/>
+<rect x="135.8" y="218.5" width="5" height="5" rx="1" fill="#c9cdcf" stroke="#8f969b" stroke-width="0.4"/>
+<line x1="136.6" y1="221.0" x2="139.9" y2="221.0" stroke="#6a7075" stroke-width="0.5"/>
+<rect x="134.8" y="178.0" width="7" height="17" rx="1.5" fill="#26292c" stroke="#111" stroke-width="0.4"/>
+<rect x="135.8" y="181.0" width="5" height="6" rx="1" fill="#fff" opacity="0.9"/>
+<text x="138.2" y="209.0" font-size="5.2" fill="#12314f" text-anchor="middle" font-weight="800">B16</text>
+<rect x="147.5" y="143.0" width="16.5" height="85.0" rx="1.5" fill="#fbf8f1" stroke="#c3c7c9" stroke-width="0.5"/>
+<rect x="148.5" y="144.5" width="14.5" height="20" fill="#ffffff" stroke="#e2e4e5" stroke-width="0.4"/>
+<text x="155.8" y="151.5" font-size="3.1" fill="#42566b" text-anchor="middle" font-weight="400">Свет→Р1+</text>
+<text x="155.8" y="159.5" font-size="3.0" fill="#8395a8" text-anchor="middle" font-weight="600">гр.17</text>
+<rect x="149.1" y="145.5" width="2.6" height="18" fill="#1c7a3d"/>
+<rect x="153.2" y="166.5" width="5" height="5" rx="1" fill="#c9cdcf" stroke="#8f969b" stroke-width="0.4"/>
+<line x1="154.1" y1="169.0" x2="157.4" y2="169.0" stroke="#6a7075" stroke-width="0.5"/>
+<rect x="153.2" y="218.5" width="5" height="5" rx="1" fill="#c9cdcf" stroke="#8f969b" stroke-width="0.4"/>
+<line x1="154.1" y1="221.0" x2="157.4" y2="221.0" stroke="#6a7075" stroke-width="0.5"/>
+<rect x="152.2" y="178.0" width="7" height="17" rx="1.5" fill="#26292c" stroke="#111" stroke-width="0.4"/>
+<rect x="153.2" y="181.0" width="5" height="6" rx="1" fill="#fff" opacity="0.9"/>
+<text x="155.8" y="209.0" font-size="5.2" fill="#12314f" text-anchor="middle" font-weight="800">B10</text>
+<rect x="165.0" y="143.0" width="16.5" height="85.0" rx="1.5" fill="#fbf8f1" stroke="#c3c7c9" stroke-width="0.5"/>
+<rect x="166.0" y="144.5" width="14.5" height="20" fill="#ffffff" stroke="#e2e4e5" stroke-width="0.4"/>
+<text x="173.2" y="151.5" font-size="3.1" fill="#42566b" text-anchor="middle" font-weight="400">Медиа</text>
+<text x="173.2" y="159.5" font-size="3.0" fill="#8395a8" text-anchor="middle" font-weight="600">гр.9</text>
+<rect x="166.6" y="145.5" width="2.6" height="18" fill="#c22f2f"/>
+<rect x="170.8" y="166.5" width="5" height="5" rx="1" fill="#c9cdcf" stroke="#8f969b" stroke-width="0.4"/>
+<line x1="171.6" y1="169.0" x2="174.9" y2="169.0" stroke="#6a7075" stroke-width="0.5"/>
+<rect x="170.8" y="218.5" width="5" height="5" rx="1" fill="#c9cdcf" stroke="#8f969b" stroke-width="0.4"/>
+<line x1="171.6" y1="221.0" x2="174.9" y2="221.0" stroke="#6a7075" stroke-width="0.5"/>
+<rect x="169.8" y="178.0" width="7" height="17" rx="1.5" fill="#26292c" stroke="#111" stroke-width="0.4"/>
+<rect x="170.8" y="181.0" width="5" height="6" rx="1" fill="#fff" opacity="0.9"/>
+<text x="173.2" y="209.0" font-size="5.2" fill="#12314f" text-anchor="middle" font-weight="800">C16</text>
+<rect x="182.5" y="143.0" width="16.5" height="85.0" rx="1.5" fill="#fbf8f1" stroke="#c3c7c9" stroke-width="0.5"/>
+<rect x="183.5" y="144.5" width="14.5" height="20" fill="#ffffff" stroke="#e2e4e5" stroke-width="0.4"/>
+<text x="190.8" y="151.5" font-size="3.1" fill="#42566b" text-anchor="middle" font-weight="400">Мастер</text>
+<text x="190.8" y="159.5" font-size="3.0" fill="#8395a8" text-anchor="middle" font-weight="600">гр.10</text>
+<rect x="184.1" y="145.5" width="2.6" height="18" fill="#c22f2f"/>
+<rect x="188.2" y="166.5" width="5" height="5" rx="1" fill="#c9cdcf" stroke="#8f969b" stroke-width="0.4"/>
+<line x1="189.1" y1="169.0" x2="192.4" y2="169.0" stroke="#6a7075" stroke-width="0.5"/>
+<rect x="188.2" y="218.5" width="5" height="5" rx="1" fill="#c9cdcf" stroke="#8f969b" stroke-width="0.4"/>
+<line x1="189.1" y1="221.0" x2="192.4" y2="221.0" stroke="#6a7075" stroke-width="0.5"/>
+<rect x="187.2" y="178.0" width="7" height="17" rx="1.5" fill="#26292c" stroke="#111" stroke-width="0.4"/>
+<rect x="188.2" y="181.0" width="5" height="6" rx="1" fill="#fff" opacity="0.9"/>
+<text x="190.8" y="209.0" font-size="5.2" fill="#12314f" text-anchor="middle" font-weight="800">C16</text>
+<rect x="200.0" y="143.0" width="16.5" height="85.0" rx="1.5" fill="#fbf8f1" stroke="#c3c7c9" stroke-width="0.5"/>
+<rect x="201.0" y="144.5" width="14.5" height="20" fill="#ffffff" stroke="#e2e4e5" stroke-width="0.4"/>
+<text x="208.2" y="151.5" font-size="3.1" fill="#42566b" text-anchor="middle" font-weight="400">Гостевая</text>
+<text x="208.2" y="159.5" font-size="3.0" fill="#8395a8" text-anchor="middle" font-weight="600">гр.11</text>
+<rect x="201.6" y="145.5" width="2.6" height="18" fill="#c22f2f"/>
+<rect x="205.8" y="166.5" width="5" height="5" rx="1" fill="#c9cdcf" stroke="#8f969b" stroke-width="0.4"/>
+<line x1="206.6" y1="169.0" x2="209.9" y2="169.0" stroke="#6a7075" stroke-width="0.5"/>
+<rect x="205.8" y="218.5" width="5" height="5" rx="1" fill="#c9cdcf" stroke="#8f969b" stroke-width="0.4"/>
+<line x1="206.6" y1="221.0" x2="209.9" y2="221.0" stroke="#6a7075" stroke-width="0.5"/>
+<rect x="204.8" y="178.0" width="7" height="17" rx="1.5" fill="#26292c" stroke="#111" stroke-width="0.4"/>
+<rect x="205.8" y="181.0" width="5" height="6" rx="1" fill="#fff" opacity="0.9"/>
+<text x="208.2" y="209.0" font-size="5.2" fill="#12314f" text-anchor="middle" font-weight="800">C16</text>
+<rect x="217.5" y="143.0" width="16.5" height="85.0" rx="1.5" fill="#fbf8f1" stroke="#c3c7c9" stroke-width="0.5"/>
+<rect x="218.5" y="144.5" width="14.5" height="20" fill="#ffffff" stroke="#e2e4e5" stroke-width="0.4"/>
+<text x="225.8" y="151.5" font-size="3.1" fill="#42566b" text-anchor="middle" font-weight="400">Декор ц+п</text>
+<text x="225.8" y="159.5" font-size="3.0" fill="#8395a8" text-anchor="middle" font-weight="600">гр.14</text>
+<rect x="219.1" y="145.5" width="2.6" height="18" fill="#c22f2f"/>
+<rect x="223.2" y="166.5" width="5" height="5" rx="1" fill="#c9cdcf" stroke="#8f969b" stroke-width="0.4"/>
+<line x1="224.1" y1="169.0" x2="227.4" y2="169.0" stroke="#6a7075" stroke-width="0.5"/>
+<rect x="223.2" y="218.5" width="5" height="5" rx="1" fill="#c9cdcf" stroke="#8f969b" stroke-width="0.4"/>
+<line x1="224.1" y1="221.0" x2="227.4" y2="221.0" stroke="#6a7075" stroke-width="0.5"/>
+<rect x="222.2" y="178.0" width="7" height="17" rx="1.5" fill="#26292c" stroke="#111" stroke-width="0.4"/>
+<rect x="223.2" y="181.0" width="5" height="6" rx="1" fill="#fff" opacity="0.9"/>
+<text x="225.8" y="209.0" font-size="5.2" fill="#12314f" text-anchor="middle" font-weight="800">B10</text>
+<rect x="235.0" y="143.0" width="16.5" height="85.0" rx="1.5" fill="#fbf8f1" stroke="#c3c7c9" stroke-width="0.5"/>
+<rect x="236.0" y="144.5" width="14.5" height="20" fill="#ffffff" stroke="#e2e4e5" stroke-width="0.4"/>
+<text x="243.2" y="151.5" font-size="3.1" fill="#42566b" text-anchor="middle" font-weight="400">Холод</text>
+<text x="243.2" y="159.5" font-size="3.0" fill="#8395a8" text-anchor="middle" font-weight="600">гр.4</text>
+<rect x="236.6" y="145.5" width="2.6" height="18" fill="#c22f2f"/>
+<rect x="240.8" y="166.5" width="5" height="5" rx="1" fill="#c9cdcf" stroke="#8f969b" stroke-width="0.4"/>
+<line x1="241.6" y1="169.0" x2="244.9" y2="169.0" stroke="#6a7075" stroke-width="0.5"/>
+<rect x="240.8" y="218.5" width="5" height="5" rx="1" fill="#c9cdcf" stroke="#8f969b" stroke-width="0.4"/>
+<line x1="241.6" y1="221.0" x2="244.9" y2="221.0" stroke="#6a7075" stroke-width="0.5"/>
+<rect x="239.8" y="178.0" width="7" height="17" rx="1.5" fill="#26292c" stroke="#111" stroke-width="0.4"/>
+<rect x="240.8" y="181.0" width="5" height="6" rx="1" fill="#fff" opacity="0.9"/>
+<text x="243.2" y="209.0" font-size="5.2" fill="#12314f" text-anchor="middle" font-weight="800">B16</text>
+<rect x="252.5" y="143.0" width="34.0" height="85.0" rx="1.5" fill="#fbf8f1" stroke="#c3c7c9" stroke-width="0.5"/>
+<rect x="253.5" y="144.5" width="32.0" height="20" fill="#ffffff" stroke="#e2e4e5" stroke-width="0.4"/>
+<text x="269.5" y="151.5" font-size="3.1" fill="#42566b" text-anchor="middle" font-weight="400">Стир+суш</text>
+<text x="269.5" y="159.5" font-size="3.0" fill="#8395a8" text-anchor="middle" font-weight="600">гр.5</text>
+<rect x="254.1" y="145.5" width="2.6" height="18" fill="#c22f2f"/>
+<rect x="258.5" y="166.5" width="5" height="5" rx="1" fill="#c9cdcf" stroke="#8f969b" stroke-width="0.4"/>
+<line x1="259.3" y1="169.0" x2="262.7" y2="169.0" stroke="#6a7075" stroke-width="0.5"/>
+<rect x="258.5" y="218.5" width="5" height="5" rx="1" fill="#c9cdcf" stroke="#8f969b" stroke-width="0.4"/>
+<line x1="259.3" y1="221.0" x2="262.7" y2="221.0" stroke="#6a7075" stroke-width="0.5"/>
+<text x="261.0" y="188.0" font-size="2.9" fill="#0d47a1" text-anchor="middle" font-weight="700">N</text>
+<rect x="275.5" y="166.5" width="5" height="5" rx="1" fill="#c9cdcf" stroke="#8f969b" stroke-width="0.4"/>
+<line x1="276.3" y1="169.0" x2="279.7" y2="169.0" stroke="#6a7075" stroke-width="0.5"/>
+<rect x="275.5" y="218.5" width="5" height="5" rx="1" fill="#c9cdcf" stroke="#8f969b" stroke-width="0.4"/>
+<line x1="276.3" y1="221.0" x2="279.7" y2="221.0" stroke="#6a7075" stroke-width="0.5"/>
+<rect x="274.5" y="178.0" width="7" height="17" rx="1.5" fill="#26292c" stroke="#111" stroke-width="0.4"/>
+<rect x="275.5" y="181.0" width="5" height="6" rx="1" fill="#fff" opacity="0.9"/>
+<text x="269.5" y="209.0" font-size="5.2" fill="#12314f" text-anchor="middle" font-weight="800">C20</text>
+<rect x="275.0" y="199.5" width="4.6" height="4.6" rx="1" fill="#e8e8e6" stroke="#8f969b" stroke-width="0.4"/>
+<text x="277.3" y="203.1" font-size="3.0" fill="#333" text-anchor="middle" font-weight="800">T</text>
+<rect x="254.5" y="212.0" width="30.0" height="6" rx="1.5" fill="#e3f0fd"/>
+<text x="269.5" y="216.7" font-size="2.9" fill="#0b5394" text-anchor="middle" font-weight="700">30 мА</text>
+<rect x="287.5" y="143.0" width="16.5" height="85.0" rx="1.5" fill="none" stroke="#b6c0c9" stroke-width="0.45" stroke-dasharray="3 2"/>
+<rect x="305.0" y="143.0" width="16.5" height="85.0" rx="1.5" fill="none" stroke="#b6c0c9" stroke-width="0.45" stroke-dasharray="3 2"/>
+<rect x="322.5" y="143.0" width="16.5" height="85.0" rx="1.5" fill="none" stroke="#b6c0c9" stroke-width="0.45" stroke-dasharray="3 2"/>
+<rect x="340.0" y="143.0" width="16.5" height="85.0" rx="1.5" fill="none" stroke="#b6c0c9" stroke-width="0.45" stroke-dasharray="3 2"/>
+<text x="322.0" y="155.0" font-size="3.1" fill="#9aa8b6" text-anchor="middle" font-weight="400">резерв 4 мод.</text>
+<rect x="42.5" y="261.0" width="16.5" height="85.0" rx="1.5" fill="#fbf8f1" stroke="#c07f10" stroke-width="1.9"/>
+<rect x="43.5" y="262.5" width="14.5" height="20" fill="#ffffff" stroke="#e2e4e5" stroke-width="0.4"/>
+<text x="50.8" y="269.5" font-size="3.1" fill="#42566b" text-anchor="middle" font-weight="400">Лента маст</text>
+<text x="50.8" y="277.5" font-size="3.0" fill="#8395a8" text-anchor="middle" font-weight="600">Р1</text>
+<rect x="44.1" y="263.5" width="2.6" height="18" fill="#1c7a3d"/>
+<rect x="48.2" y="284.5" width="5" height="5" rx="1" fill="#c9cdcf" stroke="#8f969b" stroke-width="0.4"/>
+<line x1="49.0" y1="287.0" x2="52.5" y2="287.0" stroke="#6a7075" stroke-width="0.5"/>
+<rect x="48.2" y="336.5" width="5" height="5" rx="1" fill="#c9cdcf" stroke="#8f969b" stroke-width="0.4"/>
+<line x1="49.0" y1="339.0" x2="52.5" y2="339.0" stroke="#6a7075" stroke-width="0.5"/>
+<rect x="47.2" y="296.0" width="7" height="17" rx="1.5" fill="#26292c" stroke="#111" stroke-width="0.4"/>
+<rect x="48.2" y="299.0" width="5" height="6" rx="1" fill="#fff" opacity="0.9"/>
+<text x="50.8" y="327.0" font-size="5.2" fill="#12314f" text-anchor="middle" font-weight="800">ZB</text>
+<circle cx="56.2" cy="319.5" r="2.2" fill="#e8e8e6" stroke="#8f969b" stroke-width="0.4"/>
+<circle cx="44.8" cy="319.5" r="1.1" fill="#3d9be3"/>
+<rect x="44.5" y="330.0" width="12.5" height="6" rx="1.5" fill="#fdf3e0"/>
+<text x="50.8" y="334.7" font-size="2.7" fill="#9c6708" text-anchor="middle" font-weight="700">Zigbee 16А</text>
+<rect x="60.0" y="261.0" width="16.5" height="85.0" rx="1.5" fill="#fbf8f1" stroke="#c07f10" stroke-width="1.9"/>
+<rect x="61.0" y="262.5" width="14.5" height="20" fill="#ffffff" stroke="#e2e4e5" stroke-width="0.4"/>
+<text x="68.2" y="269.5" font-size="3.1" fill="#42566b" text-anchor="middle" font-weight="400">Точ. маст</text>
+<text x="68.2" y="277.5" font-size="3.0" fill="#8395a8" text-anchor="middle" font-weight="600">Р2</text>
+<rect x="61.6" y="263.5" width="2.6" height="18" fill="#1c7a3d"/>
+<rect x="65.8" y="284.5" width="5" height="5" rx="1" fill="#c9cdcf" stroke="#8f969b" stroke-width="0.4"/>
+<line x1="66.5" y1="287.0" x2="70.0" y2="287.0" stroke="#6a7075" stroke-width="0.5"/>
+<rect x="65.8" y="336.5" width="5" height="5" rx="1" fill="#c9cdcf" stroke="#8f969b" stroke-width="0.4"/>
+<line x1="66.5" y1="339.0" x2="70.0" y2="339.0" stroke="#6a7075" stroke-width="0.5"/>
+<rect x="64.8" y="296.0" width="7" height="17" rx="1.5" fill="#26292c" stroke="#111" stroke-width="0.4"/>
+<rect x="65.8" y="299.0" width="5" height="6" rx="1" fill="#fff" opacity="0.9"/>
+<text x="68.2" y="327.0" font-size="5.2" fill="#12314f" text-anchor="middle" font-weight="800">ZB</text>
+<circle cx="73.8" cy="319.5" r="2.2" fill="#e8e8e6" stroke="#8f969b" stroke-width="0.4"/>
+<circle cx="62.2" cy="319.5" r="1.1" fill="#3d9be3"/>
+<rect x="62.0" y="330.0" width="12.5" height="6" rx="1.5" fill="#fdf3e0"/>
+<text x="68.2" y="334.7" font-size="2.7" fill="#9c6708" text-anchor="middle" font-weight="700">Zigbee 16А</text>
+<rect x="77.5" y="261.0" width="16.5" height="85.0" rx="1.5" fill="#fbf8f1" stroke="#c07f10" stroke-width="1.9"/>
+<rect x="78.5" y="262.5" width="14.5" height="20" fill="#ffffff" stroke="#e2e4e5" stroke-width="0.4"/>
+<text x="85.8" y="269.5" font-size="3.1" fill="#42566b" text-anchor="middle" font-weight="400">Гардероб</text>
+<text x="85.8" y="277.5" font-size="3.0" fill="#8395a8" text-anchor="middle" font-weight="600">Р3</text>
+<rect x="79.1" y="263.5" width="2.6" height="18" fill="#1c7a3d"/>
+<rect x="83.2" y="284.5" width="5" height="5" rx="1" fill="#c9cdcf" stroke="#8f969b" stroke-width="0.4"/>
+<line x1="84.0" y1="287.0" x2="87.5" y2="287.0" stroke="#6a7075" stroke-width="0.5"/>
+<rect x="83.2" y="336.5" width="5" height="5" rx="1" fill="#c9cdcf" stroke="#8f969b" stroke-width="0.4"/>
+<line x1="84.0" y1="339.0" x2="87.5" y2="339.0" stroke="#6a7075" stroke-width="0.5"/>
+<rect x="82.2" y="296.0" width="7" height="17" rx="1.5" fill="#26292c" stroke="#111" stroke-width="0.4"/>
+<rect x="83.2" y="299.0" width="5" height="6" rx="1" fill="#fff" opacity="0.9"/>
+<text x="85.8" y="327.0" font-size="5.2" fill="#12314f" text-anchor="middle" font-weight="800">ZB</text>
+<circle cx="91.2" cy="319.5" r="2.2" fill="#e8e8e6" stroke="#8f969b" stroke-width="0.4"/>
+<circle cx="79.8" cy="319.5" r="1.1" fill="#3d9be3"/>
+<rect x="79.5" y="330.0" width="12.5" height="6" rx="1.5" fill="#fdf3e0"/>
+<text x="85.8" y="334.7" font-size="2.7" fill="#9c6708" text-anchor="middle" font-weight="700">Zigbee 16А</text>
+<rect x="95.0" y="261.0" width="16.5" height="85.0" rx="1.5" fill="#fbf8f1" stroke="#c07f10" stroke-width="1.9"/>
+<rect x="96.0" y="262.5" width="14.5" height="20" fill="#ffffff" stroke="#e2e4e5" stroke-width="0.4"/>
+<text x="103.2" y="269.5" font-size="3.1" fill="#42566b" text-anchor="middle" font-weight="400">С/у мастер</text>
+<text x="103.2" y="277.5" font-size="3.0" fill="#8395a8" text-anchor="middle" font-weight="600">Р4</text>
+<rect x="96.6" y="263.5" width="2.6" height="18" fill="#1c7a3d"/>
+<rect x="100.8" y="284.5" width="5" height="5" rx="1" fill="#c9cdcf" stroke="#8f969b" stroke-width="0.4"/>
+<line x1="101.5" y1="287.0" x2="105.0" y2="287.0" stroke="#6a7075" stroke-width="0.5"/>
+<rect x="100.8" y="336.5" width="5" height="5" rx="1" fill="#c9cdcf" stroke="#8f969b" stroke-width="0.4"/>
+<line x1="101.5" y1="339.0" x2="105.0" y2="339.0" stroke="#6a7075" stroke-width="0.5"/>
+<rect x="99.8" y="296.0" width="7" height="17" rx="1.5" fill="#26292c" stroke="#111" stroke-width="0.4"/>
+<rect x="100.8" y="299.0" width="5" height="6" rx="1" fill="#fff" opacity="0.9"/>
+<text x="103.2" y="327.0" font-size="5.2" fill="#12314f" text-anchor="middle" font-weight="800">ZB</text>
+<circle cx="108.8" cy="319.5" r="2.2" fill="#e8e8e6" stroke="#8f969b" stroke-width="0.4"/>
+<circle cx="97.2" cy="319.5" r="1.1" fill="#3d9be3"/>
+<rect x="97.0" y="330.0" width="12.5" height="6" rx="1.5" fill="#fdf3e0"/>
+<text x="103.2" y="334.7" font-size="2.7" fill="#9c6708" text-anchor="middle" font-weight="700">Zigbee 16А</text>
+<rect x="112.5" y="261.0" width="16.5" height="85.0" rx="1.5" fill="#fbf8f1" stroke="#c07f10" stroke-width="1.9"/>
+<rect x="113.5" y="262.5" width="14.5" height="20" fill="#ffffff" stroke="#e2e4e5" stroke-width="0.4"/>
+<text x="120.8" y="269.5" font-size="3.1" fill="#42566b" text-anchor="middle" font-weight="400">Трек прих.</text>
+<text x="120.8" y="277.5" font-size="3.0" fill="#8395a8" text-anchor="middle" font-weight="600">Р5</text>
+<rect x="114.1" y="263.5" width="2.6" height="18" fill="#b8860b"/>
+<rect x="118.2" y="284.5" width="5" height="5" rx="1" fill="#c9cdcf" stroke="#8f969b" stroke-width="0.4"/>
+<line x1="119.0" y1="287.0" x2="122.5" y2="287.0" stroke="#6a7075" stroke-width="0.5"/>
+<rect x="118.2" y="336.5" width="5" height="5" rx="1" fill="#c9cdcf" stroke="#8f969b" stroke-width="0.4"/>
+<line x1="119.0" y1="339.0" x2="122.5" y2="339.0" stroke="#6a7075" stroke-width="0.5"/>
+<rect x="117.2" y="296.0" width="7" height="17" rx="1.5" fill="#26292c" stroke="#111" stroke-width="0.4"/>
+<rect x="118.2" y="299.0" width="5" height="6" rx="1" fill="#fff" opacity="0.9"/>
+<text x="120.8" y="327.0" font-size="5.2" fill="#12314f" text-anchor="middle" font-weight="800">ZB</text>
+<circle cx="126.2" cy="319.5" r="2.2" fill="#e8e8e6" stroke="#8f969b" stroke-width="0.4"/>
+<circle cx="114.8" cy="319.5" r="1.1" fill="#3d9be3"/>
+<rect x="114.5" y="330.0" width="12.5" height="6" rx="1.5" fill="#fdf3e0"/>
+<text x="120.8" y="334.7" font-size="2.7" fill="#9c6708" text-anchor="middle" font-weight="700">Zigbee 16А</text>
+<rect x="130.0" y="261.0" width="16.5" height="85.0" rx="1.5" fill="#fbf8f1" stroke="#c07f10" stroke-width="1.9"/>
+<rect x="131.0" y="262.5" width="14.5" height="20" fill="#ffffff" stroke="#e2e4e5" stroke-width="0.4"/>
+<text x="138.2" y="269.5" font-size="3.1" fill="#42566b" text-anchor="middle" font-weight="400">С/у гост.</text>
+<text x="138.2" y="277.5" font-size="3.0" fill="#8395a8" text-anchor="middle" font-weight="600">Р6</text>
+<rect x="131.6" y="263.5" width="2.6" height="18" fill="#b8860b"/>
+<rect x="135.8" y="284.5" width="5" height="5" rx="1" fill="#c9cdcf" stroke="#8f969b" stroke-width="0.4"/>
+<line x1="136.6" y1="287.0" x2="139.9" y2="287.0" stroke="#6a7075" stroke-width="0.5"/>
+<rect x="135.8" y="336.5" width="5" height="5" rx="1" fill="#c9cdcf" stroke="#8f969b" stroke-width="0.4"/>
+<line x1="136.6" y1="339.0" x2="139.9" y2="339.0" stroke="#6a7075" stroke-width="0.5"/>
+<rect x="134.8" y="296.0" width="7" height="17" rx="1.5" fill="#26292c" stroke="#111" stroke-width="0.4"/>
+<rect x="135.8" y="299.0" width="5" height="6" rx="1" fill="#fff" opacity="0.9"/>
+<text x="138.2" y="327.0" font-size="5.2" fill="#12314f" text-anchor="middle" font-weight="800">ZB</text>
+<circle cx="143.8" cy="319.5" r="2.2" fill="#e8e8e6" stroke="#8f969b" stroke-width="0.4"/>
+<circle cx="132.2" cy="319.5" r="1.1" fill="#3d9be3"/>
+<rect x="132.0" y="330.0" width="12.5" height="6" rx="1.5" fill="#fdf3e0"/>
+<text x="138.2" y="334.7" font-size="2.7" fill="#9c6708" text-anchor="middle" font-weight="700">Zigbee 16А</text>
+<rect x="147.5" y="261.0" width="16.5" height="85.0" rx="1.5" fill="#fbf8f1" stroke="#c07f10" stroke-width="1.9"/>
+<rect x="148.5" y="262.5" width="14.5" height="20" fill="#ffffff" stroke="#e2e4e5" stroke-width="0.4"/>
+<text x="155.8" y="269.5" font-size="3.1" fill="#42566b" text-anchor="middle" font-weight="400">Люстра гс</text>
+<text x="155.8" y="277.5" font-size="3.0" fill="#8395a8" text-anchor="middle" font-weight="600">Р7</text>
+<rect x="149.1" y="263.5" width="2.6" height="18" fill="#b8860b"/>
+<rect x="153.2" y="284.5" width="5" height="5" rx="1" fill="#c9cdcf" stroke="#8f969b" stroke-width="0.4"/>
+<line x1="154.1" y1="287.0" x2="157.4" y2="287.0" stroke="#6a7075" stroke-width="0.5"/>
+<rect x="153.2" y="336.5" width="5" height="5" rx="1" fill="#c9cdcf" stroke="#8f969b" stroke-width="0.4"/>
+<line x1="154.1" y1="339.0" x2="157.4" y2="339.0" stroke="#6a7075" stroke-width="0.5"/>
+<rect x="152.2" y="296.0" width="7" height="17" rx="1.5" fill="#26292c" stroke="#111" stroke-width="0.4"/>
+<rect x="153.2" y="299.0" width="5" height="6" rx="1" fill="#fff" opacity="0.9"/>
+<text x="155.8" y="327.0" font-size="5.2" fill="#12314f" text-anchor="middle" font-weight="800">ZB</text>
+<circle cx="161.2" cy="319.5" r="2.2" fill="#e8e8e6" stroke="#8f969b" stroke-width="0.4"/>
+<circle cx="149.8" cy="319.5" r="1.1" fill="#3d9be3"/>
+<rect x="149.5" y="330.0" width="12.5" height="6" rx="1.5" fill="#fdf3e0"/>
+<text x="155.8" y="334.7" font-size="2.7" fill="#9c6708" text-anchor="middle" font-weight="700">Zigbee 16А</text>
+<rect x="165.0" y="261.0" width="16.5" height="85.0" rx="1.5" fill="#fbf8f1" stroke="#c07f10" stroke-width="1.9"/>
+<rect x="166.0" y="262.5" width="14.5" height="20" fill="#ffffff" stroke="#e2e4e5" stroke-width="0.4"/>
+<text x="173.2" y="269.5" font-size="3.1" fill="#42566b" text-anchor="middle" font-weight="400">Люстра гост</text>
+<text x="173.2" y="277.5" font-size="3.0" fill="#8395a8" text-anchor="middle" font-weight="600">Р8</text>
+<rect x="166.6" y="263.5" width="2.6" height="18" fill="#b8860b"/>
+<rect x="170.8" y="284.5" width="5" height="5" rx="1" fill="#c9cdcf" stroke="#8f969b" stroke-width="0.4"/>
+<line x1="171.6" y1="287.0" x2="174.9" y2="287.0" stroke="#6a7075" stroke-width="0.5"/>
+<rect x="170.8" y="336.5" width="5" height="5" rx="1" fill="#c9cdcf" stroke="#8f969b" stroke-width="0.4"/>
+<line x1="171.6" y1="339.0" x2="174.9" y2="339.0" stroke="#6a7075" stroke-width="0.5"/>
+<rect x="169.8" y="296.0" width="7" height="17" rx="1.5" fill="#26292c" stroke="#111" stroke-width="0.4"/>
+<rect x="170.8" y="299.0" width="5" height="6" rx="1" fill="#fff" opacity="0.9"/>
+<text x="173.2" y="327.0" font-size="5.2" fill="#12314f" text-anchor="middle" font-weight="800">ZB</text>
+<circle cx="178.8" cy="319.5" r="2.2" fill="#e8e8e6" stroke="#8f969b" stroke-width="0.4"/>
+<circle cx="167.2" cy="319.5" r="1.1" fill="#3d9be3"/>
+<rect x="167.0" y="330.0" width="12.5" height="6" rx="1.5" fill="#fdf3e0"/>
+<text x="173.2" y="334.7" font-size="2.7" fill="#9c6708" text-anchor="middle" font-weight="700">Zigbee 16А</text>
+<rect x="182.5" y="261.0" width="16.5" height="85.0" rx="1.5" fill="#fbf8f1" stroke="#c07f10" stroke-width="1.9"/>
+<rect x="183.5" y="262.5" width="14.5" height="20" fill="#ffffff" stroke="#e2e4e5" stroke-width="0.4"/>
+<text x="190.8" y="269.5" font-size="3.1" fill="#42566b" text-anchor="middle" font-weight="400">Люстра ост</text>
+<text x="190.8" y="277.5" font-size="3.0" fill="#8395a8" text-anchor="middle" font-weight="600">Р9</text>
+<rect x="184.1" y="263.5" width="2.6" height="18" fill="#b8860b"/>
+<rect x="188.2" y="284.5" width="5" height="5" rx="1" fill="#c9cdcf" stroke="#8f969b" stroke-width="0.4"/>
+<line x1="189.1" y1="287.0" x2="192.4" y2="287.0" stroke="#6a7075" stroke-width="0.5"/>
+<rect x="188.2" y="336.5" width="5" height="5" rx="1" fill="#c9cdcf" stroke="#8f969b" stroke-width="0.4"/>
+<line x1="189.1" y1="339.0" x2="192.4" y2="339.0" stroke="#6a7075" stroke-width="0.5"/>
+<rect x="187.2" y="296.0" width="7" height="17" rx="1.5" fill="#26292c" stroke="#111" stroke-width="0.4"/>
+<rect x="188.2" y="299.0" width="5" height="6" rx="1" fill="#fff" opacity="0.9"/>
+<text x="190.8" y="327.0" font-size="5.2" fill="#12314f" text-anchor="middle" font-weight="800">ZB</text>
+<circle cx="196.2" cy="319.5" r="2.2" fill="#e8e8e6" stroke="#8f969b" stroke-width="0.4"/>
+<circle cx="184.8" cy="319.5" r="1.1" fill="#3d9be3"/>
+<rect x="184.5" y="330.0" width="12.5" height="6" rx="1.5" fill="#fdf3e0"/>
+<text x="190.8" y="334.7" font-size="2.7" fill="#9c6708" text-anchor="middle" font-weight="700">Zigbee 16А</text>
+<rect x="200.0" y="261.0" width="16.5" height="85.0" rx="1.5" fill="#fbf8f1" stroke="#c07f10" stroke-width="1.9"/>
+<rect x="201.0" y="262.5" width="14.5" height="20" fill="#ffffff" stroke="#e2e4e5" stroke-width="0.4"/>
+<text x="208.2" y="269.5" font-size="3.1" fill="#42566b" text-anchor="middle" font-weight="400">Точ. кухня</text>
+<text x="208.2" y="277.5" font-size="3.0" fill="#8395a8" text-anchor="middle" font-weight="600">Р10</text>
+<rect x="201.6" y="263.5" width="2.6" height="18" fill="#b8860b"/>
+<rect x="205.8" y="284.5" width="5" height="5" rx="1" fill="#c9cdcf" stroke="#8f969b" stroke-width="0.4"/>
+<line x1="206.6" y1="287.0" x2="209.9" y2="287.0" stroke="#6a7075" stroke-width="0.5"/>
+<rect x="205.8" y="336.5" width="5" height="5" rx="1" fill="#c9cdcf" stroke="#8f969b" stroke-width="0.4"/>
+<line x1="206.6" y1="339.0" x2="209.9" y2="339.0" stroke="#6a7075" stroke-width="0.5"/>
+<rect x="204.8" y="296.0" width="7" height="17" rx="1.5" fill="#26292c" stroke="#111" stroke-width="0.4"/>
+<rect x="205.8" y="299.0" width="5" height="6" rx="1" fill="#fff" opacity="0.9"/>
+<text x="208.2" y="327.0" font-size="5.2" fill="#12314f" text-anchor="middle" font-weight="800">ZB</text>
+<circle cx="213.8" cy="319.5" r="2.2" fill="#e8e8e6" stroke="#8f969b" stroke-width="0.4"/>
+<circle cx="202.2" cy="319.5" r="1.1" fill="#3d9be3"/>
+<rect x="202.0" y="330.0" width="12.5" height="6" rx="1.5" fill="#fdf3e0"/>
+<text x="208.2" y="334.7" font-size="2.7" fill="#9c6708" text-anchor="middle" font-weight="700">Zigbee 16А</text>
+<rect x="217.5" y="261.0" width="16.5" height="85.0" rx="1.5" fill="none" stroke="#b6c0c9" stroke-width="0.45" stroke-dasharray="3 2"/>
+<rect x="235.0" y="261.0" width="16.5" height="85.0" rx="1.5" fill="none" stroke="#b6c0c9" stroke-width="0.45" stroke-dasharray="3 2"/>
+<rect x="252.5" y="261.0" width="16.5" height="85.0" rx="1.5" fill="none" stroke="#b6c0c9" stroke-width="0.45" stroke-dasharray="3 2"/>
+<rect x="270.0" y="261.0" width="16.5" height="85.0" rx="1.5" fill="none" stroke="#b6c0c9" stroke-width="0.45" stroke-dasharray="3 2"/>
+<rect x="287.5" y="261.0" width="16.5" height="85.0" rx="1.5" fill="none" stroke="#b6c0c9" stroke-width="0.45" stroke-dasharray="3 2"/>
+<rect x="305.0" y="261.0" width="16.5" height="85.0" rx="1.5" fill="none" stroke="#b6c0c9" stroke-width="0.45" stroke-dasharray="3 2"/>
+<rect x="322.5" y="261.0" width="16.5" height="85.0" rx="1.5" fill="none" stroke="#b6c0c9" stroke-width="0.45" stroke-dasharray="3 2"/>
+<rect x="340.0" y="261.0" width="16.5" height="85.0" rx="1.5" fill="none" stroke="#b6c0c9" stroke-width="0.45" stroke-dasharray="3 2"/>
+<text x="287.0" y="273.0" font-size="2.9" fill="#9aa8b6" text-anchor="middle" font-weight="400">резерв 8 мод. (БП шлюза, доп. реле)</text>
+<rect x="218.5" y="21.0" width="103.0" height="3.6" rx="1" fill="#aeb8c0" stroke="#87929b" stroke-width="0.4"/>
+<text x="270.0" y="18.8" font-size="3.3" fill="#2f4257" text-anchor="middle" font-weight="700">гребёнка «L1-1»</text>
+<rect x="43.5" y="139.0" width="120.5" height="3.6" rx="1" fill="#aeb8c0" stroke="#87929b" stroke-width="0.4"/>
+<text x="103.8" y="136.8" font-size="3.3" fill="#2f4257" text-anchor="middle" font-weight="700">гребёнка «L2-2»</text>
+<rect x="166.0" y="139.0" width="120.5" height="3.6" rx="1" fill="#aeb8c0" stroke="#87929b" stroke-width="0.4"/>
+<text x="226.2" y="136.8" font-size="3.3" fill="#2f4257" text-anchor="middle" font-weight="700">гребёнка «L3-2»</text>
+<rect x="43.5" y="257.0" width="68.0" height="3.6" rx="1" fill="#e4c98f" stroke="#87929b" stroke-width="0.4"/>
+<text x="77.5" y="254.8" font-size="3.3" fill="#7a5a10" text-anchor="middle" font-weight="700">«СВЕТ-L2» от гр.17</text>
+<rect x="113.5" y="257.0" width="103.0" height="3.6" rx="1" fill="#e4c98f" stroke="#87929b" stroke-width="0.4"/>
+<text x="165.0" y="254.8" font-size="3.3" fill="#7a5a10" text-anchor="middle" font-weight="700">«СВЕТ-L1» от гр.18</text>
+<text x="28.5" y="63.5" font-size="3.0" fill="#6a7687" text-anchor="middle" font-weight="400">DIN 1</text>
+<text x="28.5" y="181.5" font-size="3.0" fill="#6a7687" text-anchor="middle" font-weight="400">DIN 2</text>
+<text x="28.5" y="299.5" font-size="3.0" fill="#6a7687" text-anchor="middle" font-weight="400">DIN 3</text>
+<text x="28.5" y="324.0" font-size="3.2" fill="#9c6708" text-anchor="middle" font-weight="700">Zigbee</text>
+<rect x="42.5" y="380" width="150" height="26" rx="2" fill="#ececeb" stroke="#c3c7c9" stroke-width="0.5"/>
+<rect x="50.0" y="384" width="5" height="5" rx="1" fill="#2f6fd6" stroke="#1c4fa0" stroke-width="0.4"/>
+<rect x="64.0" y="384" width="5" height="5" rx="1" fill="#2f6fd6" stroke="#1c4fa0" stroke-width="0.4"/>
+<rect x="78.0" y="384" width="5" height="5" rx="1" fill="#2f6fd6" stroke="#1c4fa0" stroke-width="0.4"/>
+<rect x="92.0" y="384" width="5" height="5" rx="1" fill="#2f6fd6" stroke="#1c4fa0" stroke-width="0.4"/>
+<rect x="106.0" y="384" width="5" height="5" rx="1" fill="#2f6fd6" stroke="#1c4fa0" stroke-width="0.4"/>
+<rect x="120.0" y="384" width="5" height="5" rx="1" fill="#2f6fd6" stroke="#1c4fa0" stroke-width="0.4"/>
+<rect x="134.0" y="384" width="5" height="5" rx="1" fill="#2f6fd6" stroke="#1c4fa0" stroke-width="0.4"/>
+<rect x="148.0" y="384" width="5" height="5" rx="1" fill="#2f6fd6" stroke="#1c4fa0" stroke-width="0.4"/>
+<rect x="162.0" y="384" width="5" height="5" rx="1" fill="#2f6fd6" stroke="#1c4fa0" stroke-width="0.4"/>
+<rect x="176.0" y="384" width="5" height="5" rx="1" fill="#2f6fd6" stroke="#1c4fa0" stroke-width="0.4"/>
+<text x="117.5" y="403.5" font-size="3.0" fill="#42566b" text-anchor="middle" font-weight="400">N-шина (изолированная, 27 подключений)</text>
+<rect x="207.5" y="380" width="150" height="26" rx="2" fill="#ecebeb" stroke="#c3c7c9" stroke-width="0.5"/>
+<rect x="215.0" y="384" width="5" height="5" rx="1" fill="#3d8b37" stroke="#2b6626" stroke-width="0.4"/>
+<rect x="229.0" y="384" width="5" height="5" rx="1" fill="#3d8b37" stroke="#2b6626" stroke-width="0.4"/>
+<rect x="243.0" y="384" width="5" height="5" rx="1" fill="#3d8b37" stroke="#2b6626" stroke-width="0.4"/>
+<rect x="257.0" y="384" width="5" height="5" rx="1" fill="#3d8b37" stroke="#2b6626" stroke-width="0.4"/>
+<rect x="271.0" y="384" width="5" height="5" rx="1" fill="#3d8b37" stroke="#2b6626" stroke-width="0.4"/>
+<rect x="285.0" y="384" width="5" height="5" rx="1" fill="#3d8b37" stroke="#2b6626" stroke-width="0.4"/>
+<rect x="299.0" y="384" width="5" height="5" rx="1" fill="#3d8b37" stroke="#2b6626" stroke-width="0.4"/>
+<rect x="313.0" y="384" width="5" height="5" rx="1" fill="#3d8b37" stroke="#2b6626" stroke-width="0.4"/>
+<rect x="327.0" y="384" width="5" height="5" rx="1" fill="#3d8b37" stroke="#2b6626" stroke-width="0.4"/>
+<rect x="341.0" y="384" width="5" height="5" rx="1" fill="#3d8b37" stroke="#2b6626" stroke-width="0.4"/>
+<text x="282.5" y="403.5" font-size="3.0" fill="#42566b" text-anchor="middle" font-weight="400">PE-шина (27 подключений)</text>
+<line x1="42.5" y1="128.0" x2="357.5" y2="128.0" stroke="#5b6b7b" stroke-width="0.5"/>
+<line x1="42.5" y1="125.5" x2="42.5" y2="130.5" stroke="#5b6b7b" stroke-width="0.5"/>
+<line x1="357.5" y1="125.5" x2="357.5" y2="130.5" stroke="#5b6b7b" stroke-width="0.5"/>
+<text x="200.0" y="126.5" font-size="3.0" fill="#5b6b7b" text-anchor="middle" font-weight="400">18 модулей × 17,5 = 315 мм</text>
+<line x1="42.5" y1="357.0" x2="95.0" y2="357.0" stroke="#5b6b7b" stroke-width="0.5"/>
+<line x1="42.5" y1="354.5" x2="42.5" y2="359.5" stroke="#5b6b7b" stroke-width="0.5"/>
+<line x1="95.0" y1="354.5" x2="95.0" y2="359.5" stroke="#5b6b7b" stroke-width="0.5"/>
+<text x="68.8" y="355.5" font-size="3.0" fill="#5b6b7b" text-anchor="middle" font-weight="400">фазные клеммы: 3 мод.</text>
+<line x1="392.0" y1="25.0" x2="392.0" y2="110.0" stroke="#5b6b7b" stroke-width="0.5"/>
+<line x1="389.5" y1="25.0" x2="394.5" y2="25.0" stroke="#5b6b7b" stroke-width="0.5"/>
+<line x1="389.5" y1="110.0" x2="394.5" y2="110.0" stroke="#5b6b7b" stroke-width="0.5"/>
+<text x="392.0" y="67.5" font-size="3" fill="#5b6b7b" text-anchor="middle" transform="rotate(-90 392.0 67.5)">модуль 85 мм</text>
+<line x1="383.5" y1="62.5" x2="383.5" y2="298.5" stroke="#5b6b7b" stroke-width="0.5"/>
+<line x1="381.0" y1="62.5" x2="386.0" y2="62.5" stroke="#5b6b7b" stroke-width="0.5"/>
+<line x1="381.0" y1="298.5" x2="386.0" y2="298.5" stroke="#5b6b7b" stroke-width="0.5"/>
+<text x="383.5" y="180.5" font-size="3" fill="#5b6b7b" text-anchor="middle" transform="rotate(-90 383.5 180.5)">3 рейки, шаг 118 мм</text>
+</svg>
+  </div>
+  <p class="small">У реле нет рычага — только кнопка сопряжения и светодиод. Питание гребёнок света — проводами 2,5 мм²
+  с нижних клемм гр. 17 и гр. 18 на первые реле каждого сегмента. N- и PE-шины внизу корпуса показаны условно рядом —
+  в конкретном корпусе они крепятся по его конструкции.</p>
+</section>
+
+<section class="block">
+  <h2>6. Гребёнки и перемычки</h2>
+  <table>
+    <thead><tr><th>Элемент</th><th>Где</th><th>Что соединяет</th><th>Питание</th></tr></thead>
+    <tbody>
+      <tr><td>Гребёнка 1P 63 А «L1-1»</td><td>Рейка 1, поз. 11–16</td><td>верхние клеммы гр. 3, 6, 7, 15, 18</td><td>провод 6 мм² с фазной клеммы L1</td></tr>
+      <tr><td>Гребёнка 1P 63 А «L2-2»</td><td>Рейка 2, поз. 1–7</td><td>верхние клеммы гр. 8, 12, 13, 16, 17</td><td>провод 6 мм² с клеммы L2</td></tr>
+      <tr><td>Гребёнка 1P 63 А «L3-2»</td><td>Рейка 2, поз. 8–14</td><td>верхние клеммы гр. 9, 10, 11, 14, 4, 5</td><td>провод 6 мм² с клеммы L3</td></tr>
+      <tr><td>Гребёнка 1P 16 А «СВЕТ-L2»</td><td>Рейка 3, поз. 1–4</td><td>верхние (фазные) клеммы реле Р1–Р4</td><td>провод 2,5 мм² с нижней клеммы гр. 17</td></tr>
+      <tr><td>Гребёнка 1P 16 А «СВЕТ-L1»</td><td>Рейка 3, поз. 5–10</td><td>верхние (фазные) клеммы реле Р5–Р10</td><td>провод 2,5 мм² с нижней клеммы гр. 18</td></tr>
+      <tr><td>Перемычки 6 мм² (6 шт.)</td><td>Рейка 1</td><td>клемма L1 → гр.1 (L1), гр.2 (L1); клемма L2 → гр.1 (L2), гр.2 (L2); клемма L3 → гр.1 (L3), гр.2 (L3)</td><td>—</td></tr>
+    </tbody>
+  </table>
+  <p class="small">Питание каждого сегмента — после вводного 25 А на фазу, ток через гребёнки 63 А не превысит 25 А.
+  Гребёнки света на рейке 3 — после гр. 17/18 (B10), поэтому достаточно 16 А / 2,5 мм². Перемычки — ПВ3/НВ с наконечниками.</p>
+</section>
+
+<section class="block">
+  <h2>7. Подключения по клеммам (пошагово для сборки)</h2>
+  <table>
+    <thead><tr><th>Группа / реле</th><th>Верх аппарата (питание)</th><th>Низ аппарата → кабель</th><th>Транзитом на кабель</th></tr></thead>
+    <tbody>
+      <tr><td>гр. 1 варочная, 3P C16</td><td><span class="wire wL1">L1</span><span class="wire wL2">L2</span><span class="wire wL3">L3</span> — перемычки 6 мм² с клемм</td><td>3 нижние клеммы → жилы коричневая/чёрная/серая кабеля 5×4</td><td><span class="wire wN">N</span> с N-шины; <span class="wire wPE">PE</span> с PE-шины</td></tr>
+      <tr><td>гр. 2 водонагреватель, 4P C20 диф</td><td><span class="wire wL1">L1</span><span class="wire wL2">L2</span><span class="wire wL3">L3</span> — перемычки 6 мм²; <span class="wire wN">N</span> — 4 мм² с N-шины</td><td>4 нижние клеммы → жилы 1–4 кабеля 5×4</td><td><span class="wire wPE">PE</span> с PE-шины</td></tr>
+      <tr><td>гр. 3 духовка, C16</td><td><span class="wire wL1">L1</span> — гребёнка «L1-1»</td><td>клемма → жила L кабеля 3×2,5</td><td><span class="wire wN">N</span>, <span class="wire wPE">PE</span> с шин</td></tr>
+      <tr><td>гр. 4 холодильник, B16</td><td><span class="wire wL3">L3</span> — гребёнка «L3-2»</td><td>клемма → жила L кабеля 3×2,5</td><td><span class="wire wN">N</span>, <span class="wire wPE">PE</span> с шин</td></tr>
+      <tr><td>гр. 5 стирка+сушка, C20 диф</td><td><span class="wire wL3">L3</span> — гребёнка «L3-2»; <span class="wire wN">N</span> — 4 мм² с N-шины</td><td>L′ + N′ → кабель 3×4 (до первой розетки, вторая шлейфом)</td><td><span class="wire wPE">PE</span> с PE-шины</td></tr>
+      <tr><td>гр. 6 кондиционеры, C16</td><td><span class="wire wL1">L1</span> — гребёнка «L1-1»</td><td>клемма → жила L кабеля 3×4 (наружный блок)</td><td><span class="wire wN">N</span>, <span class="wire wPE">PE</span> с шин; <span class="uq">шлейф внутренних блоков от РК-1 ⚠ под вопросом</span></td></tr>
+      <tr><td>гр. 7 тёплые полы, C16 диф</td><td><span class="wire wL1">L1</span> — гребёнка «L1-1»; <span class="wire wN">N</span> — 2,5 мм² с N-шины</td><td><span class="uq">L′ + N′ → 3×2,5 до первого термостата, шлейф термостатов ⚠ под вопросом</span></td><td><span class="wire wPE">PE</span> с PE-шины</td></tr>
+      <tr><td>гр. 8 кухня розетки, C16 диф</td><td><span class="wire wL2">L2</span> — гребёнка «L2-2»; <span class="wire wN">N</span> — 2,5 мм²</td><td>L′ + N′ → 3×2,5 → РК-6</td><td><span class="wire wPE">PE</span> с PE-шины</td></tr>
+      <tr><td>гр. 9 медиа, C16</td><td><span class="wire wL3">L3</span> — гребёнка «L3-2»</td><td>клемма → жила L кабеля 3×2,5 → РК-7</td><td><span class="wire wN">N</span>, <span class="wire wPE">PE</span> с шин</td></tr>
+      <tr><td>гр. 10 мастер розетки, C16</td><td><span class="wire wL3">L3</span> — гребёнка «L3-2»</td><td>клемма → жила L кабеля 3×2,5 → РК-1</td><td><span class="wire wN">N</span>, <span class="wire wPE">PE</span> с шин</td></tr>
+      <tr><td>гр. 11 гостевая розетки, C16</td><td><span class="wire wL3">L3</span> — гребёнка «L3-2»</td><td>клемма → жила L кабеля 3×2,5 → РК-5</td><td><span class="wire wN">N</span>, <span class="wire wPE">PE</span> с шин</td></tr>
+      <tr><td>гр. 12 прихожая+санузлы, C16 диф</td><td><span class="wire wL2">L2</span> — гребёнка «L2-2»; <span class="wire wN">N</span> — 2,5 мм²</td><td>L′ + N′ → 3×2,5 → РК-3; РК-2 → РК-4</td><td><span class="wire wPE">PE</span> с PE-шины</td></tr>
+      <tr><td>гр. 13 декор мастер-зоны, B10</td><td><span class="wire wL2">L2</span> — гребёнка «L2-2»</td><td>клемма → 3×1,5 → РК-1, РК-2 (<code>СП-01, 03, 04, 05, 10, 11, 12; ГД-01, 02; СУМ-01, 07, 08</code>)</td><td><span class="wire wN">N</span>, <span class="wire wPE">PE</span> с шин</td></tr>
+      <tr><td>гр. 14 декор центр+право, B10</td><td><span class="wire wL3">L3</span> — гребёнка «L3-2»</td><td>клемма → 3×1,5 → РК-3 → РК-4 → РК-5 (<code>ПР-01, 05; СГ-01, 03, 04, 05</code>)</td><td><span class="wire wN">N</span>, <span class="wire wPE">PE</span> с шин</td></tr>
+      <tr><td>гр. 15 декор кухни, B10</td><td><span class="wire wL1">L1</span> — гребёнка «L1-1»</td><td>клемма → 3×1,5 → РК-6, РК-7 (<code>КГ-01…06, 26</code>)</td><td><span class="wire wN">N</span>, <span class="wire wPE">PE</span> с шин</td></tr>
+      <tr><td><b>гр. 16 сеть: роутер + мини-ПК, B16</b></td><td><span class="wire wL2">L2</span> — гребёнка «L2-2»</td><td>клемма → жила L кабеля 3×2,5 → РК-3 → розетки ПР-04, ПР-12</td><td><span class="wire wN">N</span>, <span class="wire wPE">PE</span> с шин</td></tr>
+      <tr><td><b>гр. 17 свет левое крыло, B10</b></td><td><span class="wire wL2">L2</span> — гребёнка «L2-2»</td><td>клемма → провод 2,5 мм² → гребёнка «СВЕТ-L2» (входы Р1–Р4)</td><td>—</td></tr>
+      <tr><td><b>гр. 18 свет центр+право, B10</b></td><td><span class="wire wL1">L1</span> — гребёнка «L1-1»</td><td>клемма → провод 2,5 мм² → гребёнка «СВЕТ-L1» (входы Р5–Р10)</td><td>—</td></tr>
+      <tr><td><span class="zb">Р1</span>…<span class="zb">Р4</span> — реле света левое крыло</td><td><span class="wire wL2">L2</span> — гребёнка «СВЕТ-L2» (после гр. 17)</td><td>нижняя клемма реле → жила L кабеля 3×1,5: Р1 → <code>СП-18</code>; Р2 → <code>СП-19</code>; Р3 → <code>ГД-03, 04</code> (шлейф); Р4 → <code>СУМ-09…11</code> (шлейф)</td><td><span class="wire wN">N</span>, <span class="wire wPE">PE</span> с шин на каждый кабель</td></tr>
+      <tr><td><span class="zb">Р5</span>…<span class="zb">Р10</span> — реле света центр+право</td><td><span class="wire wL1">L1</span> — гребёнка «СВЕТ-L1» (после гр. 18)</td><td>нижняя клемма реле → жила L кабеля 3×1,5: Р5 → <code>ПР-11</code>; Р6 → <code>СУГ-10, 11</code> (шлейф); Р7 → <code>СГ-13</code>; Р8 → <code>КГ-27</code>; Р9 → <code>КГ-28</code>; Р10 → <code>КГ-29…31</code> (шлейф)</td><td><span class="wire wN">N</span>, <span class="wire wPE">PE</span> с шин на каждый кабель</td></tr>
+    </tbody>
+  </table>
+</section>
+
+<section class="block">
+  <h2>8. Распределительные коробки (после перехода на реле)</h2>
+  <p class="lead">Вся коммутация света ушла в щит: <b>светильники — прямыми линиями от реле</b> (шлейф между блоками
+  точечных — соединения в клеммах светильников). Коробки остались только для розеточных шлейфов, декора и транзита.</p>
+  <table>
+    <thead><tr><th>РК</th><th>Размещение</th><th>Что осталось</th></tr></thead>
+    <tbody>
+      <tr><td><span class="rk">РК-1</span></td><td>Мастер спальня, потолок у входа</td><td>розетки гр. 10 (<code>СП-02, 06…09, 13, 14, 16, 17</code>); декор гр. 13 (<code>СП-01, 03, 04, 05, 10, 11, 12</code>); транзит гр. 6 (внутренние блоки КК). Свет <code>СП-18, 19</code> — прямые линии от Р1, Р2, через РК не проходит</td></tr>
+      <tr><td><span class="rk">РК-2</span></td><td>Гардеробная, потолок</td><td>декор гр. 13 (<code>ГД-01, 02; СУМ-01, 07</code>, БП <code>СУМ-08</code>); транзит розеток гр. 12 (<code>СУМ-03…06</code>). Свет <code>ГД-03, 04</code> — прямая от Р3, СУМ-09…11 — прямая от Р4</td></tr>
+      <tr><td><span class="rk">РК-3</span></td><td>Прихожая, потолок у шкафа</td><td>розетки гр. 12 (<code>ПР-03, 06…10</code>); гр. 16 (<code>ПР-04, 12</code>); домофон и шкаф <code>ПР-01, 05</code> (гр. 14). Трек <code>ПР-11</code> — прямая от Р5</td></tr>
+      <tr><td><span class="rk">РК-4</span></td><td>Гостевой санузел, потолок</td><td>зеркало <code>СУГ-01</code> (гр. 14); транзит розеток гр. 12 (<code>СУГ-05, 06, 08, 09</code>). Свет <code>СУГ-10, 11</code> — прямая от Р6</td></tr>
+      <tr><td><span class="rk">РК-5</span></td><td>Гостевая спальня, потолок у входа</td><td>розетки гр. 11 (<code>СГ-02, 06, 09…12</code>); декор гр. 14 (<code>СГ-01, 03, 04, 05</code>); транзит гр. 6. Люстра <code>СГ-13</code> — прямая от Р7</td></tr>
+      <tr><td><span class="rk">РК-6</span></td><td>Кухня, потолок над рабочей зоной</td><td>розетки гр. 8 (<code>КГ-19…21, 24, 25</code>); декор гр. 15 (<code>КГ-26</code>). Люстры <code>КГ-27, 28</code> — прямые от Р8, Р9; точечные <code>КГ-29…31</code> — прямая от Р10</td></tr>
+      <tr><td><span class="rk">РК-7</span></td><td>Гостиная, потолок у ТВ-зоны / окон</td><td>медиа гр. 9 (<code>КГ-13…17</code>); декор гр. 15 (<code>КГ-01…06</code> — карнизы, LED, бра вдоль окон)</td></tr>
+    </tbody>
+  </table>
+</section>
+
+<section class="block">
+  <h2>9. Шина N и шина PE (перечень подключений)</h2>
+  <h3>N-шина (изолированная) — 27 проводников</h3>
+  <table>
+    <thead><tr><th>№</th><th>Откуда → куда</th><th>Провод</th></tr></thead>
+    <tbody>
+      <tr><td>1</td><td>Приход N с этажного щита (после вводного дифа застройщика)</td><td>жила N кабеля 5×10</td></tr>
+      <tr><td>2</td><td>→ гр. 2 (верх дифа)</td><td>4 мм², синий</td></tr>
+      <tr><td>3</td><td>→ гр. 5 (верх дифа)</td><td>4 мм², синий</td></tr>
+      <tr><td>4–6</td><td>→ гр. 7, 8, 12 (верх дифов)</td><td>2,5 мм², синий</td></tr>
+      <tr><td>7–27</td><td>Транзитом в кабели линий: гр. 1, 3, 4, 6, 9, 10, 11, 13, 14, 15, 16 (жила N с шины) и 10 световых линий Р1–Р10 (жила N каждого кабеля — на шину)</td><td>жила N каждого кабеля</td></tr>
+    </tbody>
+  </table>
+  <div class="warn"><b>Категорически:</b> нагрузочный N′ диф-линий (гр. 2, 5, 7, 8, 12) подключается только к нижней
+  клемме своего дифавтомата и нигде не соединяется с общей N-шиной.</div>
+  <h3>PE-шина — 27 проводников</h3>
+  <table>
+    <thead><tr><th>№</th><th>Откуда → куда</th></tr></thead>
+    <tbody>
+      <tr><td>1</td><td>Приход PE с этажного щита (жёлто-зелёная жила 5×10, не проходит через аппараты)</td></tr>
+      <tr><td>2–27</td><td>PE-жила каждого из 26 кабелей: 16 линий групп + 10 световых линий Р1–Р10 — напрямую на шину</td></tr>
+    </tbody>
+  </table>
+</section>
+
+<section class="block">
+  <h2>10. Распиновка кабелей</h2>
+  <table>
+    <thead><tr><th>Кабель</th><th>Жила → назначение</th></tr></thead>
+    <tbody>
+      <tr><td>Ввод 5×10 Cu (этажный щит → квартирный щит)</td><td>коричневая = <span class="wire wL1">L1</span>, чёрная = <span class="wire wL2">L2</span>, серая = <span class="wire wL3">L3</span>, синяя = <span class="wire wN">N</span>, жёлто-зелёная = <span class="wire wPE">PE</span></td></tr>
+      <tr><td>3ф линии 5×4 (гр. 1, гр. 2)</td><td>коричневая = L1, чёрная = L2, серая = L3, синяя = N, жёлто-зелёная = PE</td></tr>
+      <tr><td>Однофазные линии 3×4 / 3×2,5 / 3×1,5 (группы и светильники)</td><td>коричневая (или белая) = L, синяя = N, жёлто-зелёная = PE</td></tr>
+      <tr><td>Питание гребёнок света (гр. 17/18 → реле)</td><td>одинарный провод 2,5 мм² коричневый, фаза после автомата</td></tr>
+    </tbody>
+  </table>
+</section>
+
+<section class="block">
+  <h2>11. Особенности решения (осознанные компромиссы)</h2>
+  <ol class="comp">
+    <li><b>Стиральная и сушильная машины на одном C20</b>: при обеих 18,7 А — кабель 3×4 обязателен; отключаются вместе.</li>
+    <li><b>Все тёплые полы (4 термостата) на одной линии</b>: при срабатывании отключается весь подогрев.</li>
+    <li><b>Наружный блок кондиционера с внутренними на одном автомате</b>: при КЗ на линии внутреннего блока остановится вся мультисплит-система.</li>
+    <li><b>Кухонные розетки одной линией (8 точек)</b>: чайник + микроволновка одновременно ≈ 15,5 А — пик близок к пределу C16.</li>
+    <li><b>Основной свет — на двух автоматах (гр. 17/18)</b>: при срабатывании одного обесточиваются сразу 4–6 зон света. Декор и приводы — на 3 группах (13–15) с длинными шлейфами через квартиру.</li>
+  </ol>
+</section>
+
+<section class="block">
+  <h2>12. Порядок сборки и проверки</h2>
+  <ol class="notes">
+    <li>Закрепить корпус (54 модуля, 3 рейки) в нише, установить N- и PE-шины, аппараты и фазные клеммы по разделу 2.</li>
+    <li>Гребёнки и перемычки (раздел 6); питание гребёнок света — проводами 2,5 мм² с гр. 17/18 на первые реле сегментов.</li>
+    <li>Вводной кабель 5×10: фазы — на клеммы L1/L2/L3, N — на N-шину, PE — на PE-шину.</li>
+    <li>Линии по клеммной таблице (раздел 7); светильники — прямыми линиями от реле (шлейфы блоков — в клеммах светильников).</li>
+    <li>Промаркировать все провода «гр. № / Р№» с двух концов; схему положить в щит.</li>
+    <li>Проверка без напряжения: прозвонка линий, соответствие фаз, сопротивление изоляции.</li>
+    <li>Под напряжением: кнопка «T» дифавтоматов, работа групп под нагрузкой.</li>
+    <li>Zigbee: питание шлюза от гр. 16, сопряжение реле Р1–Р10 (кнопка на каждом реле), проверка коммутации каждого светильника из интерфейса, переименование устройств по комнатам.</li>
+    <li>Замер сопротивления петли «фаза-ноль» на удалённых точках.</li>
+  </ol>
+</section>
+
+</main>
+</body>
+</html>

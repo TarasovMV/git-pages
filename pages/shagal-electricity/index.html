@@ -1,0 +1,467 @@
+<!DOCTYPE html>
+<!-- page-meta
+title: Электрика квартиры — ТЗ, мощности, распределение
+description: Техзадание по электрике квартиры: 3 фазы, ввод 25 А/фазу, 18 групп, мощности и распределение по линиям.
+-->
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Электрика квартиры — ТЗ, мощности, распределение</title>
+<style>
+  :root{
+    --ink:#1c2733; --muted:#5b6b7b; --line:#dfe6ee; --bg:#f4f7fa; --card:#ffffff;
+    --accent:#0f6cbd; --warn-bg:#fff4e5; --warn-ink:#8a5300; --warn-line:#f0c070;
+    --l1:#b8860b; --l1-bg:#fff6dc; --l2:#1c7a3d; --l2-bg:#e6f7ec; --l3:#c22f2f; --l3-bg:#fdecec;
+    --p3:#5b3fc4; --p3-bg:#eeebfb;
+  }
+  *{box-sizing:border-box}
+  body{margin:0;font-family:"Segoe UI",Roboto,Arial,sans-serif;color:var(--ink);background:var(--bg);line-height:1.55}
+  header.page{background:linear-gradient(135deg,#12314f,#0f6cbd);color:#fff;padding:28px 20px 22px}
+  header.page .wrap{max-width:1180px;margin:0 auto}
+  header.page h1{margin:0 0 6px;font-size:26px;font-weight:700}
+  header.page p{margin:0;opacity:.85;font-size:14px}
+  nav.toc{position:sticky;top:0;z-index:20;background:#0e2a45;border-bottom:1px solid rgba(255,255,255,.15);
+    display:flex;gap:6px;padding:0 20px;overflow-x:auto}
+  nav.toc a{color:#cfe0f2;text-decoration:none;font-size:14px;padding:12px 16px;white-space:nowrap;border-bottom:3px solid transparent}
+  nav.toc a:hover{color:#fff}
+  nav.toc a.active{color:#fff;border-bottom-color:#7ab8ff}
+  main{max-width:1180px;margin:0 auto;padding:26px 20px 60px}
+  section.block{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:26px 28px;margin:0 0 34px;scroll-margin-top:56px}
+  h2{margin:0 0 4px;font-size:22px}
+  h2 .num{display:inline-block;background:var(--accent);color:#fff;border-radius:8px;width:34px;height:34px;line-height:34px;text-align:center;margin-right:10px;font-size:17px}
+  h3{margin:26px 0 10px;font-size:17px;color:#12314f}
+  p.lead{margin:0 0 18px;color:var(--muted);font-size:14px}
+  table{width:100%;border-collapse:collapse;font-size:13.5px;margin:12px 0 6px}
+  th{background:#eef3f8;text-align:left;padding:8px 10px;border:1px solid var(--line);font-weight:600;font-size:12.5px;white-space:nowrap}
+  td{padding:7px 10px;border:1px solid var(--line);vertical-align:top}
+  tbody tr:nth-child(even){background:#fafcfe}
+  td.num,th.num{text-align:right;white-space:nowrap}
+  tr.total td{background:#eef3f8;font-weight:700}
+  code{background:#eef2f6;border:1px solid #e0e7ef;border-radius:4px;padding:1px 5px;font-family:Consolas,Menlo,monospace;font-size:12.5px;white-space:nowrap}
+  .badge{display:inline-block;border-radius:20px;padding:1px 9px;font-size:11.5px;font-weight:700;white-space:nowrap}
+  .l1{background:var(--l1-bg);color:var(--l1)} .l2{background:var(--l2-bg);color:var(--l2)} .l3{background:var(--l3-bg);color:var(--l3)}
+  .p3{background:var(--p3-bg);color:var(--p3)}
+  .dif{display:inline-block;background:#e3f0fd;color:#0b5394;border-radius:4px;padding:1px 6px;font-size:11px;font-weight:700;margin-left:5px}
+  .uq{background:#ffedd5;color:#c2410c;border-radius:4px;padding:0 5px;font-weight:600}
+  .callout{border:1px solid var(--warn-line);background:var(--warn-bg);color:var(--warn-ink);border-radius:10px;padding:14px 18px;margin:16px 0;font-size:14px}
+  .callout b{color:#6b4000}
+  .cards{display:grid;grid-template-columns:repeat(auto-fit,minmax(230px,1fr));gap:14px;margin:14px 0}
+  .card{border:1px solid var(--line);border-radius:10px;padding:14px 16px;background:#fbfdff}
+  .card .k{font-size:12px;color:var(--muted);text-transform:uppercase;letter-spacing:.4px}
+  .card .v{font-size:21px;font-weight:700;margin-top:2px}
+  .card .s{font-size:12.5px;color:var(--muted);margin-top:3px}
+  .plan{display:grid;grid-template-columns:1fr 1.25fr 1fr;gap:12px;margin:14px 0}
+  .wing{border:1.5px solid var(--line);border-radius:12px;padding:12px;background:#fbfdff}
+  .wing h4{margin:0 0 8px;font-size:13px;color:var(--muted);text-transform:uppercase;letter-spacing:.5px;text-align:center}
+  .wing .room{border-radius:8px;padding:9px 12px;margin:6px 0;background:#fff;border:1px solid var(--line);font-size:13.5px}
+  .wing .room b{display:block;font-size:14px}
+  .wing .room span{color:var(--muted);font-size:12px}
+  .wing.center{background:#f0f7ff;border-color:#bcd9f5}
+  .rk{display:inline-block;background:#12314f;color:#fff;border-radius:6px;padding:1px 8px;font-size:11.5px;font-weight:700;margin-right:6px}
+  .legend{display:flex;flex-wrap:wrap;gap:10px;margin:6px 0 14px;font-size:13px;align-items:center}
+  ol.comp{margin:8px 0;padding-left:22px}
+  ol.comp li{margin:6px 0}
+  .small{font-size:12.5px;color:var(--muted)}
+  .tbl-scroll{overflow-x:auto;-webkit-overflow-scrolling:touch}
+  .tbl-scroll table{margin-top:10px}
+  @media (max-width:820px){.plan{grid-template-columns:1fr}}
+  @media print{nav.toc{display:none} section.block{break-inside:avoid-page} body{background:#fff}}
+</style>
+</head>
+<body>
+
+<header class="page">
+  <div class="wrap">
+    <h1>Электрика квартиры</h1>
+    <p>Техническое задание · Расчёт мощности 101 электроточки · Умный дом: щит на 18 группах + 10 Zigbee-реле освещения, распредкоробки, баланс фаз</p>
+  </div>
+</header>
+
+<nav class="toc" id="toc">
+  <a href="#tz">1 · Техническое задание</a>
+  <a href="#power">2 · Расчёт мощности</a>
+  <a href="#dist">3 · Распределение</a>
+</nav>
+
+<main>
+
+<!-- ============================ 1. ТЗ ============================ -->
+<section class="block" id="tz">
+  <h2><span class="num">1</span>Техническое задание</h2>
+  <p class="lead">Исходные данные и требования, на основе которых выполнены расчёт и распределение.</p>
+
+  <div class="cards">
+    <div class="card"><div class="k">Ввод в квартиру</div><div class="v">3 фазы</div><div class="s">L1 / L2 / L3, 380/220 В</div></div>
+    <div class="card"><div class="k">Вводной дифавтомат застройщика</div><div class="v">25 А / фаза</div><div class="s">выделенная мощность 5,75 кВт на фазу — всего 17,25 кВт</div></div>
+    <div class="card"><div class="k">Электроточки</div><div class="v">101 шт.</div><div class="s">7 помещений, пофазный список — <code>sources.md</code></div></div>
+    <div class="card"><div class="k">Обязательное требование</div><div class="v">Холодильник</div><div class="s">отдельный автомат (гр. 4, B16)</div></div>
+    <div class="card"><div class="k">Целевое решение</div><div class="v">18 групп + 10 реле</div><div class="s">40 из 54 модулей щитка · схема щита — <code>panel.html</code></div></div>
+  </div>
+
+  <h3>Требования к результату</h3>
+  <ol>
+    <li>Для каждой электроточки подобрать примерную мощность прибора по её назначению.</li>
+    <li>Составить распределение точек по фазам и автоматам: <b>щит на 18 группах + 10 Zigbee-реле освещения</b> (утверждённая версия).</li>
+    <li>Использовать распределительные коробки по расположению комнат, чтобы не тянуть отдельную линию под каждую точку.</li>
+    <li>Выделить холодильник на отдельный автомат.</li>
+    <li>Роутер и мини-ПК — дежурная линия: остаются под напряжением при отключении всех остальных групп (автомат гр. 16, независимо от холодильника — авария сетевой розетки не обесточивает холодильник).</li>
+    <li><b>Умный дом:</b> основное освещение — через Zigbee-реле на DIN-рейке в щите, без физических выключателей (список реле — <code>rele.md</code>); дежурная подсветка (бра, зеркала, шкафы, LED штор, гирлянды) и домофон — без реле, на группах декора. Светильники — прямыми линиями от реле; распредкоробки — только для розеточных шлейфов и декора.</li>
+  </ol>
+
+  <h3>План квартиры (по rooms_plan.md)</h3>
+  <div class="plan">
+    <div class="wing">
+      <h4>Левое крыло · мастер-зона</h4>
+      <div class="room"><b>Мастер спальня</b><span>проектор, 2 рабочих места, карнизы, LED</span></div>
+      <div class="room"><b>Гардеробная</b><span>подсветка шкафов; БП подсветки ванной</span></div>
+      <div class="room"><b>Мастер санузел</b><span>тёплый пол, умный унитаз, полотенцесушитель</span></div>
+    </div>
+    <div class="wing center">
+      <h4>Центр</h4>
+      <div class="room"><b>Прихожая</b><span>домофон, роутер, робот-пылесос, тёплый пол ~4 м²</span></div>
+      <div class="room"><b>Гостевой санузел</b><span>стирка, сушка, проточный ВН 11 кВт</span></div>
+      <div class="room"><b>Кухня-гостиная</b><span>варочная 7 кВт, духовка, остров, ТВ-зона</span></div>
+    </div>
+    <div class="wing">
+      <h4>Правое крыло</h4>
+      <div class="room"><b>Гостевая спальня</b><span>наружный блок мультисплит, рабочие места</span></div>
+    </div>
+  </div>
+
+  <div class="callout">
+    <b>Ключевое ограничение ввода.</b> Варочная панель (7 кВт = 10,1 А/ф) и проточный водонагреватель
+    (11 кВт = 15,9 А/ф) — трёхфазные и грузят <u>все три фазы одновременно</u>. Их полная мощность одновременно
+    составляет 26 А/ф &gt; 25 А вводного дифавтомата. Практический выход: использовать ступень проточника
+    5,5–8 кВт (11,6 А/ф) — тогда с варочной панелью ввод не перегружается.
+  </div>
+</section>
+
+<!-- ============================ 2. МОЩНОСТИ ============================ -->
+<section class="block" id="power">
+  <h2><span class="num">2</span>Расчёт мощности электроточек</h2>
+  <p class="lead">
+    Для каждой точки указана установленная мощность типичного прибора (Вт).
+    Реальная нагрузка розеточных групп ниже установленной — учитывается коэффициентом спроса Кс
+    (см. раздел 3). Ток однофазной нагрузки: I = P / 230 В.
+  </p>
+
+  <h3>Мастер спальня · левое крыло</h3>
+  <table>
+    <thead><tr><th>Код</th><th>Электроточка</th><th>Типичный прибор</th><th class="num">Мощность, Вт</th><th>Примечание</th></tr></thead>
+    <tbody>
+      <tr><td><code>СП-01</code></td><td>Вывод электрокарниза (римские шторы)</td><td>Привод карниза</td><td class="num">60</td><td>пиковый ток при пуске ~2×</td></tr>
+      <tr><td><code>СП-02</code></td><td>Розетка для проектора</td><td>Проектор</td><td class="num">300</td><td>пик в режиме яркой лампы</td></tr>
+      <tr><td><code>СП-03</code></td><td>Вывод для бра 1</td><td>LED-бра</td><td class="num">20</td><td></td></tr>
+      <tr><td><code>СП-04</code></td><td>Вывод для бра 2</td><td>LED-бра</td><td class="num">20</td><td></td></tr>
+      <tr><td><code>СП-05</code></td><td>Вывод подсветки зеркала</td><td>LED-подсветка</td><td class="num">15</td><td></td></tr>
+      <tr><td><code>СП-06</code></td><td>Прикроватная розетка слева 1</td><td>Зарядки, настольная лампа</td><td class="num">60</td><td>резерв под ноутбук 150 Вт</td></tr>
+      <tr><td><code>СП-07</code></td><td>Прикроватная розетка слева 2</td><td>Зарядки, настольная лампа</td><td class="num">60</td><td></td></tr>
+      <tr><td><code>СП-08</code></td><td>Прикроватная розетка справа 1</td><td>Зарядки, настольная лампа</td><td class="num">60</td><td></td></tr>
+      <tr><td><code>СП-09</code></td><td>Прикроватная розетка справа 2</td><td>Зарядки, настольная лампа</td><td class="num">60</td><td></td></tr>
+      <tr><td><code>СП-10</code></td><td>Вывод электрокарниза (большое окно)</td><td>Привод карниза</td><td class="num">60</td><td></td></tr>
+      <tr><td><code>СП-11</code></td><td>Вывод LED-подсветки штор (БП 24 В)</td><td>Блок питания LED</td><td class="num">50</td><td></td></tr>
+      <tr><td><code>СП-12</code></td><td>Розетка для гирлянды</td><td>LED-гирлянда</td><td class="num">20</td><td></td></tr>
+      <tr><td><code>СП-13</code></td><td>Техническая розетка у входа в гардеробную</td><td>Пылесос (эпизодически)</td><td class="num">100</td><td>пик при уборке до 1800 Вт</td></tr>
+      <tr><td><code>СП-14</code></td><td>Вывод электропривода экрана проектора</td><td>Привод экрана</td><td class="num">120</td><td>работает секунды</td></tr>
+      <tr><td><code>СП-15</code></td><td>Розетка внутреннего блока кондиционера</td><td>Внутренний блок сплит</td><td class="num">100</td><td>питание мультисплит — отдельная линия <code>СГ-07</code></td></tr>
+      <tr><td><code>СП-16</code></td><td>Розетка рабочего места 1</td><td>ПК + 2 монитора</td><td class="num">500</td><td>пик при загрузке; типично 200–300 Вт</td></tr>
+      <tr><td><code>СП-17</code></td><td>Розетка рабочего места 2</td><td>ПК + 2 монитора</td><td class="num">500</td><td></td></tr>
+      <tr><td><code>СП-18</code></td><td>Потолочная LED-лента 6 м (БП 24 В)</td><td>LED-лента 14,4 Вт/м + БП</td><td class="num">100</td><td></td></tr>
+      <tr><td><code>СП-19</code></td><td>Вывод точечного потолочного светильника</td><td>Точечный LED-светильник</td><td class="num">40</td><td></td></tr>
+      <tr class="total"><td colspan="3">Итого установленная</td><td class="num">2245</td><td>≈ 2,2 кВт</td></tr>
+    </tbody>
+  </table>
+
+  <h3>Гардеробная · левое крыло</h3>
+  <table>
+    <thead><tr><th>Код</th><th>Электроточка</th><th>Типичный прибор</th><th class="num">Мощность, Вт</th><th>Примечание</th></tr></thead>
+    <tbody>
+      <tr><td><code>ГД-01</code></td><td>Вывод подсветки шкафа 1</td><td>LED-подсветка</td><td class="num">10</td><td></td></tr>
+      <tr><td><code>ГД-02</code></td><td>Вывод подсветки шкафа 2</td><td>LED-подсветка</td><td class="num">10</td><td></td></tr>
+      <tr><td><code>ГД-03</code></td><td>Вывод точечного светильника 1 (блок)</td><td>Блок светильников</td><td class="num">40</td><td></td></tr>
+      <tr><td><code>ГД-04</code></td><td>Вывод точечного светильника 2 (блок)</td><td>Блок светильников</td><td class="num">40</td><td></td></tr>
+      <tr class="total"><td colspan="3">Итого установленная</td><td class="num">100</td><td>≈ 0,1 кВт</td></tr>
+    </tbody>
+  </table>
+
+  <h3>Мастер санузел · левое крыло</h3>
+  <table>
+    <thead><tr><th>Код</th><th>Электроточка</th><th>Типичный прибор</th><th class="num">Мощность, Вт</th><th>Примечание</th></tr></thead>
+    <tbody>
+      <tr><td><code>СУМ-01</code></td><td>Вывод подсветки зеркала</td><td>LED-подсветка</td><td class="num">15</td><td></td></tr>
+      <tr><td><code>СУМ-02</code></td><td>Вывод тёплого пола (~2 м²)</td><td>Термомат 180 Вт/м²</td><td class="num">350</td><td>по термостату, скважность 30–50 %</td></tr>
+      <tr><td><code>СУМ-03</code></td><td>Розетка зарядки умывальных принадлежностей 1</td><td>Зарядка щётки/бритвы</td><td class="num">50</td><td>эпизодически фен 1800 Вт (кратко)</td></tr>
+      <tr><td><code>СУМ-04</code></td><td>Розетка зарядки умывальных принадлежностей 2</td><td>Зарядка щётки/бритвы</td><td class="num">50</td><td></td></tr>
+      <tr><td><code>СУМ-05</code></td><td>Розетка умного унитаза</td><td>Унитаз-биде (подогрев)</td><td class="num">600</td><td>пик при нагреве воды; типично 100–150 Вт</td></tr>
+      <tr><td><code>СУМ-06</code></td><td>Розетка полотенцесушителя</td><td>Электрополотенцесушитель</td><td class="num">150</td><td></td></tr>
+      <tr><td><code>СУМ-07</code></td><td>Вывод подсветки шкафа</td><td>LED-подсветка</td><td class="num">10</td><td></td></tr>
+      <tr><td><code>СУМ-08</code></td><td>Вывод LED-подсветки ванной (БП 24 В)</td><td>Блок питания LED</td><td class="num">60</td><td>БП на потолке гардеробной</td></tr>
+      <tr><td><code>СУМ-09</code></td><td>Вывод точечного светильника 1 (блок)</td><td>Блок светильников</td><td class="num">40</td><td></td></tr>
+      <tr><td><code>СУМ-10</code></td><td>Вывод точечного светильника 2 (блок)</td><td>Блок светильников</td><td class="num">40</td><td></td></tr>
+      <tr><td><code>СУМ-11</code></td><td>Вывод точечного светильника 3 (блок)</td><td>Блок светильников</td><td class="num">40</td><td></td></tr>
+      <tr class="total"><td colspan="3">Итого установленная</td><td class="num">1405</td><td>≈ 1,4 кВт</td></tr>
+    </tbody>
+  </table>
+
+  <h3>Прихожая · центр</h3>
+  <table>
+    <thead><tr><th>Код</th><th>Электроточка</th><th>Типичный прибор</th><th class="num">Мощность, Вт</th><th>Примечание</th></tr></thead>
+    <tbody>
+      <tr><td><code>ПР-01</code></td><td>Вывод для домофона</td><td>Монитор домофона</td><td class="num">15</td><td></td></tr>
+      <tr><td><code>ПР-02</code></td><td>Вывод тёплого пола (~4 м²)</td><td>Термомат 180 Вт/м²</td><td class="num">700</td><td>по термостату, скважность 30–50 %</td></tr>
+      <tr><td><code>ПР-03</code></td><td>Техническая розетка у входа в гостевой санузел</td><td>Пылесос (эпизодически)</td><td class="num">100</td><td>пик при уборке до 1800 Вт</td></tr>
+      <tr><td><code>ПР-04</code></td><td>Розетка Wi-Fi роутера</td><td>Роутер + коммутатор</td><td class="num">20</td><td>круглосуточно; дежурная линия (гр. 16)</td></tr>
+      <tr><td><code>ПР-05</code></td><td>Вывод подсветки шкафа</td><td>LED-подсветка</td><td class="num">10</td><td></td></tr>
+      <tr><td><code>ПР-06</code></td><td>Розетка станции робота-пылесоса</td><td>Базовая станция</td><td class="num">55</td><td>пик при зарядке ~90 Вт</td></tr>
+      <tr><td><code>ПР-07</code></td><td>Розетка сушилки для обуви</td><td>Сушилка для обуви</td><td class="num">60</td><td></td></tr>
+      <tr><td><code>ПР-08</code></td><td>Розетка досветки цветов 1</td><td>Фитолампа</td><td class="num">30</td><td>по таймеру 6–12 ч/сут</td></tr>
+      <tr><td><code>ПР-09</code></td><td>Розетка досветки цветов 2</td><td>Фитолампа</td><td class="num">30</td><td></td></tr>
+      <tr><td><code>ПР-10</code></td><td>Розетка досветки цветов 3</td><td>Фитолампа</td><td class="num">30</td><td></td></tr>
+      <tr><td><code>ПР-11</code></td><td>Вывод однофазного трекового шинопровода 220 В</td><td>4–6 трековых LED-спотов</td><td class="num">100</td><td>расчёт под 5 спотов × 20 Вт</td></tr>
+      <tr><td><code>ПР-12</code></td><td>Розетка для мини-ПК</td><td>Мини-ПК / домашний сервер</td><td class="num">100</td><td>пик 150 Вт; круглосуточно, дежурная линия (гр. 16)</td></tr>
+      <tr class="total"><td colspan="3">Итого установленная</td><td class="num">1250</td><td>≈ 1,25 кВт</td></tr>
+    </tbody>
+  </table>
+
+  <h3>Гостевой санузел · центр</h3>
+  <table>
+    <thead><tr><th>Код</th><th>Электроточка</th><th>Типичный прибор</th><th class="num">Мощность, Вт</th><th>Примечание</th></tr></thead>
+    <tbody>
+      <tr><td><code>СУГ-01</code></td><td>Вывод подсветки зеркала</td><td>LED-подсветка</td><td class="num">15</td><td></td></tr>
+      <tr><td><code>СУГ-02</code></td><td>Розетка стиральной машины</td><td>Стиральная машина</td><td class="num">2100</td><td>нагрев ~70 % цикла; двигатель кратко ~500 Вт</td></tr>
+      <tr><td><code>СУГ-03</code></td><td>Розетка сушильной машины</td><td>Сушильная машина</td><td class="num">2200</td><td>ТЭН длительно</td></tr>
+      <tr><td><code>СУГ-04</code></td><td>3-фазный вывод проточного водонагревателя</td><td>Проточный ВН 380 В</td><td class="num">11 000</td><td>15,9 А/фазу; обычно есть ступени мощности</td></tr>
+      <tr><td><code>СУГ-05</code></td><td>Розетка системы защиты от протечек «Нептун»</td><td>Контроллер + краны</td><td class="num">15</td><td>круглосуточно; краны кратко 40 Вт</td></tr>
+      <tr><td><code>СУГ-06</code></td><td>Розетка полотенцесушителя</td><td>Электрополотенцесушитель</td><td class="num">150</td><td></td></tr>
+      <tr><td><code>СУГ-07</code></td><td>Вывод тёплого пола (~2 м²)</td><td>Термомат 180 Вт/м²</td><td class="num">350</td><td>по термостату</td></tr>
+      <tr><td><code>СУГ-08</code></td><td>Розетка зарядки умывальных принадлежностей 1</td><td>Зарядка щётки/бритвы</td><td class="num">50</td><td></td></tr>
+      <tr><td><code>СУГ-09</code></td><td>Розетка зарядки умывальных принадлежностей 2</td><td>Зарядка щётки/бритвы</td><td class="num">50</td><td></td></tr>
+      <tr><td><code>СУГ-10</code></td><td>Вывод точечного светильника 1 (блок)</td><td>Блок светильников</td><td class="num">40</td><td></td></tr>
+      <tr><td><code>СУГ-11</code></td><td>Вывод точечного светильника 2 (блок)</td><td>Блок светильников</td><td class="num">40</td><td></td></tr>
+      <tr class="total"><td colspan="3">Итого установленная</td><td class="num">16 010</td><td>≈ 16,0 кВт (из них 11 кВт — водонагреватель)</td></tr>
+    </tbody>
+  </table>
+
+  <h3>Гостевая спальня · правое крыло</h3>
+  <table>
+    <thead><tr><th>Код</th><th>Электроточка</th><th>Типичный прибор</th><th class="num">Мощность, Вт</th><th>Примечание</th></tr></thead>
+    <tbody>
+      <tr><td><code>СГ-01</code></td><td>Вывод подсветки шкафа</td><td>LED-подсветка</td><td class="num">10</td><td></td></tr>
+      <tr><td><code>СГ-02</code></td><td>Розетка для телевизора</td><td>ТВ 50–55″</td><td class="num">150</td><td></td></tr>
+      <tr><td><code>СГ-03</code></td><td>Вывод электрокарниза</td><td>Привод карниза</td><td class="num">60</td><td></td></tr>
+      <tr><td><code>СГ-04</code></td><td>Вывод LED-подсветки штор (БП 24 В)</td><td>Блок питания LED</td><td class="num">50</td><td></td></tr>
+      <tr><td><code>СГ-05</code></td><td>Розетка для гирлянды</td><td>LED-гирлянда</td><td class="num">20</td><td></td></tr>
+      <tr><td><code>СГ-06</code></td><td>Техническая розетка у выхода в прихожую</td><td>Пылесос (эпизодически)</td><td class="num">100</td><td>пик при уборке до 1800 Вт</td></tr>
+      <tr><td><code>СГ-07</code></td><td>Вывод внешнего блока кондиционера (мультисплит на 3 блока)</td><td>Наружный блок мультисплит Ballu</td><td class="num">2400</td><td>питает компрессоры всех 3 внутренних блоков</td></tr>
+      <tr><td><code>СГ-08</code></td><td>Розетка внутреннего блока кондиционера</td><td>Внутренний блок сплит</td><td class="num">100</td><td></td></tr>
+      <tr><td><code>СГ-09</code></td><td>Розетка рабочего места 1</td><td>ПК + 2 монитора</td><td class="num">500</td><td></td></tr>
+      <tr><td><code>СГ-10</code></td><td>Розетка рабочего места 2</td><td>ПК + 2 монитора</td><td class="num">500</td><td></td></tr>
+      <tr><td><code>СГ-11</code></td><td>Прикроватная розетка 1</td><td>Зарядки, лампа</td><td class="num">60</td><td></td></tr>
+      <tr><td><code>СГ-12</code></td><td>Прикроватная розетка 2</td><td>Зарядки, лампа</td><td class="num">60</td><td></td></tr>
+      <tr><td><code>СГ-13</code></td><td>Вывод потолочной люстры</td><td>LED-люстра</td><td class="num">100</td><td></td></tr>
+      <tr class="total"><td colspan="3">Итого установленная</td><td class="num">4110</td><td>≈ 4,1 кВт</td></tr>
+    </tbody>
+  </table>
+
+  <h3>Кухня-гостиная · центр</h3>
+  <table>
+    <thead><tr><th>Код</th><th>Электроточка</th><th>Типичный прибор</th><th class="num">Мощность, Вт</th><th>Примечание</th></tr></thead>
+    <tbody>
+      <tr><td><code>КГ-01</code></td><td>Вывод электрокарниза (большое окно)</td><td>Привод карниза</td><td class="num">60</td><td></td></tr>
+      <tr><td><code>КГ-02</code></td><td>Вывод LED-подсветки штор (БП 24 В)</td><td>Блок питания LED</td><td class="num">50</td><td></td></tr>
+      <tr><td><code>КГ-03</code></td><td>Розетка для гирлянды</td><td>LED-гирлянда</td><td class="num">20</td><td></td></tr>
+      <tr><td><code>КГ-04</code></td><td>Вывод электрокарниза (римские шторы) 1</td><td>Привод карниза</td><td class="num">60</td><td></td></tr>
+      <tr><td><code>КГ-05</code></td><td>Вывод электрокарниза (римские шторы) 2</td><td>Привод карниза</td><td class="num">60</td><td></td></tr>
+      <tr><td><code>КГ-06</code></td><td>Вывод бра</td><td>LED-бра</td><td class="num">20</td><td></td></tr>
+      <tr><td><code>КГ-07</code></td><td>Вывод тёплого пола (~6 м²)</td><td>Термомат 180 Вт/м²</td><td class="num">1100</td><td>по термостату, скважность 30–50 %</td></tr>
+      <tr><td><code>КГ-08</code></td><td>Розетка мелких приборов у острова 1</td><td>Чайник / мультиварка</td><td class="num">2000</td><td>резерв мощности розетки</td></tr>
+      <tr><td><code>КГ-09</code></td><td>Розетка мелких приборов у острова 2</td><td>Блендер / комбайн</td><td class="num">2000</td><td>резерв мощности розетки</td></tr>
+      <tr><td><code>КГ-10</code></td><td>Розетка мелких приборов за диваном</td><td>Увлажнитель, ноутбук</td><td class="num">500</td><td>пик при уборке (пылесос) 1800 Вт</td></tr>
+      <tr><td><code>КГ-11</code></td><td>Розетка внутреннего блока кондиционера</td><td>Внутренний блок сплит</td><td class="num">100</td><td></td></tr>
+      <tr><td><code>КГ-12</code></td><td>Розетка мелких приборов у шкафа</td><td>Увлажнитель, торшер</td><td class="num">500</td><td></td></tr>
+      <tr><td><code>КГ-13</code></td><td>Розетка телевизора</td><td>ТВ 65–75″</td><td class="num">200</td><td></td></tr>
+      <tr><td><code>КГ-14</code></td><td>Розетка саундбара (в тумбе ТВ)</td><td>Саундбар + сабвуфер</td><td class="num">100</td><td></td></tr>
+      <tr><td><code>КГ-15</code></td><td>Розетка игровой приставки (в тумбе ТВ)</td><td>Приставка</td><td class="num">200</td><td></td></tr>
+      <tr><td><code>КГ-16</code></td><td>Розетка мелкой техники (в тумбе ТВ)</td><td>Роутер, зарядки</td><td class="num">200</td><td></td></tr>
+      <tr><td><code>КГ-17</code></td><td>Вывод подсветки (в тумбе ТВ)</td><td>LED-подсветка</td><td class="num">20</td><td></td></tr>
+      <tr><td><code>КГ-18</code></td><td>Розетка холодильника (инверторный)</td><td>Холодильник инверторный</td><td class="num">200</td><td>пусковой ток мал; типично 80–150 Вт</td></tr>
+      <tr><td><code>КГ-19</code></td><td>Розетка кухонной техники 1 (блок 1)</td><td>Кофемашина / тостер</td><td class="num">2000</td><td>резерв мощности розетки</td></tr>
+      <tr><td><code>КГ-20</code></td><td>Розетка кухонной техники 2 (блок 1)</td><td>Kitchen-машина и т.п.</td><td class="num">2000</td><td>резерв мощности розетки</td></tr>
+      <tr><td><code>КГ-21</code></td><td>Розетка кухонной техники 3 (блок 1)</td><td>Мелкая техника</td><td class="num">2000</td><td>резерв мощности розетки</td></tr>
+      <tr><td><code>КГ-22</code></td><td>3-фазная розетка индукционной варочной панели</td><td>Варочная панель 380 В</td><td class="num">7000</td><td>10,1 А/фазу; полная мощность редко</td></tr>
+      <tr><td><code>КГ-23</code></td><td>Розетка электрической духовки</td><td>Духовой шкаф</td><td class="num">2000</td><td>длительно при готовке</td></tr>
+      <tr><td><code>КГ-24</code></td><td>Розетка микроволновки</td><td>Микроволновка</td><td class="num">1500</td><td>кратковременно</td></tr>
+      <tr><td><code>КГ-25</code></td><td>Розетка кухонной вытяжки</td><td>Вытяжка</td><td class="num">250</td><td></td></tr>
+      <tr><td><code>КГ-26</code></td><td>Вывод LED-подсветки кухонных шкафов (БП 24 В)</td><td>Блок питания LED</td><td class="num">50</td><td></td></tr>
+      <tr><td><code>КГ-27</code></td><td>Вывод люстры гостиной зоны</td><td>LED-люстра</td><td class="num">100</td><td></td></tr>
+      <tr><td><code>КГ-28</code></td><td>Вывод люстры над островом</td><td>LED-люстра</td><td class="num">60</td><td></td></tr>
+      <tr><td><code>КГ-29</code></td><td>Вывод точечного светильника 1 (блок)</td><td>Блок светильников</td><td class="num">50</td><td></td></tr>
+      <tr><td><code>КГ-30</code></td><td>Вывод точечного светильника 2 (блок)</td><td>Блок светильников</td><td class="num">50</td><td></td></tr>
+      <tr><td><code>КГ-31</code></td><td>Вывод точечного светильника 3 (блок)</td><td>Блок светильников</td><td class="num">50</td><td></td></tr>
+      <tr class="total"><td colspan="3">Итого установленная</td><td class="num">24 500</td><td>≈ 24,5 кВт (из них 7 кВт — варочная панель)</td></tr>
+    </tbody>
+  </table>
+
+  <h3>Сводка по квартире</h3>
+  <table>
+    <thead><tr><th>Зона</th><th class="num">Установленная мощность, Вт</th><th class="num">Из них силовые 3ф, Вт</th></tr></thead>
+    <tbody>
+      <tr><td>Мастер спальня</td><td class="num">2245</td><td class="num">—</td></tr>
+      <tr><td>Гардеробная</td><td class="num">100</td><td class="num">—</td></tr>
+      <tr><td>Мастер санузел</td><td class="num">1405</td><td class="num">—</td></tr>
+      <tr><td>Прихожая</td><td class="num">1250</td><td class="num">—</td></tr>
+      <tr><td>Гостевой санузел</td><td class="num">16 010</td><td class="num">11 000</td></tr>
+      <tr><td>Гостевая спальня</td><td class="num">4110</td><td class="num">—</td></tr>
+      <tr><td>Кухня-гостиная</td><td class="num">24 500</td><td class="num">7000</td></tr>
+      <tr class="total"><td>Всего</td><td class="num">≈ 49 620</td><td class="num">18 000</td></tr>
+    </tbody>
+  </table>
+  <p class="small">Установленная мощность существенно превышает выделенную (17,25 кВт) — это нормально для квартиры:
+  полная одновременность всех потребителей физически невозможна, расчёт ведётся по группам и типовым сценариям (раздел 3).</p>
+</section>
+
+<!-- ============================ 3. РАСПРЕДЕЛЕНИЕ ============================ -->
+<section class="block" id="dist">
+  <h2><span class="num">3</span>Распределение по фазам, автоматам и распредкоробкам</h2>
+  <p class="lead">
+    От щитка до распределительной коробки (РК) зоны идёт одна магистральная линия, от РК — ответвления к точкам.
+    Силовые потребители и <b>светильники (прямые линии от Zigbee-реле)</b> подключаются без соединений в РК. Мокрые зоны — дифавтоматы 30 мА.
+  </p>
+  <div class="legend">
+    Фазы:&nbsp;
+    <span class="badge l1">L1</span><span class="badge l2">L2</span><span class="badge l3">L3</span>
+    <span class="badge p3">3ф = L1+L2+L3</span>
+    &nbsp;·&nbsp; <span class="dif">диф 30 мА</span> — защита мокрых зон
+  </div>
+
+  <h3>3.1. Распределительные коробки</h3>
+  <table>
+    <thead><tr><th>РК</th><th>Размещение</th><th>Питание</th><th>Точки</th></tr></thead>
+    <tbody>
+      <tr><td><span class="rk">РК-1</span></td><td>Мастер спальня, потолок у входа</td><td>Розетки гр. 10 и декор гр. 13</td><td><code>СП-06…09, 13, 16, 17</code> (розетки шлейфом); <code>СП-01, 03…05, 10…12</code> (декор/приводы); транзит гр. 6. Свет <code>СП-18, 19</code> — прямые линии от реле Р1, Р2, минуя РК</td></tr>
+      <tr><td><span class="rk">РК-2</span></td><td>Гардеробная, потолок (рядом БП подсветки ванной)</td><td>Декор гр. 13 + транзит розеток гр. 12</td><td><code>ГД-01, 02; СУМ-01, 07</code>, БП <code>СУМ-08</code> (декор); транзит <code>СУМ-03…06</code>. Свет <code>ГД-03, 04</code> — прямая от Р3, <code>СУМ-09…11</code> — прямая от Р4</td></tr>
+      <tr><td><span class="rk">РК-3</span></td><td>Прихожая, потолок у шкафа</td><td>Розетки гр. 12 и гр. 16, декор гр. 14</td><td><code>ПР-03, 06…10</code> (гр. 12); <code>ПР-04, 12</code> — роутер и мини-ПК (гр. 16); <code>ПР-01, 05</code> (гр. 14). Трек <code>ПР-11</code> — прямая линия от реле Р5</td></tr>
+      <tr><td><span class="rk">РК-4</span></td><td>Гостевой санузел, потолок</td><td>Декор гр. 14 + транзит розеток гр. 12</td><td><code>СУГ-01</code> (гр. 14); транзит <code>СУГ-05, 06, 08, 09</code>. Свет <code>СУГ-10, 11</code> — прямая от Р6. Силовые (<code>СУГ-02, 03, 04</code>) — напрямую в щиток</td></tr>
+      <tr><td><span class="rk">РК-5</span></td><td>Гостевая спальня, потолок у входа</td><td>Розетки гр. 11 и декор гр. 14</td><td><code>СГ-02, 06, 09…12</code> (розетки шлейфом); <code>СГ-01, 03…05</code> (декор/приводы); транзит гр. 6. Люстра <code>СГ-13</code> — прямая линия от реле Р7</td></tr>
+      <tr><td><span class="rk">РК-6</span></td><td>Кухня, потолок над рабочей зоной</td><td>Розетки гр. 8 и декор гр. 15</td><td><code>КГ-19…21, 24, 25</code> (розетки шлейфом); <code>КГ-26</code> (БП шкафов). Свет: <code>КГ-27</code> — прямая от Р8, <code>КГ-28</code> — от Р9, <code>КГ-29…31</code> — от Р10</td></tr>
+      <tr><td><span class="rk">РК-7</span></td><td>Гостиная, потолок у ТВ-зоны / окон</td><td>Медиа гр. 9 и декор гр. 15</td><td><code>КГ-13…17</code> (медиа-тумба шлейфом); <code>КГ-01…06</code> (карнизы, LED, бра — трасса вдоль окон); транзит <code>КГ-10, 12</code>. Люстра <code>КГ-27</code> — прямая от Р8</td></tr>
+    </tbody>
+  </table>
+  <p class="small"><b>Прямые линии без РК</b> (соединений быть не должно): <code>КГ-22</code> варочная,
+  <code>СУГ-04</code> водонагреватель, <code>КГ-23</code> духовка, <code>КГ-18</code> холодильник,
+  <code>СУГ-02</code> стиральная, <code>СУГ-03</code> сушильная, <code>СГ-07</code> наружный блок мультисплит,
+  термостаты тёплых полов <code>КГ-07, ПР-02, СУМ-02, СУГ-07</code> (соединения — в подрозетниках термостатов).</p>
+
+  <h3>3.2. Целевое распределение — щит на 18 группах</h3>
+  <p class="small">Целевое решение: 18 групп — стиралка+сушка на одной линии, все тёплые полы
+  и все кондиционеры на общих линиях, кухонные розетки одной линией, декор и приводы укрупнены, основной свет переведён на Zigbee-реле;
+  добавлена дежурная линия сети (гр. 16: роутер + мини-ПК) — работает при отключённых остальных группах.
+  Стирка (L3) разведена с готовкой (духовка L1, кухонные розетки L2) по разным фазам.</p>
+  <table>
+    <thead><tr><th>№</th><th>Группа</th><th>Аппарат</th><th>Фаза</th><th>Точки</th><th class="num">P расч., кВт</th><th>Трасса</th><th>Кабель</th></tr></thead>
+    <tbody>
+      <tr><td>1</td><td>Варочная панель</td><td>3P C16</td><td><span class="badge p3">3ф</span></td><td><code>КГ-22</code></td><td class="num">7,0</td><td>Прямая</td><td>5×4</td></tr>
+      <tr><td>2</td><td>Проточный водонагреватель</td><td>4P C20 <span class="dif">диф 30 мА</span></td><td><span class="badge p3">3ф</span></td><td><code>СУГ-04</code></td><td class="num">11,0</td><td>Прямая</td><td>5×4</td></tr>
+      <tr><td>3</td><td>Духовой шкаф</td><td>C16</td><td><span class="badge l1">L1</span></td><td><code>КГ-23</code></td><td class="num">2,0</td><td>Прямая</td><td>3×2,5</td></tr>
+      <tr><td>4</td><td><b>Холодильник (отдельный по ТЗ)</b></td><td>B16</td><td><span class="badge l3">L3</span></td><td><code>КГ-18</code></td><td class="num">0,2</td><td>Прямая</td><td>3×2,5</td></tr>
+      <tr><td>5</td><td>Стиральная + сушильная машины</td><td>C20 <span class="dif">диф 30 мА</span></td><td><span class="badge l3">L3</span></td><td><code>СУГ-02, 03</code></td><td class="num">4,3 (18,7 А при обеих)</td><td>Прямая до первой розетки, вторая — шлейф в подрозетнике</td><td>3×4</td></tr>
+      <tr><td>6</td><td>Кондиционеры: наружный + 3 внутренних блока</td><td>C16</td><td><span class="badge l1">L1</span></td><td><code>СГ-07; СП-15, СГ-08, КГ-11</code></td><td class="num">2,7</td><td>Наружный — прямая; <span class="uq">внутренние шлейфом РК-1 → РК-5 → РК-7 ⚠ под вопросом — возможны отдельные линии</span></td><td>3×4 / 3×2,5</td></tr>
+      <tr><td>7</td><td>Тёплые полы: все (4 термостата)</td><td>C16 <span class="dif">диф 30 мА</span></td><td><span class="badge l1">L1</span></td><td><code>КГ-07, ПР-02, СУМ-02, СУГ-07</code></td><td class="num">2,6</td><td><span class="uq">Прямая до первого термостата, далее шлейфом ⚠ под вопросом — возможны отдельные линии</span></td><td>3×2,5</td></tr>
+      <tr><td>8</td><td>Кухня: все розетки</td><td>C16 <span class="dif">диф 30 мА</span></td><td><span class="badge l2">L2</span></td><td><code>КГ-08…10, 12, 19…21, 24, 25</code></td><td class="num">4,0</td><td>РК-6, РК-7</td><td>3×2,5</td></tr>
+      <tr><td>9</td><td>Гостиная: медиа-зона ТВ</td><td>C16</td><td><span class="badge l3">L3</span></td><td><code>КГ-13…17</code></td><td class="num">1,0</td><td>РК-7</td><td>3×2,5</td></tr>
+      <tr><td>10</td><td>Мастер-спальня: розетки + проектор + экран</td><td>C16</td><td><span class="badge l3">L3</span></td><td><code>СП-02, 06…09, 13, 14, 16, 17</code></td><td class="num">1,5</td><td>РК-1</td><td>3×2,5</td></tr>
+      <tr><td>11</td><td>Гостевая спальня: розетки</td><td>C16</td><td><span class="badge l3">L3</span></td><td><code>СГ-02, 06, 09…12</code></td><td class="num">1,2</td><td>РК-5</td><td>3×2,5</td></tr>
+      <tr><td>12</td><td>Прихожая + санузлы: все розетки</td><td>C16 <span class="dif">диф 30 мА</span></td><td><span class="badge l2">L2</span></td><td><code>ПР-03, 06…10; СУМ-03…06; СУГ-05, 06, 08, 09</code></td><td class="num">1,4</td><td>РК-3; РК-2 → РК-4</td><td>3×2,5</td></tr>
+      <tr><td>13</td><td>Декор и приводы мастер-зоны</td><td>B10</td><td><span class="badge l2">L2</span></td><td><code>СП-01, 03…05, 10…12; ГД-01, 02; СУМ-01, 07, 08</code></td><td class="num">0,35</td><td>РК-1, РК-2</td><td>3×1,5</td></tr>
+      <tr><td>14</td><td>Декор и приводы центр+право, домофон</td><td>B10</td><td><span class="badge l3">L3</span></td><td><code>ПР-01, 05; СУГ-01; СГ-01, 03…05</code></td><td class="num">0,17</td><td>РК-3 → РК-4 → РК-5</td><td>3×1,5</td></tr>
+      <tr><td>15</td><td>Декор и приводы кухни</td><td>B10</td><td><span class="badge l1">L1</span></td><td><code>КГ-01…06, 26</code></td><td class="num">0,35</td><td>РК-6, РК-7</td><td>3×1,5</td></tr>
+      <tr><td>16</td><td><b>Дежурная линия сети: роутер + мини-ПК</b></td><td>B16</td><td><span class="badge l2">L2</span></td><td><code>ПР-04, 12</code></td><td class="num">0,13</td><td>РК-3</td><td>3×2,5</td></tr>
+      <tr><td>17</td><td><b>Свет левое крыло — питание реле Р1–Р4</b></td><td>B10</td><td><span class="badge l2">L2</span></td><td><code>через Р1…Р4: СП-18, 19; ГД-03, 04; СУМ-09…11</code></td><td class="num">0,34</td><td>гребёнка «СВЕТ-L2» на рейке 3</td><td>2,5 мм²</td></tr>
+      <tr><td>18</td><td><b>Свет центр+право — питание реле Р5–Р10</b></td><td>B10</td><td><span class="badge l1">L1</span></td><td><code>через Р5…Р10: ПР-11; СУГ-10, 11; СГ-13; КГ-27…31</code></td><td class="num">0,59</td><td>гребёнка «СВЕТ-L1» на рейке 3</td><td>2,5 мм²</td></tr>
+    </tbody>
+  </table>
+
+  <h3>3.2.1. Zigbee-реле освещения (DIN-рейка 3 щита, по <code>rele.md</code>)</h3>
+  <table>
+    <thead><tr><th>Реле</th><th>Зона света</th><th>Светильники (точки)</th><th>Питание</th><th>Линия</th></tr></thead>
+    <tbody>
+      <tr><td>Р1</td><td>Мастер спальня — лента</td><td><code>СП-18</code> (БП 24 В на потолке)</td><td rowspan="4">гр. 17 <span class="badge l2">L2</span>, гребёнка «СВЕТ-L2»</td><td>3×1,5 прямая</td></tr>
+      <tr><td>Р2</td><td>Мастер спальня — точечный</td><td><code>СП-19</code></td><td>3×1,5 прямая</td></tr>
+      <tr><td>Р3</td><td>Гардеробная — 1 реле на 2 точки</td><td><code>ГД-03, 04</code></td><td>3×1,5 + шлейф</td></tr>
+      <tr><td>Р4</td><td>Мастер санузел — 1 реле на 3 точки</td><td><code>СУМ-09…11</code></td><td>3×1,5 + шлейф</td></tr>
+      <tr><td>Р5</td><td>Прихожая — трековый шинопровод</td><td><code>ПР-11</code></td><td rowspan="6">гр. 18 <span class="badge l1">L1</span>, гребёнка «СВЕТ-L1»</td><td>3×1,5 прямая</td></tr>
+      <tr><td>Р6</td><td>Гостевой санузел — 1 реле на 2 точки</td><td><code>СУГ-10, 11</code></td><td>3×1,5 + шлейф</td></tr>
+      <tr><td>Р7</td><td>Гостевая спальня — люстра</td><td><code>СГ-13</code></td><td>3×1,5 прямая</td></tr>
+      <tr><td>Р8</td><td>Гостиная — люстра гостиной зоны</td><td><code>КГ-27</code></td><td>3×1,5 прямая</td></tr>
+      <tr><td>Р9</td><td>Кухня — люстра над островом</td><td><code>КГ-28</code></td><td>3×1,5 прямая</td></tr>
+      <tr><td>Р10</td><td>Кухня — точечные, 1 реле на 3 блока</td><td><code>КГ-29…31</code></td><td>3×1,5 + шлейф</td></tr>
+    </tbody>
+  </table>
+  <p class="small">Реле коммутируют только фазу; N и PE световых линий — с шин щита напрямую.
+  Без реле (утверждённое решение, постоянно под напряжением на группах декора 13–15, управление локальное):
+  бра <code>СП-03, 04, КГ-06</code>, подсветка зеркал <code>СП-05, СУМ-01, СУГ-01</code>, шкафов
+  <code>ГД-01, 02, СУМ-07, ПР-05, СГ-01</code>, LED штор <code>СП-11, СГ-04, КГ-02</code>,
+  гирлянды <code>СП-12, СГ-05, КГ-03</code>, домофон <code>ПР-01</code>. Zigbee-шлюз — в щите, питание 5 В от гр. 16.</p>
+
+  <h4>Баланс фаз (целевая версия)</h4>
+  <table>
+    <thead><tr><th>Фаза</th><th>Группы</th><th class="num">Σ I по Pрасч, А</th><th>Типовые сценарии</th></tr></thead>
+    <tbody>
+      <tr><td><span class="badge l1">L1</span></td><td>№3 духовка (2,0 кВт), №6 кондиционеры (2,7), №7 тёплые полы (2,6), №15 декор (0,35), №18 свет → реле Р5–Р10 (0,59)</td><td class="num">≈ 36</td><td>Зима: духовка 8,7 + ТП 4,4 (скважность) + декор/свет 4 ≈ 17 А. Лето: духовка 8,7 + КК 11,7 + декор/свет 4 ≈ 24 А — в пределах</td></tr>
+      <tr><td><span class="badge l2">L2</span></td><td>№8 кухонные розетки (4,0 кВт), №12 прихожая+санузлы (1,4), №13 декор (0,35), №16 сеть (0,13), №17 свет → реле Р1–Р4 (0,34)</td><td class="num">≈ 27</td><td>Готовка свободна от стирки: чайник+микроволновка 15,2 + прихожая/санузлы 6,1 + декор/свет/сеть 3,6 ≈ 25 А — на пределе ввода (пик чайника кратковременный)</td></tr>
+      <tr><td><span class="badge l3">L3</span></td><td>№4 холодильник (0,2 кВт), №5 стирка+сушка (4,3), №9 медиа (1,0), №10–11 спальни (2,7), №14 декор (0,17)</td><td class="num">≈ 36</td><td>Обе машины 18,7 + вечерний фон спален/медиа ~5 ≈ 24 А — в пределах; стирка и готовка (духовка L1, кухонные розетки L2) больше не конкурируют</td></tr>
+    </tbody>
+  </table>
+  <p class="small">Σ — сумма расчётных токов однофазных групп (Pрасч / 230 В) без учёта одновременности; фактическая нагрузка ниже (см. сценарии).
+  Трёхфазные гр. 1–2 грузят все фазы поровну и в Σ не входят: варочная +10,1 А/ф, проточник +15,9 А/ф. Пиковые сочетания превышают вводной 25 А:
+  варочная + проточник = 26 А/ф (ограничение из раздела 1, ступень проточника 5,5–8 кВт снимает конфликт), обе машины стирки + полная варочная = 28,8 А на L3 —
+  такие пики разносить по времени (нагрев стиралки идёт не весь цикл, полная мощность варочной используется редко).</p>
+
+  <h4>Особенности целевого решения (осознанные компромиссы)</h4>
+  <ol class="comp">
+    <li><b>Стиральная и сушильная машины на одном автомате C20</b>: при обеих 18,7 А — кабель 3×4 обязателен; отключаются вместе.</li>
+    <li><b>Все тёплые полы (4 термостата) на одной линии</b>: при срабатывании отключается весь подогрев; шлейф между термостатами через центральную зону.</li>
+    <li><b>Наружный блок кондиционера с внутренними на одном автомате</b>: общий ток 11,7 А в пределах C16, но при КЗ на линии внутреннего блока остановится вся мультисплит-система.</li>
+    <li><b>Кухонные розетки одной линией (8 точек)</b>: чайник + микроволновка одновременно ≈ 15,5 А — в пределах C16, но пик близок к пределу.</li>
+    <li><b>Основной свет — на двух автоматах (гр. 17/18)</b>: при срабатывании одного обесточиваются сразу 4–6 зон света. Декор и приводы — на 3 группах (13–15) с длинными шлейфами через квартиру.</li>
+  </ol>
+
+  <h3>3.3. Общие рекомендации</h3>
+  <ul>
+    <li><b>Щиток</b>: 18 аппаратов защиты (27 модулей) + 10 Zigbee-реле + 3 фазные клеммы = 40 из 54 модулей, корпус 54 модуля (3×18, реле — на отдельной рейке 3), резерв 14. Полная схема щита (компоновка, состав групп, спецификация, монтажная схема, сборка) — <code>panel.html</code>.</li>
+    <li><b>УЗО/дифы 30 мА</b> обязательны: водонагреватель, стиральная, сушильная, тёплые полы, розетки санузлов и кухонной зоны.</li>
+    <li><b>Кабель</b> ВВГнг-LS: розетки 3×2,5; свет/приводы 3×1,5; варочная 5×4; водонагреватель 5×4; духовка 3×2,5 (при трассе &gt; 20 м — 3×4); наружный блок КК 3×4.</li>
+    <li><b>Падение напряжения</b>: при трассах до крыльев &gt; 15 м проверить ΔU ≤ 3 %, при необходимости увеличить сечение.</li>
+    <li>Управление светом — сценарии Zigbee-шлюза (реле Р1–Р10, физических выключателей нет). Управление карнизами — по радио; их питание — группы декора 13–15.</li>
+  </ul>
+</section>
+
+</main>
+
+<script>
+(function(){
+  // широкие таблицы: горизонтальная прокрутка внутри контейнера, без переполнения страницы
+  document.querySelectorAll('section.block table').forEach(function(t){
+    var w = document.createElement('div'); w.className = 'tbl-scroll';
+    t.parentNode.insertBefore(w, t); w.appendChild(t);
+  });
+
+  var links = document.querySelectorAll('nav.toc a');
+  var map = {};
+  links.forEach(function(a){ map[a.getAttribute('href').slice(1)] = a; });
+  var io = new IntersectionObserver(function(entries){
+    entries.forEach(function(e){
+      if(e.isIntersecting){
+        links.forEach(function(a){a.classList.remove('active')});
+        var a = map[e.target.id]; if(a) a.classList.add('active');
+      }
+    });
+  }, {rootMargin:'-40% 0px -55% 0px'});
+  ['tz','power','dist'].forEach(function(id){
+    var el = document.getElementById(id); if(el) io.observe(el);
+  });
+})();
+</script>
+</body>
+</html>
